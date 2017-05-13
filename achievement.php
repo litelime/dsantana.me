@@ -85,14 +85,19 @@
 			return $formatstring;
 		}
 
-	function createSteamFormat($steamid,$date_column,$num_column,$split){
+	function createSteamFormat($steamid,$date_column,$num_column,$split,$schar){
 
 		$steamid = htmlspecialchars($steamid);
 		if(strlen($steamid)!=17){
 			return "SteamId64 is 17 digits long. Make sure it is entered correctly.";
 		}
 
-		$achievement_page = file_get_contents("http://astats.astats.nl/astats/User_Games.php?Limit=0&PerfectOnly=1&Hidden=1&SteamID64=$steamid&DisplayType=1");
+		$url = "http://astats.astats.nl/astats/User_Games.php?Limit=0&PerfectOnly=1&Hidden=1&SteamID64=$steamid&DisplayType=1";
+		$achievement_page = @file_get_contents($url);
+
+		if(!$achievement_page){
+			return "ERROR: Failed to connect to astats site.";
+		}
 
 		if(preg_match('/No profile found/',$achievement_page)||empty($achievement_page)){
 			return "Profile with that number couldn't be found.\nEnter a SteamId64: Should be 17 digits long\nMake sure the account has an astats profile generated.";
@@ -173,7 +178,7 @@
 				$difference = $greatest - lengthOfChars($line);
 				$numspace = $difference/7;
 				while ($numspace>0){
-					$line.='*';
+					$line.=$schar;
 					$numspace = $numspace - 1;
 				}
 			}
@@ -185,7 +190,7 @@
 				//$difference = $greatest - lengthOfChars($line);
 				//$numspace = $difference/7;
 				while ($numspace>0){
-					$total[$i].='*';
+					$total[$i].=$schar;
 					$numspace = $numspace - 1;
 				}
 			}
@@ -226,9 +231,10 @@
 			return $newFile;
 	}
 
-	if(isset($_POST["steamid"]) && isset($_POST["date_column"]) && isset($_POST["num_column"]) && isset($_POST["split"]))
+	if(isset($_POST["steamid"]) && isset($_POST["date_column"]) && isset($_POST["num_column"]) 
+		&& isset($_POST["split"]) && isset($_POST["schar"]))
 	{
-		echo createSteamFormat($_POST["steamid"], $_POST['date_column'], $_POST["num_column"],$_POST["split"]);
+		echo createSteamFormat($_POST["steamid"], $_POST['date_column'], $_POST["num_column"],$_POST["split"],$_POST["schar"]);
 	}else{
 		echo "Enter a SteamId64: Should be 17 digits long";
 	}

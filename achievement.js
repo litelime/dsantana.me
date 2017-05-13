@@ -7,14 +7,19 @@ function ajaxlookup(event){
 	var date_col = $("date_column").checked;
 	if($("year").checked){
 		var split_opt = "year";
-		console.log("year");
 	}else{
 		var split_opt = "month";
-		console.log("month");
 	}
+
+	var e = document.getElementById("charOption");
+	var char = '*';
+	//var char = e.options[e.selectedIndex].value;
 
 	console.log(num_col);
 	console.log(date_col);
+	console.log(steamidy);
+	console.log(split_opt);
+	console.log(char);
 
 	new Ajax.Request("achievement.php", {
 							onSuccess: success,
@@ -24,7 +29,8 @@ function ajaxlookup(event){
 								steamid: steamidy,
 								num_column: num_col,
 								date_column: date_col,
-								split: split_opt
+								split: split_opt,
+								schar: char
 							}
 						}
 	);
@@ -65,7 +71,31 @@ function copyToClipboard(elem) {
     return succeed;
 }
 
+function hideandshow(elem){
+
+	var right = $("right");
+	var mover = $("mover");
+	var center = $("center");
+	var hide = $("hide");
+
+    if (hide.style.display === 'none') {
+    	mover.textContent = "Hide Examples";
+    	right.style.width = "25%";
+    	mover.style.width="40%";
+    	center.style.width = "30%";
+        hide.style.display = 'block';
+    } else {
+    	center.style.width = "45%";
+    	mover.textContent = "Show Examples";
+    	mover.style.width="100%";
+    	right.style.width = "10%";
+        hide.style.display = 'none';
+    }
+
+}
+
 window.onload = function() {
     $("button").onclick = ajaxlookup;
     $("copyButton").onclick = copyToClipboard;
+    $("mover").onclick = hideandshow;
 }
