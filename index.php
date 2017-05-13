@@ -9,8 +9,8 @@
 
 	<head>
 		<title>Steam Achievement Formatter</title>
-		<link href="achievement.css?ver=1.0" rel="stylesheet" type="text/css" /> 
-		<script type="text/javascript" src="achievement.js?ver=1.0"></script>
+		<link href="achievement.css?ver=1.1" rel="stylesheet" type="text/css" /> 
+		<script type="text/javascript" src="achievement.js?ver=1.1"></script>
 		<script type="text/javascript" src="prototype.js"></script>
 	</head>
 
@@ -19,9 +19,8 @@
 
 			<div id='center'>
 				<textarea id="content" rows="40" readonly>Copy/Paste from here</textarea>
-				<p>Copy and paste the text that is output above into your steam custom info box.
-				It will look jumbled and messy on this page but will look better once you have saved it 
-				on your profile. 
+				<p>Copy and paste the text that is output above into your steam custom info box.<br/>
+				NOTICE: Text will look very misaligned on this page, but looks better once placed in steam.  
 				</p>
 				<button id="copyButton" disabled="disabled">Nothing to Copy</button><br/><br/>
 			</div>
@@ -31,16 +30,13 @@
 					<dt>Purpose:</dt>
 					<dd>Take all your perfect games (100% Achievements Completed) 
 					and put them into a format that looks decent in a steam info box. </dd>
-					<dt>Format:</dt>
-					<dd>Year - Number of Games Completed in that year<br/>
-					[Game Name] *** [Number of Achievements] *** [Date Acquired]</dd>
 					<dt>Requirements:</dt>
 					<dd>You must have an <a href='http://astats.astats.nl/astats/index.php'>astats</a> profile, 
 					this is where the necessary info will be grabbed. </dd>
 					<dd>You need to know the steamid64. Don't know what yours is? 
 					Go <a href='help.html'>here</a> for help or you can login through steam below.</dd>
 					<dt>Info:</dt>
-					<dd>Unfortunately because of steam info box char limits you will only be able to fit about 75 games.
+					<dd>Unfortunately because of steam info box char limits you will only be able to fit about 75 of your 100% games.
 				</dl>
 
 					Your steamid64: <input name="steamid" id="steamid" type='text'>
@@ -70,16 +66,17 @@
 						Date of Achievements Column</li>
 		  				<li><input type="radio" name="split" id="year" value="year" checked="checked"/>Split by Year</li>
 		  				<li><input type="radio" name="split" id="month" value="month"/>Split by Month</li>
-		  				<!--<li>Seperating Character 
+		  				<li>Seperating Character 
 		  				<select id='charOption'>
 							<option value="*">Asterisk *</option>
 							<option value=":">Colon :</option>
 							<option value="`">Accent `</option>
 							<option value=".">Period .</option>
 							<option value="-">Dash -</option>
+							<!--<option value="blank">Blank Space</option>-->
 						</select>
 						</li>
-						-->
+						
 	  				</ul>
   				</div>
 			</div>

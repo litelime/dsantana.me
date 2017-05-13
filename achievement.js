@@ -12,8 +12,10 @@ function ajaxlookup(event){
 	}
 
 	var e = document.getElementById("charOption");
-	var char = '*';
-	//var char = e.options[e.selectedIndex].value;
+	var char = e.options[e.selectedIndex].value;
+	if(char=="blank"){
+		char = String.fromCharCode(8201);
+	}
 
 	console.log(num_col);
 	console.log(date_col);
