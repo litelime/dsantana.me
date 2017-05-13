@@ -18,7 +18,7 @@
 		<h1>Steam Achievement Formatter</h1>
 
 			<div id='center'>
-				<textarea id="content" rows="25">Copy/Paste from here</textarea>
+				<textarea id="content" rows="25" readonly>Copy/Paste from here</textarea>
 				<p>Copy and paste the text that is output above into your steam custom info box.
 				It will look jumbled and messy on this page but will look better once you have saved it 
 				on your profile. 
