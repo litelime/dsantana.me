@@ -1,6 +1,7 @@
 <?php
+	//sign in through steam. 
     require ('steamauth/steamauth.php');
-	# You would uncomment the line beneath to make it refresh the data every time the page is loaded
+	//You would uncomment the line beneath to make it refresh the data every time the page is loaded
 	// unset($_SESSION['steam_uptodate']);
 ?>
 <!DOCTYPE html>
@@ -39,7 +40,7 @@
 					<dd>Unfortunately because of steam info box char limits you will only be able to fit about 75 of your 100% games.
 				</dl>
 
-					Your steamid64: <input name="steamid" id="steamid" type='text'>
+					Your steamid64: <input name="username" id="steamid" type='text' autocomplete="username">
 					<input id='button' type='submit' value='Create Text'><br/><br/>
 
 					<?php
