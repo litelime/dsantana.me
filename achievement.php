@@ -1,4 +1,5 @@
 <?php 
+	require 'steamauth/SteamConfig.php';
 
 		/*
 			$array - array to add surrounding chars to each element
@@ -168,6 +169,70 @@
 
 	}
 
+	function getSteamGames($steamid){
+
+		$url = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=9B72D30B21EBDC4B8299D41D8691706D&steamid=$steamid&format=json";
+		$achievement_page = @file_get_contents($url);
+
+		if(!$achievement_page){
+			echo "ERROR: Failed to connect to steam site.";
+			exit;
+		}
+
+		$achievement_page = json_decode($achievement_page,true);
+
+		return $achievement_page['response']['games'];
+	}
+
+	/*
+		function: getPlayedGames($gamesArray)
+
+		arg: $gamesArray Array of form [int] =>{ 'appid':
+												'playtime_forever':
+												}
+
+		return: an array consisting of all appids for games which have playtime>0
+
+	*/
+	function getPlayedGames($gamesArray){
+
+		foreach ($gamesArray as $game){
+
+			if($game['playtime_forever']>0)
+				$playedGames[]=$game['appid'];
+
+		}
+
+		return $playedGames;
+	}
+
+	function getCompletedGames($gamesArray,$steamid){
+
+		$completed = true;
+
+		foreach ($gamesArray as $game){
+			$url = "http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=$game&key=9B72D30B21EBDC4B8299D41D8691706D&steamid=$steamid";
+			$gameObject=json_decode(@file_get_contents($url),true);
+			//echo $gameObject['playerstats']['gameName'];
+			if ((is_array($gameObject) || is_object($gameObject))&&(isset($gameObject['playerstats']['achievements']))){
+				$achObject=$gameObject['playerstats']['achievements'];
+				//print_r($gameObject);
+				foreach($achObject as $achievement){
+					if($achievement['achieved']==0){
+						$completed = false;
+					}
+				}
+				if($completed==true){
+					$completedGames[]=$gameObject['playerstats'];
+				}
+				$completed=true;
+			}
+		}
+
+		return $completedGames;
+
+	}
+
 	/*
 		Add line number to the left of each line of output.
 		Arg: Array to add numbers to  
@@ -190,7 +255,14 @@
 
 	}
 
-	function createSteamFormat($steamid,$date_column,$num_column,$split,$schar){
+	function createSteamFormatSteam($steamid,$date_column,$num_column,$split,$schar){
+
+		$x=getPlayedGames(getSteamGames($steamid));
+		print_r (getCompletedGames($x,$steamid));
+
+	}
+
+	function createSteamFormatAstats($steamid,$date_column,$num_column,$split,$schar){
 
 		$steamid = htmlspecialchars($steamid);
 		if(strlen($steamid)!=17){
@@ -325,7 +397,7 @@
 	if(isset($_POST["steamid"]) && isset($_POST["date_column"]) && isset($_POST["num_column"]) 
 		&& isset($_POST["split"]) && isset($_POST["schar"]))
 	{
-		echo createSteamFormat($_POST["steamid"], $_POST['date_column'], $_POST["num_column"],$_POST["split"],$_POST["schar"]);
+		echo createSteamFormatAstats($_POST["steamid"], $_POST['date_column'], $_POST["num_column"],$_POST["split"],$_POST["schar"]);
 	}else{
 		echo "Enter a SteamId64: Should be 17 digits long";
 	}
