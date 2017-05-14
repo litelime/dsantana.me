@@ -120,6 +120,7 @@
 
 			//the month value will be in the first set(perfect matches), and be the second match (after year).
 			$month_num = $temp[0][1];
+			$month_num = (int)$month_num;
 
 			//temp[0][0] = year
 			$formatstring.=$months[$month_num]." ".$temp[0][0];
