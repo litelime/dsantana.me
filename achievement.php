@@ -281,26 +281,28 @@
 
 	}
 
-	if(isset($_POST["steamid"]) && isset($_POST["date_column"]) && isset($_POST["num_column"]) 
+	if(
+       isset($_POST["steamid"]) && isset($_POST["date_column"]) && isset($_POST["num_column"]) 
 	&& isset($_POST["split"])   && isset($_POST["schar"])       && isset($_POST["sort"])      
-   // && isset($_POST["surrChar"])
+    && isset($_POST["surrChar"])
       )
 	{
-       $steamid = $_POST["steamid"];
+       $steamid = htmlspecialchars($_POST["steamid"]);
        $date_column = $_POST['date_column'];
        $num_column =  $_POST["num_column"];
        $split = $_POST["split"];
        $schar = $_POST["schar"];
        $sort = $_POST["sort"];
        $surrChar = $_POST['surrChar'];
+        
 	}else{
 		echo "Enter a SteamId64: Should be 17 digits long";
         return;
 	}
 
-    $steamid = htmlspecialchars($steamid);
     if(strlen($steamid)!=17){
-        return "SteamId64 is 17 digits long. Make sure it is entered correctly.";
+        echo "SteamId64 is 17 digits long. Make sure it is entered correctly.";
+        return;
     }
 
     if(isset($_SESSION["achievement_page"]) && isset($_SESSION["steamid"]) && $_SESSION["steamid"]==$steamid){
@@ -342,16 +344,22 @@
 
     $names = str_replace("<del>","",$names);
 
-    //shorten very long game names, add ... to end. 
+    //shorten very long game names, add ... to end only if using both column. 
+    if($num_column=='true' && $date_column == 'true')
+        $reduce = 260;
+    else
+        $reduce = 450;
+    
+    
     foreach($names as &$line){
-        if(lengthOfChars($line)>=260){
-            $diff = lengthOfChars($line)-260;
+        if(lengthOfChars($line)>=$reduce){
+            $diff = lengthOfChars($line)-$reduce;
             $diff = $diff/8;
             $line = substr($line,0,strlen($line)-$diff);
             $line = $line . "...";
         }
     }
-
+    
     if($surrChar == "none"){
 
     }else{
@@ -437,17 +445,22 @@
         $theline = $names[$index];
         $numline = $total[$index];
         $dateline = $dates[$index];
-
+    
         if($split=="year"&&$dateHash[getYear($dates[$index])]>0){
+            
             $newFile .= "[h1]" . getYear($dates[$index]) . " - ";
             $newFile .= $dateHash[getYear($dates[$index])] . " Games Completed[/h1] \n";	
             $dateHash[getYear($dates[$index])]=-1;
+            
         }else if($split=="month"&&$dateHash[getMonthYearNum($dates[$index])]>0){
+            
             $newFile .= "[h1]" . getMonthYearString($dates[$index]) . " - ";
+            
             if($dateHash[getMonthYearNum($dates[$index])]>1)
                 $newFile .= $dateHash[getMonthYearNum($dates[$index])] . " Games Completed[/h1] \n";
             else
                 $newFile .= $dateHash[getMonthYearNum($dates[$index])] . " Game Completed[/h1] \n";
+            
             $dateHash[getMonthYearNum($dates[$index])]=-1;
         }
 
