@@ -1,4 +1,6 @@
 <?php 
+    session_start();
+
 	/*
 		$array - array to add surrounding chars to each element
 		$chartype - a string of two chars, the opening char then closing char. 
@@ -46,7 +48,7 @@
 
 		$charArray = [
 		//special chars
-		'['=>6,']'=>6,'#'=>8,' '=>7,' '=>8,'-'=>6,':'=>6,'.'=>6,'Û'=>12,','=>7,'!'=>7,'6'=>7,'*'=>7, '`'=>6,
+		'['=>6,']'=>6,'#'=>8,' '=>7,' '=>8,'-'=>6,'+'=>11,':'=>6,'.'=>6,'Û'=>12,','=>7,'!'=>7,'6'=>7,'*'=>7, '`'=>6,
 		//lowercase alpha
 		'a'=>8,'b'=>8,'c'=>8,'d'=>8,'e'=>8,'f'=>7,'g'=>8,'h'=>8,'i'=>4,'j'=>4,'k'=>8,'l'=>4,'m'=>14,'n'=>8,'o'=>8,'p'=>8,'q'=>8,'r'=>7,
 			's'=>8,'t'=>7,'u'=>8,'v'=>8,'w'=>12,'x'=>8,'y'=>8,'z'=>8,
@@ -282,7 +284,13 @@
 			return "SteamId64 is 17 digits long. Make sure it is entered correctly.";
 		}
 
-		$achievement_page = getAstatsInfo($steamid);
+        if(isset($_SESSION["achievement_page"]) && isset($_SESSION["steamid"]) && $_SESSION["steamid"]==$steamid){
+            $achievement_page = $_SESSION['achievement_page'];
+        }else{
+            $achievement_page = getAstatsInfo($steamid);
+            $_SESSION['achievement_page'] = $achievement_page;
+            $_SESSION['steamid'] = $steamid;
+        }
 
 		//the longest lines can be before they wrap around in the steam info box. (based on 1080p)
 		$max_len=750;
@@ -314,6 +322,8 @@
 		//get dates from slimpage.
 		preg_match_all('/\d*-\d*-\d*/', $slimpage,$temp3,PREG_PATTERN_ORDER);
 		$dates = $temp3[0];
+
+		$names = str_replace("<del>","",$names);
 
 		//shorten very long game names, add ... to end. 
 		foreach($names as &$line){
