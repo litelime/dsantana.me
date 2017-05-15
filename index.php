@@ -10,8 +10,8 @@
 
 	<head>
 		<title>Steam Achievement Formatter</title>
-		<link href="achievement.css?ver=1.3" rel="stylesheet" type="text/css" /> 
-		<script type="text/javascript" src="achievement.js?ver=1.3"></script>
+		<link href="achievement.css?ver=1.0" rel="stylesheet" type="text/css" /> 
+		<script type="text/javascript" src="achievement.js?ver=1.0"></script>
 		<script type="text/javascript" src="prototype.js"></script>
 	</head>
 
@@ -83,6 +83,14 @@
 						<select id='sortOption'>
 							<option value="dateD">Date Descending</option>
 							<option value="dateA">Date Ascending</option>
+						</select>
+						</li>
+                        <li>Enclosing Options
+						<select id="closeOption">
+                            <option value="[]">Square Brackets []</option>
+							<option value="()">Parenthesis ()</option>
+                            <option value="{}">Brackets {}</option>
+                            <option value="none">None</option>
 						</select>
 						</li>
 	  				</ul>

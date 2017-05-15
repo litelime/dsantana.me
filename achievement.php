@@ -48,15 +48,19 @@
 
 		$charArray = [
 		//special chars
-		'['=>6,']'=>6,'#'=>8,' '=>7,' '=>8,'-'=>6,'+'=>11,':'=>6,'.'=>6,'Û'=>12,','=>7,'!'=>7,'6'=>7,'*'=>7, '`'=>6,
+		'['=>6,']'=>6,'{'=>6,'}'=>6,'('=>6,')'=>6,'#'=>8,' '=>7,' '=>8,'-'=>6,'+'=>11,':'=>6,'.'=>6,'Û'=>12,','=>7,'!'=>7,'6'=>7,'*'=>7, '`'=>6,
+            
 		//lowercase alpha
 		'a'=>8,'b'=>8,'c'=>8,'d'=>8,'e'=>8,'f'=>7,'g'=>8,'h'=>8,'i'=>4,'j'=>4,'k'=>8,'l'=>4,'m'=>14,'n'=>8,'o'=>8,'p'=>8,'q'=>8,'r'=>7,
 			's'=>8,'t'=>7,'u'=>8,'v'=>8,'w'=>12,'x'=>8,'y'=>8,'z'=>8,
+            
 		//digits
 		'1'=>8,'2'=>8,'3'=>8,'4'=>8,'5'=>8,'6'=>8,'7'=>8,'8'=>8,'9'=>8,'0'=>8,
+            
 		//uppercase alpha
 		'A'=>12,'B'=>12,'C'=>12,'D'=>12,'E'=>12,'F'=>11,'G'=>13,'H'=>12,'I'=>7,'J'=>4,'K'=>12,'L'=>8,'M'=>14,'N'=>12,'O'=>13,'P'=>12,
-			'Q'=>13,'R'=>12,'S'=>12,'T'=>11,'U'=>12,'V'=>12,'W'=>16,'X'=>12,'Y'=>12,'Z'=>11];
+			'Q'=>13,'R'=>12,'S'=>12,'T'=>11,'U'=>12,'V'=>12,'W'=>16,'X'=>12,'Y'=>12,'Z'=>11
+        ];
 
 		if(array_key_exists($char, $charArray))
 			return $charArray[$char];
@@ -277,177 +281,185 @@
 
 	}
 
-	function createSteamFormatAstats($steamid,$date_column,$num_column,$split,$schar,$sort){
-
-		$steamid = htmlspecialchars($steamid);
-		if(strlen($steamid)!=17){
-			return "SteamId64 is 17 digits long. Make sure it is entered correctly.";
-		}
-
-        if(isset($_SESSION["achievement_page"]) && isset($_SESSION["steamid"]) && $_SESSION["steamid"]==$steamid){
-            $achievement_page = $_SESSION['achievement_page'];
-        }else{
-            $achievement_page = getAstatsInfo($steamid);
-            $_SESSION['achievement_page'] = $achievement_page;
-            $_SESSION['steamid'] = $steamid;
-        }
-
-		//the longest lines can be before they wrap around in the steam info box. (based on 1080p)
-		$max_len=750;
-		//about how long every date of format [dddd-dd-dd] is. vary slightly based on the actual digits. 
-		$date_len=85;
-
-		//slimpage gets just the game data html, remove most website styling. 
-		preg_match("/<tbody>[\s\S]*<\/tbody>/",$achievement_page,$temp);
-		$slimpage = $temp[0];
-
-		//create array of each games html elements. 
-		preg_match_all('/<a href="Steam_Game_Info.+?<\/a>/', $slimpage,$temp1,PREG_PATTERN_ORDER);
-		$names = $temp1[0];
-
-		//delete garbage from name strings. 
-		foreach ($names as &$element){
-			$element=preg_replace("/<a href=.*AEE\'>/",'',$element);
-			$element=preg_replace("/<\/a>/",'',$element);
-		}
-
-		//extract num achievements into $total array
-		preg_match_all("/<\/a>.{46}\d+/", $slimpage,$temp2,PREG_PATTERN_ORDER);
-		$tempStr=implode(",",$temp2[0]);
-		preg_match_all("/AEE'>\d+/", $tempStr,$temp2,PREG_PATTERN_ORDER);
-		$tempStr=implode(",",$temp2[0]);
-		preg_match_all("/\d+/", $tempStr,$temp2,PREG_PATTERN_ORDER);
-		$total = $temp2[0];
-
-		//get dates from slimpage.
-		preg_match_all('/\d*-\d*-\d*/', $slimpage,$temp3,PREG_PATTERN_ORDER);
-		$dates = $temp3[0];
-
-		$names = str_replace("<del>","",$names);
-
-		//shorten very long game names, add ... to end. 
-		foreach($names as &$line){
-			if(lengthOfChars($line)>=260){
-				$diff = lengthOfChars($line)-260;
-				$diff = $diff/8;
-				$line = substr($line,0,strlen($line)-$diff);
-				$line = $line . "...";
-			}
-		}
-
-		$dates=addSurroundingChars($dates,"[]");
-		$total=addSurroundingChars($total,"[]");
-		$names=addSurroundingChars($names,"[]");
-
-		$names = addLineCount($names);
-
-		$greatest=0;
-
-		//find the length of the longest name, used to determine how many seperator chars to add. 
-		foreach ($names as $item){
-			$len = lengthOfChars($item);
-			if($len>$greatest)
-				$greatest=$len;
-		}
-
-		//Add a few extra chars so that the longest name has seperation too. 
-		$greatest = $greatest+40;
-
-		//if user wants either column, add the seperator char in after the names. 
-		if($num_column=='true'||$date_column=='true'){
-
-			foreach ($names as &$line){
-
-				if($schar=='single'){
-					$line.=' ';
-					continue;
-				}
-
-				//(the length of the longest name + 100) - how long this name is. 
-				$difference = $greatest - lengthOfChars($line);
-
-				$numspace = $difference/getSizeOfChar($schar);
-
-				while ($numspace>0){
-					$line.=$schar;
-					$numspace = $numspace - 1;
-				}
-			}
-		}
-
-		$greatest -=200;
-
-		if($date_column=='true'&&$num_column=='true'){
-			foreach ($total as &$line){
-
-				if($schar=='single'){
-					$line.=' ';
-					continue;
-				}
-
-				$difference = $greatest - lengthOfChars($line);
-
-				$numspace = $difference/getSizeOfChar($schar);
-
-				while ($numspace>0){
-					$line.=$schar;
-					$numspace = $numspace - 1;
-				}
-			}
-		}
-
-		if($split=="year")
-			$dateHash=createYearArray($dates);
-		else
-			$dateHash=createMonthArray($dates);
-
-		$newFile = "";
-
-		$least = min(count($names),count($dates),count($total));
-
-		//build up a line of all the elements that the user wants. 
-		for ($i=0; $i<$least;$i++){
-
-			if($sort=="dateD")
-				$index = $i;
-			else if($sort == "dateA")
-				$index = $least-1-$i;
-
-			$theline = $names[$index];
-			$numline = $total[$index];
-			$dateline = $dates[$index];
-
-			if($split=="year"&&$dateHash[getYear($dates[$index])]>0){
-				$newFile .= "[h1]" . getYear($dates[$index]) . " - ";
-				$newFile .= $dateHash[getYear($dates[$index])] . " Games Completed[/h1] \n";	
-				$dateHash[getYear($dates[$index])]=-1;
-			}else if($split=="month"&&$dateHash[getMonthYearNum($dates[$index])]>0){
-				$newFile .= "[h1]" . getMonthYearString($dates[$index]) . " - ";
-				if($dateHash[getMonthYearNum($dates[$index])]>1)
-					$newFile .= $dateHash[getMonthYearNum($dates[$index])] . " Games Completed[/h1] \n";
-				else
-					$newFile .= $dateHash[getMonthYearNum($dates[$index])] . " Game Completed[/h1] \n";
-				$dateHash[getMonthYearNum($dates[$index])]=-1;
-			}
-
-			if($num_column=='true')
-				$theline.=$numline;
-			if($date_column=='true')
-				$theline.=$dateline;
-
-			$theline.="\n";
-			$newFile.=$theline;
-		}
-
-			return $newFile;
-	}
-
 	if(isset($_POST["steamid"]) && isset($_POST["date_column"]) && isset($_POST["num_column"]) 
-		&& isset($_POST["split"]) && isset($_POST["schar"]) && isset($_POST["sort"]))
+	&& isset($_POST["split"])   && isset($_POST["schar"])       && isset($_POST["sort"])      
+   // && isset($_POST["surrChar"])
+      )
 	{
-		echo createSteamFormatAstats($_POST["steamid"], $_POST['date_column'], $_POST["num_column"],$_POST["split"],$_POST["schar"],$_POST["sort"]);
+       $steamid = $_POST["steamid"];
+       $date_column = $_POST['date_column'];
+       $num_column =  $_POST["num_column"];
+       $split = $_POST["split"];
+       $schar = $_POST["schar"];
+       $sort = $_POST["sort"];
+       $surrChar = $_POST['surrChar'];
 	}else{
 		echo "Enter a SteamId64: Should be 17 digits long";
+        return;
 	}
+
+    $steamid = htmlspecialchars($steamid);
+    if(strlen($steamid)!=17){
+        return "SteamId64 is 17 digits long. Make sure it is entered correctly.";
+    }
+
+    if(isset($_SESSION["achievement_page"]) && isset($_SESSION["steamid"]) && $_SESSION["steamid"]==$steamid){
+        $achievement_page = $_SESSION['achievement_page'];
+    }else{
+        $achievement_page = getAstatsInfo($steamid);
+        $_SESSION['achievement_page'] = $achievement_page;
+        $_SESSION['steamid'] = $steamid;
+    }
+
+    //the longest lines can be before they wrap around in the steam info box. (based on 1080p)
+    $max_len=750;
+
+    //slimpage gets just the game data html, remove most website styling. 
+    preg_match("/<tbody>[\s\S]*<\/tbody>/",$achievement_page,$temp);
+    $slimpage = $temp[0];
+
+    //create array of each games html elements. 
+    preg_match_all('/<a href="Steam_Game_Info.+?<\/a>/', $slimpage,$temp1,PREG_PATTERN_ORDER);
+    $names = $temp1[0];
+
+    //delete garbage from name strings. 
+    foreach ($names as &$element){
+        $element=preg_replace("/<a href=.*AEE\'>/",'',$element);
+        $element=preg_replace("/<\/a>/",'',$element);
+    }
+
+    //extract num achievements into $total array
+    preg_match_all("/<\/a>.{46}\d+/", $slimpage,$temp2,PREG_PATTERN_ORDER);
+    $tempStr=implode(",",$temp2[0]);
+    preg_match_all("/AEE'>\d+/", $tempStr,$temp2,PREG_PATTERN_ORDER);
+    $tempStr=implode(",",$temp2[0]);
+    preg_match_all("/\d+/", $tempStr,$temp2,PREG_PATTERN_ORDER);
+    $total = $temp2[0];
+
+    //get dates from slimpage.
+    preg_match_all('/\d*-\d*-\d*/', $slimpage,$temp3,PREG_PATTERN_ORDER);
+    $dates = $temp3[0];
+
+    $names = str_replace("<del>","",$names);
+
+    //shorten very long game names, add ... to end. 
+    foreach($names as &$line){
+        if(lengthOfChars($line)>=260){
+            $diff = lengthOfChars($line)-260;
+            $diff = $diff/8;
+            $line = substr($line,0,strlen($line)-$diff);
+            $line = $line . "...";
+        }
+    }
+
+    if($surrChar == "none"){
+
+    }else{
+        $dates=addSurroundingChars($dates,$surrChar);
+        $total=addSurroundingChars($total,$surrChar);
+        $names=addSurroundingChars($names,$surrChar);
+    }
+
+    $names = addLineCount($names);
+
+    $greatest=0;
+
+    //find the length of the longest name, used to determine how many seperator chars to add. 
+    foreach ($names as $item){
+        $len = lengthOfChars($item);
+        if($len>$greatest)
+            $greatest=$len;
+    }
+
+    //Add a few extra chars so that the longest name has seperation too. 
+    $greatest = $greatest+40;
+
+    //if user wants either column, add the seperator char in after the names. 
+    if($num_column=='true'||$date_column=='true'){
+
+        foreach ($names as &$line){
+
+            if($schar=='single'){
+                $line.=' ';
+                continue;
+            }
+
+            //(the length of the longest name + 100) - how long this name is. 
+            $difference = $greatest - lengthOfChars($line);
+
+            $numspace = $difference/getSizeOfChar($schar);
+
+            while ($numspace>0){
+                $line.=$schar;
+                $numspace = $numspace - 1;
+            }
+        }
+    }
+
+    $greatest -=200;
+
+    if($date_column=='true'&&$num_column=='true'){
+        foreach ($total as &$line){
+
+            if($schar=='single'){
+                $line.=' ';
+                continue;
+            }
+
+            $difference = $greatest - lengthOfChars($line);
+
+            $numspace = $difference/getSizeOfChar($schar);
+
+            while ($numspace>0){
+                $line.=$schar;
+                $numspace = $numspace - 1;
+            }
+        }
+    }
+
+    if($split=="year")
+        $dateHash=createYearArray($dates);
+    else
+        $dateHash=createMonthArray($dates);
+
+    $newFile = "";
+
+    $least = min(count($names),count($dates),count($total));
+
+    //build up a line of all the elements that the user wants. 
+    for ($i=0; $i<$least;$i++){
+
+        if($sort=="dateD")
+            $index = $i;
+        else if($sort == "dateA")
+            $index = $least-1-$i;
+
+        $theline = $names[$index];
+        $numline = $total[$index];
+        $dateline = $dates[$index];
+
+        if($split=="year"&&$dateHash[getYear($dates[$index])]>0){
+            $newFile .= "[h1]" . getYear($dates[$index]) . " - ";
+            $newFile .= $dateHash[getYear($dates[$index])] . " Games Completed[/h1] \n";	
+            $dateHash[getYear($dates[$index])]=-1;
+        }else if($split=="month"&&$dateHash[getMonthYearNum($dates[$index])]>0){
+            $newFile .= "[h1]" . getMonthYearString($dates[$index]) . " - ";
+            if($dateHash[getMonthYearNum($dates[$index])]>1)
+                $newFile .= $dateHash[getMonthYearNum($dates[$index])] . " Games Completed[/h1] \n";
+            else
+                $newFile .= $dateHash[getMonthYearNum($dates[$index])] . " Game Completed[/h1] \n";
+            $dateHash[getMonthYearNum($dates[$index])]=-1;
+        }
+
+        if($num_column=='true')
+            $theline.=$numline;
+        if($date_column=='true')
+            $theline.=$dateline;
+
+        $theline.="\n";
+        $newFile.=$theline;
+    }
+
+    echo $newFile;
 
 ?> 

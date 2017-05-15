@@ -23,12 +23,17 @@ function ajaxlookup(event){
 	var j = $("sortOption");
 	var sortopt = j.options[j.selectedIndex].value;
 
+    
+	var k = $("closeOption");
+	var surrounding = k.options[k.selectedIndex].value;
+    
 	console.log(num_col);
 	console.log(date_col);
 	console.log(steamidy);
 	console.log(split_opt);
 	console.log(char);
 	console.log(sortopt);
+    console.log(surrounding);
 
 	new Ajax.Request("achievement.php", {
 							onSuccess: success,
@@ -40,7 +45,8 @@ function ajaxlookup(event){
 								date_column: date_col,
 								split: split_opt,
 								schar: char,
-								sort: sortopt
+								sort: sortopt,
+                                surrChar:surrounding
 							}
 						}
 	);
