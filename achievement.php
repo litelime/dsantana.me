@@ -1,133 +1,146 @@
 <?php 
-	require 'steamauth/SteamConfig.php';
+	/*
+		$array - array to add surrounding chars to each element
+		$chartype - a string of two chars, the opening char then closing char. 
 
-		/*
-			$array - array to add surrounding chars to each element
-			$chartype - a string of two chars, the opening char then closing char. 
+		return the given array with all surrounding chars added. 
 
-			return the given array with all surrounding chars added. 
+	*/
+	function addSurroundingChars ($array,$chartype){
 
-		*/
-		function addSurroundingChars ($array,$chartype){
-
-			foreach ($array as &$element){
-				$element=$chartype[0].$element.$chartype[1];
-			}
-			return $array;
+		foreach ($array as &$element){
+			$element=$chartype[0].$element.$chartype[1];
 		}
+		return $array;
+	}
 
-		#width of given string. 
-		function lengthOfChars($string){
+	//Thanks to qeremy at php.net for this function. http://php.net/manual/en/function.str-split.php#107658
+	function str_split_unicode($str, $l = 0) {
+	    if ($l > 0) {
+	        $ret = array();
+	        $len = mb_strlen($str, "UTF-8");
+	        for ($i = 0; $i < $len; $i += $l) {
+	            $ret[] = mb_substr($str, $i, $l, "UTF-8");
+	        }
+	        return $ret;
+	    }
+	    return preg_split("//u", $str, -1, PREG_SPLIT_NO_EMPTY);
+	}
 
-			$str_arr = str_split($string);
-			$len = 0;
-			foreach ($str_arr as $char){
-					$len+=getSizeOfChar($char);
-			}
-			return $len;
-			
+
+	#width of given string. 
+	function lengthOfChars($string){
+
+		$str_arr = str_split_unicode($string);
+		$len = 0;
+		foreach ($str_arr as $char){
+				$len+=getSizeOfChar($char);
 		}
-
-		#length values based on steam font looked at by eye. Not exact...
-		#sizes are relative, ex: Capital W(16) looks 4 times bigger than Capital J(4)
-		function getSizeOfChar($char){
-
-			$charArray = [
-			//special chars
-			'['=>6,']'=>6,'#'=>8,' '=>4,' '=>7,'-'=>6,':'=>6,'.'=>6,'Û'=>12,','=>7,'!'=>7,'6'=>7,'*'=>7, '`'=>6,
-			//lowercase alpha
-			'a'=>8,'b'=>8,'c'=>8,'d'=>8,'e'=>8,'f'=>7,'g'=>8,'h'=>8,'i'=>4,'j'=>4,'k'=>8,'l'=>4,'m'=>14,'n'=>8,'o'=>8,'p'=>8,'q'=>8,'r'=>7,
-				's'=>8,'t'=>7,'u'=>8,'v'=>8,'w'=>12,'x'=>8,'y'=>8,'z'=>8,
-			//digits
-			'1'=>8,'2'=>8,'3'=>8,'4'=>8,'5'=>8,'6'=>8,'7'=>8,'8'=>8,'9'=>8,'0'=>8,
-			//uppercase alpha
-			'A'=>12,'B'=>12,'C'=>12,'D'=>12,'E'=>12,'F'=>11,'G'=>13,'H'=>12,'I'=>7,'J'=>4,'K'=>12,'L'=>8,'M'=>14,'N'=>12,'O'=>13,'P'=>12,
-				'Q'=>13,'R'=>12,'S'=>12,'T'=>11,'U'=>12,'V'=>12,'W'=>16,'X'=>12,'Y'=>12,'Z'=>11];
-
-			if(array_key_exists($char, $charArray))
-				return $charArray[$char];
-			else 
-				return 8;
-
-		}
-
-		#Return array of how many games completed in a year
-		#returns: [year=>numGamesCompleted]
-		function createYearArray ($datesArray){
-
-			//make the array of dates one big string
-			$text = implode(",",$datesArray);
-
-			//match all years store result in yearArray
-			preg_match_all('/\d\d\d\d/', $text,$yearArray,PREG_PATTERN_ORDER);
-
-			//returns array of form year => number of occurences. 
-			$returnArray = array_count_values($yearArray[0]);
+		return $len;
 		
-			return $returnArray;
+	}
 
-		}
+	#length values based on steam font looked at by eye. Not exact...
+	#sizes are relative, ex: Capital W(16) looks 4 times bigger than Capital J(4)
+	function getSizeOfChar($char){
 
-		#Return array of how many games completed per month
-		#returns: [year-month=>numGamesCompleted]
-		function createMonthArray ($datesArray){
+		$charArray = [
+		//special chars
+		'['=>6,']'=>6,'#'=>8,' '=>7,' '=>8,'-'=>6,':'=>6,'.'=>6,'Û'=>12,','=>7,'!'=>7,'6'=>7,'*'=>7, '`'=>6,
+		//lowercase alpha
+		'a'=>8,'b'=>8,'c'=>8,'d'=>8,'e'=>8,'f'=>7,'g'=>8,'h'=>8,'i'=>4,'j'=>4,'k'=>8,'l'=>4,'m'=>14,'n'=>8,'o'=>8,'p'=>8,'q'=>8,'r'=>7,
+			's'=>8,'t'=>7,'u'=>8,'v'=>8,'w'=>12,'x'=>8,'y'=>8,'z'=>8,
+		//digits
+		'1'=>8,'2'=>8,'3'=>8,'4'=>8,'5'=>8,'6'=>8,'7'=>8,'8'=>8,'9'=>8,'0'=>8,
+		//uppercase alpha
+		'A'=>12,'B'=>12,'C'=>12,'D'=>12,'E'=>12,'F'=>11,'G'=>13,'H'=>12,'I'=>7,'J'=>4,'K'=>12,'L'=>8,'M'=>14,'N'=>12,'O'=>13,'P'=>12,
+			'Q'=>13,'R'=>12,'S'=>12,'T'=>11,'U'=>12,'V'=>12,'W'=>16,'X'=>12,'Y'=>12,'Z'=>11];
 
-			$text =implode(",",$datesArray);
+		if(array_key_exists($char, $charArray))
+			return $charArray[$char];
+		else 
+			return 8;
 
-			//match all year-month combos, store result in monthArray
-			preg_match_all('/\d\d\d\d-\d\d/', $text,$monthArray,PREG_PATTERN_ORDER);
+	}
 
-			//count the number of values in each year-month combo
-			//returns array of form year-month => number of occurences. 
-			$returnArray=array_count_values($monthArray[0]);
+	#Return array of how many games completed in a year
+	#returns: [year=>numGamesCompleted]
+	function createYearArray ($datesArray){
 
-			return $returnArray;
+		//make the array of dates one big string
+		$text = implode(",",$datesArray);
 
-		}
+		//match all years store result in yearArray
+		preg_match_all('/\d\d\d\d/', $text,$yearArray,PREG_PATTERN_ORDER);
 
-		//arg: str of form dddd-dd-dd
-		//return: dddd
-		function getYear($str){
+		//returns array of form year => number of occurences. 
+		$returnArray = array_count_values($yearArray[0]);
+	
+		return $returnArray;
 
-			preg_match('/\d\d\d\d/', $str,$temp);
-			return $temp[0];
+	}
 
-		}
+	#Return array of how many games completed per month
+	#returns: [year-month=>numGamesCompleted]
+	function createMonthArray ($datesArray){
 
-		//arg: str of form dddd-dd-dd
-		//return: dddd-dd
-		function getMonthYearNum($str){
-			preg_match('/\d\d\d\d-\d\d/', $str,$temp);
-			return $temp[0];
-		}
+		$text =implode(",",$datesArray);
+
+		//match all year-month combos, store result in monthArray
+		preg_match_all('/\d\d\d\d-\d\d/', $text,$monthArray,PREG_PATTERN_ORDER);
+
+		//count the number of values in each year-month combo
+		//returns array of form year-month => number of occurences. 
+		$returnArray=array_count_values($monthArray[0]);
+
+		return $returnArray;
+
+	}
+
+	//arg: str of form dddd-dd-dd
+	//return: dddd
+	function getYear($str){
+
+		preg_match('/\d\d\d\d/', $str,$temp);
+		return $temp[0];
+
+	}
+
+	//arg: str of form dddd-dd-dd
+	//return: dddd-dd
+	function getMonthYearNum($str){
+		preg_match('/\d\d\d\d-\d\d/', $str,$temp);
+		return $temp[0];
+	}
 
 
-		/*
-		function: getMonthYearString($str)
+	/*
+	function: getMonthYearString($str)
 
-		Arg: $str - a string containing the form dddd-dd-dd for a date
+	Arg: $str - a string containing the form dddd-dd-dd for a date
 
-		Return: a string of format Month Year (May 2017)
+	Return: a string of format Month Year (May 2017)
 
-		*/
-		function getMonthYearString($str){
+	*/
+
+	function getMonthYearString($str){
 			
-			$formatstring="";
+		$formatstring="";
 
-			$months = [1 => 'January', 2 => 'February', 3 => 'March', 4 => 'April', 5 => 'May', 6 => 'June', 7 => 'July', 8 =>'August', 9 => 'September', 10 => 'October', 11 => 'November', 12 => 'December'];
+		$months = [1 => 'January', 2 => 'February', 3 => 'March', 4 => 'April', 5 => 'May', 6 => 'June', 7 => 'July', 8 =>'August', 9 => 'September', 10 => 'October', 11 => 'November', 12 => 'December'];
 
-			//get all sequences of digits
-			preg_match_all('/\d+/', $str,$temp);
+		//get all sequences of digits
+		preg_match_all('/\d+/', $str,$temp);
 
-			//the month value will be in the first set(perfect matches), and be the second match (after year).
-			$month_num = $temp[0][1];
-			$month_num = (int)$month_num;
+		//the month value will be in the first set(perfect matches), and be the second match (after year).
+		$month_num = $temp[0][1];
+		$month_num = (int)$month_num;
 
-			//temp[0][0] = year
-			$formatstring.=$months[$month_num]." ".$temp[0][0];
+		//temp[0][0] = year
+		$formatstring.=$months[$month_num]." ".$temp[0][0];
  
-			return $formatstring;
-		}
+		return $formatstring;
+	}
 
 	/*
 
@@ -330,11 +343,17 @@
 		}
 
 		//Add a few extra chars so that the longest name has seperation too. 
-		$greatest = $greatest+100;
+		$greatest = $greatest+40;
 
 		//if user wants either column, add the seperator char in after the names. 
 		if($num_column=='true'||$date_column=='true'){
+
 			foreach ($names as &$line){
+
+				if($schar=='single'){
+					$line.=' ';
+					continue;
+				}
 
 				//(the length of the longest name + 100) - how long this name is. 
 				$difference = $greatest - lengthOfChars($line);
@@ -348,11 +367,22 @@
 			}
 		}
 
+		$greatest -=130;
+
 		if($date_column=='true'&&$num_column=='true'){
-			for($i=0;$i<$least;$i++){
-				$numspace = ($max_len - lengthOfChars($names[$i])-lengthOfChars($total[$i])-$date_len)/getSizeOfChar($schar);
+			foreach ($total as &$line){
+
+				if($schar=='single'){
+					$line.=' ';
+					continue;
+				}
+
+				$difference = $greatest - lengthOfChars($line);
+
+				$numspace = $difference/getSizeOfChar($schar);
+
 				while ($numspace>0){
-					$total[$i].=$schar;
+					$line.=$schar;
 					$numspace = $numspace - 1;
 				}
 			}

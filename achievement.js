@@ -14,7 +14,7 @@ function ajaxlookup(event){
 	var e = document.getElementById("charOption");
 	var char = e.options[e.selectedIndex].value;
 	if(char=="blank"){
-		char = String.fromCharCode(8201);
+		char = String.fromCharCode(8194);
 	}
 
 	console.log(num_col);

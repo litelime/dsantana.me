@@ -10,8 +10,8 @@
 
 	<head>
 		<title>Steam Achievement Formatter</title>
-		<link href="achievement.css?ver=1.1" rel="stylesheet" type="text/css" /> 
-		<script type="text/javascript" src="achievement.js?ver=1.1"></script>
+		<link href="achievement.css?ver=1.2" rel="stylesheet" type="text/css" /> 
+		<script type="text/javascript" src="achievement.js?ver=1.2"></script>
 		<script type="text/javascript" src="prototype.js"></script>
 	</head>
 
@@ -40,7 +40,7 @@
 					<dd>Unfortunately because of steam info box char limits you will only be able to fit about 75 of your 100% games.
 				</dl>
 
-					Your steamid64: <input name="username" id="steamid" type='text' autocomplete="username">
+					Your steamid64: <input name="userid" id="steamid" type='text' autocomplete="on">
 					<input id='button' type='submit' value='Create Text'><br/><br/>
 
 					<?php
@@ -65,16 +65,18 @@
 						Number of Achievements Column</li>
 						<li><input type="checkbox" id="date_column" name="date_column" value="date_column" checked="checked"/>
 						Date of Achievements Column</li>
-		  				<li><input type="radio" name="split" id="year" value="year" checked="checked"/>Split by Year</li>
-		  				<li><input type="radio" name="split" id="month" value="month"/>Split by Month</li>
-		  				<li>Seperating Character 
+		  				<li><input type="radio" name="split" id="year" value="year" checked="checked"/>Split by Year
+		  				<input type="radio" name="split" id="month" value="month"/>Split by Month</li>
+		  				<li>Seperation Options
 		  				<select id='charOption'>
 							<option value="*">Asterisk *</option>
 							<option value=":">Colon :</option>
 							<option value="`">Accent `</option>
 							<option value=".">Period .</option>
 							<option value="-">Dash -</option>
-							<!--<option value="blank">Blank Space</option>-->
+							<option value="blank">Blank Spaces</option>
+							<option value="single">Single Space</option>
+							<option value="">No Spacing</option>
 						</select>
 						</li>
 						
