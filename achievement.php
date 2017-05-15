@@ -268,14 +268,14 @@
 
 	}
 
-	function createSteamFormatSteam($steamid,$date_column,$num_column,$split,$schar){
+	function createSteamFormatSteam($steamid,$date_column,$num_column,$split,$schar,$sort){
 
 		$x=getPlayedGames(getSteamGames($steamid));
 		print_r (getCompletedGames($x,$steamid));
 
 	}
 
-	function createSteamFormatAstats($steamid,$date_column,$num_column,$split,$schar){
+	function createSteamFormatAstats($steamid,$date_column,$num_column,$split,$schar,$sort){
 
 		$steamid = htmlspecialchars($steamid);
 		if(strlen($steamid)!=17){
@@ -317,8 +317,8 @@
 
 		//shorten very long game names, add ... to end. 
 		foreach($names as &$line){
-			if(lengthOfChars($line)>=300){
-				$diff = lengthOfChars($line)-300;
+			if(lengthOfChars($line)>=260){
+				$diff = lengthOfChars($line)-260;
 				$diff = $diff/8;
 				$line = substr($line,0,strlen($line)-$diff);
 				$line = $line . "...";
@@ -328,8 +328,6 @@
 		$dates=addSurroundingChars($dates,"[]");
 		$total=addSurroundingChars($total,"[]");
 		$names=addSurroundingChars($names,"[]");
-
-		$least = min(count($names),count($dates),count($total));
 
 		$names = addLineCount($names);
 
@@ -367,7 +365,7 @@
 			}
 		}
 
-		$greatest -=130;
+		$greatest -=200;
 
 		if($date_column=='true'&&$num_column=='true'){
 			foreach ($total as &$line){
@@ -395,28 +393,38 @@
 
 		$newFile = "";
 
+		$least = min(count($names),count($dates),count($total));
+
 		//build up a line of all the elements that the user wants. 
 		for ($i=0; $i<$least;$i++){
-			$theline = $names[$i];
-			$numline = $total[$i];
-			$dateline = $dates[$i];
-			if($split=="year"&&$dateHash[getYear($dates[$i])]>0){
-				$newFile .= "[h1]" . getYear($dates[$i]) . " - ";
-				$newFile .= $dateHash[getYear($dates[$i])] . " Games Completed[/h1] \n";	
-				$dateHash[getYear($dates[$i])]=-1;
-			}else if($split=="month"&&$dateHash[getMonthYearNum($dates[$i])]>0){
-				$newFile .= "[h1]" . getMonthYearString($dates[$i]) . " - ";
-				if($dateHash[getMonthYearNum($dates[$i])]>1)
-					$newFile .= $dateHash[getMonthYearNum($dates[$i])] . " Games Completed[/h1] \n";
+
+			if($sort=="dateD")
+				$index = $i;
+			else if($sort == "dateA")
+				$index = $least-1-$i;
+
+			$theline = $names[$index];
+			$numline = $total[$index];
+			$dateline = $dates[$index];
+
+			if($split=="year"&&$dateHash[getYear($dates[$index])]>0){
+				$newFile .= "[h1]" . getYear($dates[$index]) . " - ";
+				$newFile .= $dateHash[getYear($dates[$index])] . " Games Completed[/h1] \n";	
+				$dateHash[getYear($dates[$index])]=-1;
+			}else if($split=="month"&&$dateHash[getMonthYearNum($dates[$index])]>0){
+				$newFile .= "[h1]" . getMonthYearString($dates[$index]) . " - ";
+				if($dateHash[getMonthYearNum($dates[$index])]>1)
+					$newFile .= $dateHash[getMonthYearNum($dates[$index])] . " Games Completed[/h1] \n";
 				else
-					$newFile .= $dateHash[getMonthYearNum($dates[$i])] . " Game Completed[/h1] \n";
-				$dateHash[getMonthYearNum($dates[$i])]=-1;
+					$newFile .= $dateHash[getMonthYearNum($dates[$index])] . " Game Completed[/h1] \n";
+				$dateHash[getMonthYearNum($dates[$index])]=-1;
 			}
 
 			if($num_column=='true')
 				$theline.=$numline;
 			if($date_column=='true')
 				$theline.=$dateline;
+
 			$theline.="\n";
 			$newFile.=$theline;
 		}
@@ -425,9 +433,9 @@
 	}
 
 	if(isset($_POST["steamid"]) && isset($_POST["date_column"]) && isset($_POST["num_column"]) 
-		&& isset($_POST["split"]) && isset($_POST["schar"]))
+		&& isset($_POST["split"]) && isset($_POST["schar"]) && isset($_POST["sort"]))
 	{
-		echo createSteamFormatAstats($_POST["steamid"], $_POST['date_column'], $_POST["num_column"],$_POST["split"],$_POST["schar"]);
+		echo createSteamFormatAstats($_POST["steamid"], $_POST['date_column'], $_POST["num_column"],$_POST["split"],$_POST["schar"],$_POST["sort"]);
 	}else{
 		echo "Enter a SteamId64: Should be 17 digits long";
 	}

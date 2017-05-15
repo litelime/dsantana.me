@@ -5,23 +5,30 @@ function ajaxlookup(event){
 	var steamidy = $("steamid").value;
 	var num_col = $("num_column").checked;
 	var date_col = $("date_column").checked;
+
+	//Split options
 	if($("year").checked){
 		var split_opt = "year";
 	}else{
 		var split_opt = "month";
 	}
 
-	var e = document.getElementById("charOption");
+	//char Options
+	var e = $("charOption");
 	var char = e.options[e.selectedIndex].value;
 	if(char=="blank"){
 		char = String.fromCharCode(8194);
 	}
+
+	var j = $("sortOption");
+	var sortopt = j.options[j.selectedIndex].value;
 
 	console.log(num_col);
 	console.log(date_col);
 	console.log(steamidy);
 	console.log(split_opt);
 	console.log(char);
+	console.log(sortopt);
 
 	new Ajax.Request("achievement.php", {
 							onSuccess: success,
@@ -32,7 +39,8 @@ function ajaxlookup(event){
 								num_column: num_col,
 								date_column: date_col,
 								split: split_opt,
-								schar: char
+								schar: char,
+								sort: sortopt
 							}
 						}
 	);

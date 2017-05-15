@@ -10,8 +10,8 @@
 
 	<head>
 		<title>Steam Achievement Formatter</title>
-		<link href="achievement.css?ver=1.2" rel="stylesheet" type="text/css" /> 
-		<script type="text/javascript" src="achievement.js?ver=1.2"></script>
+		<link href="achievement.css?ver=1.3" rel="stylesheet" type="text/css" /> 
+		<script type="text/javascript" src="achievement.js?ver=1.3"></script>
 		<script type="text/javascript" src="prototype.js"></script>
 	</head>
 
@@ -21,7 +21,7 @@
 			<div id='center'>
 				<textarea id="content" rows="40" readonly>Copy/Paste from here</textarea>
 				<p>Copy and paste the text that is output above into your steam custom info box.<br/>
-				NOTICE: Text will look very misaligned on this page, but looks better once placed in steam.  
+				NOTICE: Text may look very misaligned on this page, but looks better once placed in steam.  
 				</p>
 				<button id="copyButton" disabled="disabled">Nothing to Copy</button><br/><br/>
 			</div>
@@ -37,7 +37,7 @@
 					<dd>You need to know the steamid64. Don't know what yours is? 
 					Go <a href='help.html'>here</a> for help or you can login through steam below.</dd>
 					<dt>Info:</dt>
-					<dd>Unfortunately because of steam info box char limits you will only be able to fit about 75 of your 100% games.
+					<dd>Unfortunately because of steam info box char limits you will only be able to fit a limited amount of your 100% games. Usually about 75.
 				</dl>
 
 					Your steamid64: <input name="userid" id="steamid" type='text' autocomplete="on">
@@ -79,7 +79,12 @@
 							<option value="">No Spacing</option>
 						</select>
 						</li>
-						
+						<li>Sorting Options
+						<select id='sortOption'>
+							<option value="dateD">Date Descending</option>
+							<option value="dateA">Date Ascending</option>
+						</select>
+						</li>
 	  				</ul>
   				</div>
 			</div>
