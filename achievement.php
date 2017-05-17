@@ -358,18 +358,20 @@
         $achievement_page = $_SESSION['achievement_page'];
         $source = 'astats'; 
 
-    }else if(isset($_SESSION["steam_games"]) && isset($_SESSION["mysteamid"]) && $_SESSION["mysteamid"]===$steamid){
+ //   }else if(isset($_SESSION["steam_games"]) && isset($_SESSION["mysteamid"]) && $_SESSION["mysteamid"]===$steamid){
 
-        $completed_games = $_SESSION['steam_games'];
-        $source = "steam_done";
+ //       $completed_games = $_SESSION['steam_games'];
+   //     $source = "steam_done";
 
     }else{
         
         $achievement_page = getAstatsInfo($steamid);
         
-        //DONT set session  mysteamid yet for steam, will get set below if provided id is valid. 
+        //DONT set session mysteamid yet for steam, will get set below if provided id is valid. 
         if($achievement_page == "not found"){
-            $source = 'steam';
+            echo "No astats profile found with that id.";
+            exit;
+        //    $source = 'steam';
         }else{
             $source = 'astats'; 
             $_SESSION['achievement_page'] = $achievement_page;
@@ -407,7 +409,7 @@
         $names = str_replace("<del>","",$names);
     
     }
-    $source = 'steam';
+/*
     //If we are pulling data from steam
     if($source == "steam"){
     
@@ -433,7 +435,7 @@
         //sort dates descending order, sort names and total based on dates. 
         array_multisort($dates,SORT_DESC,$names,$total);
     }
-    
+    */
         
     // ***** BEGIN MAIN ALGORITHM, RUNS REGARDLESS OF STEAM OR ASTATS SOURCE FROM HERE ON. *******
 

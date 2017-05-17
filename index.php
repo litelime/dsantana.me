@@ -32,8 +32,7 @@
 					<dd>Take all your perfect games (100% Achievements Completed) 
 					and put them into a format that looks decent in a steam info box. </dd>
 					<dt>Requirements:</dt>
-					<dd>-It is recommended you have or make an <a href='http://astats.astats.nl/astats/index.php'>astats</a> profile if you have a decent sized library (50+) of games.</dd>
-                    <dd>-Steam profile must be public.</dd>
+					<dd>-Need an <a href='http://astats.astats.nl/astats/index.php'>astats</a> profile.</dd>
 					<dd>-You need to know the steamid64. Don't know what yours is? 
 					Go <a href='help.html'>here</a> for help or you can login through steam below.</dd>
 				</dl>
@@ -98,7 +97,6 @@
   					<dt>Notes:</dt>
                     <dd>-Once you've loaded the games the first time they will load faster afterwards, feel free to try lots of different settings!</dd>
                     <dd>-Unfortunately because of steam info box char limits you will only be able to fit a limited amount of your 100% games.</dd>
-                    <dd>-astats profile is recommended because if you have lots of games the site will need to check steam for every one of them which will take a while, astats profile makes it faster to get a list of the 100% completed games.</dd>
                 </dl>
 			</div>
 
