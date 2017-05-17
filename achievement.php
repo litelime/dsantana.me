@@ -1,5 +1,6 @@
 <?php 
     session_start();
+    set_time_limit(180);
 
 	/*
 		$array - array to add surrounding chars to each element
@@ -174,10 +175,14 @@
 			exit;
 		}
 
-		if(preg_match('/No profile found/',$achievement_page)||empty($achievement_page)){
-			echo "Profile with that number couldn't be found.\nEnter a SteamId64: Should be 17 digits long\nMake sure the account has an astats profile generated.";
-			exit;
+		if(preg_match('/No profile found/',$achievement_page)||preg_match("/Could not find profile/",$achievement_page)){
+			return "not found";
 		}
+        
+        if(empty($achievement_page)){
+            echo "Enter a SteamId64: Should be 17 digits long\nMake sure the account has an astats profile generated.";
+			exit;
+        }
 
 		if(preg_match('/No results/',$achievement_page)){
 			echo "Didn't find any 100% completed games.";
@@ -189,17 +194,28 @@
 	}
 
 	function getSteamGames($steamid){
+        
+        $url = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=9B72D30B21EBDC4B8299D41D8691706D&steamid=$steamid&format=json";
+              
+        // create a new cURL resource
+        $ch = curl_init();
 
-		$url = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=9B72D30B21EBDC4B8299D41D8691706D&steamid=$steamid&format=json";
-		$achievement_page = @file_get_contents($url);
+        // set URL and other appropriate options
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
 
-		if(!$achievement_page){
-			echo "ERROR: Failed to connect to steam site.";
-			exit;
-		}
+        $achievement_page = curl_exec($ch);
+        
+        if(curl_errno($ch)){
+            echo 'error: ' . curl_error($ch);
+            exit;
+        }
 
+        // close cURL resource, and free up system resources
+        curl_close($ch);
+                
 		$achievement_page = json_decode($achievement_page,true);
-
+                
 		return $achievement_page['response']['games'];
 	}
 
@@ -228,10 +244,26 @@
 	function getCompletedGames($gamesArray,$steamid){
 
 		$completed = true;
-
+        
+        $completedGames = array();
+        
 		foreach ($gamesArray as $game){
+            
 			$url = "http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=$game&key=9B72D30B21EBDC4B8299D41D8691706D&steamid=$steamid";
-			$gameObject=json_decode(@file_get_contents($url),true);
+            
+            // create a new cURL resource
+            $ct = curl_init();
+
+            // set URL and other appropriate options
+            curl_setopt($ct, CURLOPT_URL, $url);
+            curl_setopt($ct,CURLOPT_RETURNTRANSFER, true);
+
+            $gameObject=json_decode(curl_exec($ct),true);
+
+            if(curl_errno($ct)){
+                echo 'Curl error: ' . curl_error($ct);
+            }
+            
 			//echo $gameObject['playerstats']['gameName'];
 			if ((is_array($gameObject) || is_object($gameObject))&&(isset($gameObject['playerstats']['achievements']))){
 				$achObject=$gameObject['playerstats']['achievements'];
@@ -247,8 +279,10 @@
 				$completed=true;
 			}
 		}
-
-		return $completedGames;
+        
+        // close cURL resource, and free up system resources
+        curl_close($ct);
+        return $completedGames;
 
 	}
 
@@ -274,18 +308,11 @@
 
 	}
 
-	function createSteamFormatSteam($steamid,$date_column,$num_column,$split,$schar,$sort){
-
-		$x=getPlayedGames(getSteamGames($steamid));
-		print_r (getCompletedGames($x,$steamid));
-
-	}
-
 	if(
        isset($_POST["steamid"]) && isset($_POST["date_column"]) && isset($_POST["num_column"]) 
 	&& isset($_POST["split"])   && isset($_POST["schar"])       && isset($_POST["sort"])      
     && isset($_POST["surrChar"])
-      )
+        )
 	{
        $steamid = htmlspecialchars($_POST["steamid"]);
        $date_column = $_POST['date_column'];
@@ -304,52 +331,88 @@
         echo "SteamId64 is 17 digits long. Make sure it is entered correctly.";
         return;
     }
-
+     
     if(isset($_SESSION["achievement_page"]) && isset($_SESSION["steamid"]) && $_SESSION["steamid"]==$steamid){
         $achievement_page = $_SESSION['achievement_page'];
+        $source = 'astats'; 
     }else{
+        
         $achievement_page = getAstatsInfo($steamid);
-        $_SESSION['achievement_page'] = $achievement_page;
-        $_SESSION['steamid'] = $steamid;
+        
+    //    if($achievement_page == "not found"){
+   //         $source = 'steam'; 
+    //    }else{
+            $source = 'astats'; 
+            $_SESSION['achievement_page'] = $achievement_page;
+            $_SESSION['steamid'] = $steamid;
+   //     }
+    }
+     
+    $source = 'astats';
+    if($source == 'astats'){
+        //slimpage gets just the game data html, remove most website styling. 
+        preg_match("/<tbody>[\s\S]*<\/tbody>/",$achievement_page,$temp);
+        $slimpage = $temp[0];
+
+        //create array of each games html elements. 
+        preg_match_all('/<a href="Steam_Game_Info.+?<\/a>/', $slimpage,$temp1,PREG_PATTERN_ORDER);
+        $names = $temp1[0];
+
+        //delete garbage from name strings. 
+        foreach ($names as &$element){
+            $element=preg_replace("/<a href=.*AEE\'>/",'',$element);
+            $element=preg_replace("/<\/a>/",'',$element);
+        }
+
+        //extract num achievements into $total array
+        preg_match_all("/<\/a>.{46}\d+/", $slimpage,$temp2,PREG_PATTERN_ORDER);
+        $tempStr=implode(",",$temp2[0]);
+        preg_match_all("/AEE'>\d+/", $tempStr,$temp2,PREG_PATTERN_ORDER);
+        $tempStr=implode(",",$temp2[0]);
+        preg_match_all("/\d+/", $tempStr,$temp2,PREG_PATTERN_ORDER);
+        $total = $temp2[0];
+
+        //get dates from slimpage.
+        preg_match_all('/\d*-\d*-\d*/', $slimpage,$temp3,PREG_PATTERN_ORDER);
+        $dates = $temp3[0];
+
+        $names = str_replace("<del>","",$names);
+    
     }
 
-    //the longest lines can be before they wrap around in the steam info box. (based on 1080p)
-    $max_len=750;
+    //If we are pulling data from steam
+    if($source == "steam"){
+        
+        if(isset($_SESSION["steam_games"]) && isset($_SESSION["mysteamid"]) && $_SESSION["mysteamid"]===$steamid){
+            $completed_games = $_SESSION['steam_games'];
+        }else{
+            $x = getPlayedGames(getSteamGames($steamid));
+            $completed_games = getCompletedGames($x,$steamid);
+            $_SESSION['steam_games'] = $completed_games;
+            $_SESSION['mysteamid'] = $steamid;
+        }     
 
-    //slimpage gets just the game data html, remove most website styling. 
-    preg_match("/<tbody>[\s\S]*<\/tbody>/",$achievement_page,$temp);
-    $slimpage = $temp[0];
+        $names = array_column($completed_games,'gameName'); 
+            
+        foreach($completed_games as $game){
+            
+             $total[] = count($game['achievements']);
+            
+             $achievement_times = array_column($game['achievements'],'unlocktime');
+             $dates[] = date("Y-m-d",max($achievement_times));
 
-    //create array of each games html elements. 
-    preg_match_all('/<a href="Steam_Game_Info.+?<\/a>/', $slimpage,$temp1,PREG_PATTERN_ORDER);
-    $names = $temp1[0];
-
-    //delete garbage from name strings. 
-    foreach ($names as &$element){
-        $element=preg_replace("/<a href=.*AEE\'>/",'',$element);
-        $element=preg_replace("/<\/a>/",'',$element);
+        }
+        //sort dates descending order, sort names and total based on dates. 
+        array_multisort($dates,SORT_DESC,$names,$total);
     }
-
-    //extract num achievements into $total array
-    preg_match_all("/<\/a>.{46}\d+/", $slimpage,$temp2,PREG_PATTERN_ORDER);
-    $tempStr=implode(",",$temp2[0]);
-    preg_match_all("/AEE'>\d+/", $tempStr,$temp2,PREG_PATTERN_ORDER);
-    $tempStr=implode(",",$temp2[0]);
-    preg_match_all("/\d+/", $tempStr,$temp2,PREG_PATTERN_ORDER);
-    $total = $temp2[0];
-
-    //get dates from slimpage.
-    preg_match_all('/\d*-\d*-\d*/', $slimpage,$temp3,PREG_PATTERN_ORDER);
-    $dates = $temp3[0];
-
-    $names = str_replace("<del>","",$names);
+        
+    // ***** BEGIN MAIN ALGORITHM, RUNS REGARDLESS OF STEAM OR ASTATS SOURCE FROM HERE ON. *******
 
     //shorten very long game names, add ... to end only if using both column. 
     if($num_column=='true' && $date_column == 'true')
         $reduce = 260;
     else
         $reduce = 450;
-    
     
     foreach($names as &$line){
         if(lengthOfChars($line)>=$reduce){

@@ -46,7 +46,7 @@ function ajaxlookup(event){
 								split: split_opt,
 								schar: char,
 								sort: sortopt,
-                                surrChar:surrounding
+                                surrChar:surrounding,
 							}
 						}
 	);
