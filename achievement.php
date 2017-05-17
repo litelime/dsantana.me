@@ -202,25 +202,10 @@
 	function getSteamGames($steamid){
         
         $url = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=9B72D30B21EBDC4B8299D41D8691706D&steamid=$steamid&format=json";
-              
-        // create a new cURL resource
-        $ch = curl_init();
 
-        // set URL and other appropriate options
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
-
-        $achievement_page = curl_exec($ch);
-        
-        if(curl_errno($ch)){
-            echo 'error: ' . curl_error($ch);
-            exit;
-        }
-
-        // close cURL resource, and free up system resources
-        curl_close($ch);
-              
-        if(preg_match('/Internal Server Error/',$achievement_page)){
+        $achievement_page = @file_get_contents($url);
+                      
+        if(!$achievement_page||preg_match('/Internal Server Error/',$achievement_page)){
             echo "Couldn't find that steam account";
             exit;
         }
@@ -278,26 +263,12 @@
 		foreach ($gamesArray as $game){
             
 			$url = "http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=$game&key=9B72D30B21EBDC4B8299D41D8691706D&steamid=$steamid";
-            
-            // create a new cURL resource
-            $ct = curl_init();
 
-            // set URL and other appropriate options
-            curl_setopt($ct, CURLOPT_URL, $url);
-            curl_setopt($ct,CURLOPT_RETURNTRANSFER, true);
+            $gameObject=json_decode(@file_get_contents($url),true);
 
-            $gameObject=json_decode(curl_exec($ct),true);
-
-            if(curl_errno($ct)){
-                echo 'Error: Failed to connect to steam';
-                exit;
-            }
-            
             $completedTemp[]=$gameObject;
 
 		}
-        
-        curl_close($ct);
 
         //create completedGames array;
         foreach($completedTemp as $gameObject){
@@ -436,7 +407,7 @@
         $names = str_replace("<del>","",$names);
     
     }
-
+    $source = 'steam';
     //If we are pulling data from steam
     if($source == "steam"){
     

@@ -33,7 +33,7 @@
 					and put them into a format that looks decent in a steam info box. </dd>
 					<dt>Requirements:</dt>
 					<dd>-It is recommended you have or make an <a href='http://astats.astats.nl/astats/index.php'>astats</a> profile if you have a decent sized library (50+) of games.</dd>
-                    <dd>Steam profile must be public.</dd>
+                    <dd>-Steam profile must be public.</dd>
 					<dd>-You need to know the steamid64. Don't know what yours is? 
 					Go <a href='help.html'>here</a> for help or you can login through steam below.</dd>
 				</dl>
