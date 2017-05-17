@@ -189,7 +189,7 @@
         }
 
 		if(preg_match('/No results/',$achievement_page)){
-			echo "Didn't find any 100% completed games.";
+			echo "Astats: Didn't find any 100% completed games.";
             session_unset();
             session_destroy();
 			exit;
@@ -219,9 +219,21 @@
 
         // close cURL resource, and free up system resources
         curl_close($ch);
-                
+              
+        if(preg_match('/Internal Server Error/',$achievement_page)){
+            echo "Couldn't find that steam account";
+            exit;
+        }
+
 		$achievement_page = json_decode($achievement_page,true);
-                
+            
+        if(isset($achievement_page['response']['game_count'])){
+            if($achievement_page['response']['game_count']==0){
+                echo "No games found under that steamid";
+                exit;
+            }
+        }
+
 		return $achievement_page['response']['games'];
 	}
 
@@ -237,12 +249,19 @@
 	*/
 	function getPlayedGames($gamesArray){
 
+        $playedGames = array();
+
 		foreach ($gamesArray as $game){
 
 			if($game['playtime_forever']>0)
 				$playedGames[]=$game['appid'];
 
 		}
+
+        if(count($playedGames)==0){
+            echo "No completed games found for this account.";
+            exit;
+        }
 
 		return $playedGames;
 	}
@@ -251,8 +270,11 @@
 
 		$completed = true;
         
+        $completedTemp = array();
+
         $completedGames = array();
         
+        //get all games as objects from api and place in completedTemp array. 
 		foreach ($gamesArray as $game){
             
 			$url = "http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=$game&key=9B72D30B21EBDC4B8299D41D8691706D&steamid=$steamid";
@@ -270,24 +292,38 @@
                 echo 'Curl error: ' . curl_error($ct);
             }
             
-			//echo $gameObject['playerstats']['gameName'];
-			if ((is_array($gameObject) || is_object($gameObject))&&(isset($gameObject['playerstats']['achievements']))){
-				$achObject=$gameObject['playerstats']['achievements'];
-				//print_r($gameObject);
-				foreach($achObject as $achievement){
-					if($achievement['achieved']==0){
-						$completed = false;
-					}
-				}
-				if($completed==true){
-					$completedGames[]=$gameObject['playerstats'];
-				}
-				$completed=true;
-			}
+            $completedTemp[]=$gameObject;
+
 		}
         
-        // close cURL resource, and free up system resources
         curl_close($ct);
+
+        //create completedGames array;
+        foreach($completedTemp as $gameObject){
+
+            //echo $gameObject['playerstats']['gameName'];
+            if ((is_array($gameObject) || is_object($gameObject))&&(isset($gameObject['playerstats']['achievements']))){
+                $achObject=$gameObject['playerstats']['achievements'];
+                //print_r($gameObject);
+                foreach($achObject as $achievement){
+                    if($achievement['achieved']==0){
+                        $completed = false;
+                    }
+                }
+                if($completed==true){
+                    $completedGames[]=$gameObject['playerstats'];
+                }
+                $completed=true;
+            }
+
+        }
+
+        if(count($completedGames)==0){
+            echo "No games have been completed for this account";
+            exit;
+        }
+
+        // close cURL resou76561198031300233rce, and free up system resources
         return $completedGames;
 
 	}
@@ -337,29 +373,38 @@
         echo "SteamId64 is 17 digits long. Make sure it is entered correctly.";
         return;
     }
-     
+    
+    /*
+        first check if there is already session data for either astats or steam.
+        If not look for an astats account. 
+        If cant find astats account use steam to search. 
+        The steam process functions will check for errors regarding the existence of the account/whether
+        the account has any games completed.  
+    */
     if(isset($_SESSION["achievement_page"]) && isset($_SESSION["mysteamid"]) && $_SESSION["mysteamid"]==$steamid){
+
         $achievement_page = $_SESSION['achievement_page'];
         $source = 'astats'; 
+
+    }else if(isset($_SESSION["steam_games"]) && isset($_SESSION["mysteamid"]) && $_SESSION["mysteamid"]===$steamid){
+
+        $completed_games = $_SESSION['steam_games'];
+        $source = "steam_done";
+
     }else{
         
         $achievement_page = getAstatsInfo($steamid);
         
-        //Since steam isnt working just say cant find account. 
+        //DONT set session  mysteamid yet for steam, will get set below if provided id is valid. 
         if($achievement_page == "not found"){
-            //$source = 'steam';
-            echo "Couldn't find an astats profile with that id.";
-            session_unset();
-            session_destroy();
-            exit;
+            $source = 'steam';
         }else{
             $source = 'astats'; 
             $_SESSION['achievement_page'] = $achievement_page;
             $_SESSION['mysteamid'] = $steamid;
         }
     }
-     
-    $source = 'astats';
+    
     if($source == 'astats'){
         //slimpage gets just the game data html, remove most website styling. 
         preg_match("/<tbody>[\s\S]*<\/tbody>/",$achievement_page,$temp);
@@ -393,18 +438,17 @@
 
     //If we are pulling data from steam
     if($source == "steam"){
-        
-        if(isset($_SESSION["steam_games"]) && isset($_SESSION["mysteamid"]) && $_SESSION["mysteamid"]===$steamid){
-            $completed_games = $_SESSION['steam_games'];
-        }else{
-            $x = getPlayedGames(getSteamGames($steamid));
-            $completed_games = getCompletedGames($x,$steamid);
-            $_SESSION['steam_games'] = $completed_games;
-            $_SESSION['mysteamid'] = $steamid;
-        }     
-
+    
+        $x = getPlayedGames(getSteamGames($steamid));
+        $completed_games = getCompletedGames($x,$steamid);
+        $_SESSION['steam_games'] = $completed_games;
+        $_SESSION['mysteamid'] = $steamid;
+          
         $names = array_column($completed_games,'gameName'); 
-            
+    } 
+
+    if($source == "steam_done"){ 
+
         foreach($completed_games as $game){
             
              $total[] = count($game['achievements']);
@@ -413,9 +457,11 @@
              $dates[] = date("Y-m-d",max($achievement_times));
 
         }
+
         //sort dates descending order, sort names and total based on dates. 
         array_multisort($dates,SORT_DESC,$names,$total);
     }
+    
         
     // ***** BEGIN MAIN ALGORITHM, RUNS REGARDLESS OF STEAM OR ASTATS SOURCE FROM HERE ON. *******
 
