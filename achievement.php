@@ -172,6 +172,8 @@
 
 		if(!$achievement_page){
 			echo "ERROR: Failed to connect to astats site.";
+            session_unset();
+            session_destroy();
 			exit;
 		}
 
@@ -181,11 +183,15 @@
         
         if(empty($achievement_page)){
             echo "Enter a SteamId64: Should be 17 digits long\nMake sure the account has an astats profile generated.";
-			exit;
+	        session_unset();
+            session_destroy();
+    		exit;
         }
 
 		if(preg_match('/No results/',$achievement_page)){
 			echo "Didn't find any 100% completed games.";
+            session_unset();
+            session_destroy();
 			exit;
 		}
 
@@ -332,20 +338,25 @@
         return;
     }
      
-    if(isset($_SESSION["achievement_page"]) && isset($_SESSION["steamid"]) && $_SESSION["steamid"]==$steamid){
+    if(isset($_SESSION["achievement_page"]) && isset($_SESSION["mysteamid"]) && $_SESSION["mysteamid"]==$steamid){
         $achievement_page = $_SESSION['achievement_page'];
         $source = 'astats'; 
     }else{
         
         $achievement_page = getAstatsInfo($steamid);
         
-    //    if($achievement_page == "not found"){
-   //         $source = 'steam'; 
-    //    }else{
+        //Since steam isnt working just say cant find account. 
+        if($achievement_page == "not found"){
+            //$source = 'steam';
+            echo "Couldn't find an astats profile with that id.";
+            session_unset();
+            session_destroy();
+            exit;
+        }else{
             $source = 'astats'; 
             $_SESSION['achievement_page'] = $achievement_page;
-            $_SESSION['steamid'] = $steamid;
-   //     }
+            $_SESSION['mysteamid'] = $steamid;
+        }
     }
      
     $source = 'astats';
