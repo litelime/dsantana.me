@@ -1,22 +1,22 @@
-function ajaxlookup(event){
+function ajaxlookup(event) {
 
-	$("content").textContent="loading...please wait";
+	$("content").textContent = "loading...please wait";
 
 	var steamidy = $("steamid").value;
 	var num_col = $("num_column").checked;
 	var date_col = $("date_column").checked;
 
 	//Split options
-	if($("year").checked){
+	if ($("year").checked) {
 		var split_opt = "year";
-	}else{
+	} else {
 		var split_opt = "month";
 	}
 
 	//char Options
 	var e = $("charOption");
 	var char = e.options[e.selectedIndex].value;
-	if(char=="blank"){
+	if (char=="blank"){
 		char = String.fromCharCode(8194);
 	}
 
@@ -46,7 +46,7 @@ function ajaxlookup(event){
 								split: split_opt,
 								schar: char,
 								sort: sortopt,
-                                surrChar:surrounding,
+                                surrChar:surrounding
 							}
 						}
 	);
@@ -58,7 +58,7 @@ function failure(ajax) {
 	console.log(ajax.statusText);
 }
 
-function success(ajax){
+function success(ajax) {
 
 	$("copyButton").disabled = false;
 	$("copyButton").textContent = "Copy to Clipboard";
@@ -95,16 +95,14 @@ function hideandshow(elem){
 	var hide = $("hide");
 
     if (hide.style.display === 'none') {
-    	mover.textContent = "Hide Examples";
+    	mover.textContent = "Hide Examples (More room for output)";
     	right.style.width = "25%";
-    	mover.style.width="40%";
     	center.style.width = "30%";
         hide.style.display = 'block';
     } else {
-    	center.style.width = "45%";
+    	center.style.width = "55%";
     	mover.textContent = "Show Examples";
-    	mover.style.width="100%";
-    	right.style.width = "10%";
+    	right.style.width = "0%";
         hide.style.display = 'none';
     }
 

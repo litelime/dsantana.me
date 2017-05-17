@@ -289,7 +289,8 @@
             $gameObject=json_decode(curl_exec($ct),true);
 
             if(curl_errno($ct)){
-                echo 'Curl error: ' . curl_error($ct);
+                echo 'Error: Failed to connect to steam';
+                exit;
             }
             
             $completedTemp[]=$gameObject;

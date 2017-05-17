@@ -10,8 +10,8 @@
 
 	<head>
 		<title>Steam Achievement Formatter</title>
-		<link href="achievement.css?ver=1.4" rel="stylesheet" type="text/css" /> 
-		<script type="text/javascript" src="achievement.js?ver=1.4"></script>
+		<link href="achievement.css?ver=1.5" rel="stylesheet" type="text/css" /> 
+		<script type="text/javascript" src="achievement.js?ver=1.5"></script>
 		<script type="text/javascript" src="prototype.js"></script>
 	</head>
 
@@ -33,12 +33,13 @@
 					and put them into a format that looks decent in a steam info box. </dd>
 					<dt>Requirements:</dt>
 					<dd>-It is recommended you have or make an <a href='http://astats.astats.nl/astats/index.php'>astats</a> profile if you have a decent sized library (50+) of games.</dd>
+                    <dd>Steam profile must be public.</dd>
 					<dd>-You need to know the steamid64. Don't know what yours is? 
 					Go <a href='help.html'>here</a> for help or you can login through steam below.</dd>
 				</dl>
 
 					Your steamid64: <input name="userid" id="steamid" type='text' autocomplete="on">
-					<input id='button' type='submit' value='Create Text'><br/><br/>
+					<input id='button' type='submit' value='Update Text'><br/><br/>
 
 					<?php
 						if(!isset($_SESSION['steamid'])) {
@@ -56,13 +57,14 @@
 					?>  
 				<div id="options">
 					<h2>Options</h2>
-					<ul>
-						<li><input type="checkbox" id="num_column" name="num_column" value="num_column" checked="checked"/>
-						Number of Achievements Column</li>
-						<li><input type="checkbox" id="date_column" name="date_column" value="date_column" checked="checked"/>
-						Date of Achievements Column</li>
-		  				<li><input type="radio" name="split" id="year" value="year" checked="checked"/>Split by Year
-		  				<input type="radio" name="split" id="month" value="month"/>Split by Month</li>
+					<ul id="optionsul">
+                        Click update text to apply options<br/><br/>
+						<li><label><input type="checkbox" id="num_column" name="num_column" value="num_column" checked="checked"/>
+                            Number of Achievements Column</label></li>
+						<li><label><input type="checkbox" id="date_column" name="date_column" value="date_column" checked="checked"/>
+                            Date of Achievements Column</label></li>
+                        <li><label><input type="radio" name="split" id="year" value="year" checked="checked"/>Split by Year</label>
+                            <label><input type="radio" name="split" id="month" value="month"/>Split by Month</label></li>
 		  				<li>Seperation Options
 		  				<select id='charOption'>
 							<option value="*">Asterisk *</option>
@@ -89,20 +91,20 @@
                             <option value="none">None</option>
 						</select>
 						</li>
+                        <button id="mover">Hide Examples (More room for output)</button>
 	  				</ul>
   				</div>
   				<dl>
   					<dt>Notes:</dt>
+                    <dd>-Once you've loaded the games the first time they will load faster afterwards, feel free to try lots of different settings!</dd>
                     <dd>-Unfortunately because of steam info box char limits you will only be able to fit a limited amount of your 100% games.</dd>
-                    <dd>-Once you've loaded the games once you do not have to load it all again while you're on the page, feel free to try lots of different settings!</dd> 
                     <dd>-astats profile is recommended because if you have lots of games the site will need to check steam for every one of them which will take a while, astats profile makes it faster to get a list of the 100% completed games.</dd>
                 </dl>
 			</div>
 
 			<div id="right">
-					<button id="mover">Hide Examples</button>
 					<div id='hide'>
-						<br/><br/>Examples of what output looks like in the steam info box.<br/><br/>
+						Examples of what output looks like in the steam info box.<br/><br/>
 						With options of every column selected and split by year.<br/>
 						<img src='astatsexample.png' alt='Example output split by year'/>
 						With options of date column only and split by month<br/>
