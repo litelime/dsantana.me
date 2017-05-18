@@ -93,15 +93,15 @@ function hideandshow(elem){
 	var mover = $("mover");
 	var center = $("center");
 	var hide = $("hide");
-
-    if (hide.style.display === 'none') {
-    	mover.textContent = "Hide Examples (More room for output)";
+    
+    if (mover.textContent == "Output Examples") {
+        mover.textContent = "Hide";
     	right.style.width = "25%";
-    	center.style.width = "30%";
+    	center.style.width = "25%";
         hide.style.display = 'block';
     } else {
-    	center.style.width = "55%";
-    	mover.textContent = "Show Examples";
+        center.style.width = "50%";
+        mover.textContent = "Output Examples";
     	right.style.width = "0%";
         hide.style.display = 'none';
     }

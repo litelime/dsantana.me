@@ -10,8 +10,8 @@
 
 	<head>
 		<title>Steam Achievement Formatter</title>
-		<link href="achievement.css?ver=1.5" rel="stylesheet" type="text/css" /> 
-		<script type="text/javascript" src="achievement.js?ver=1.5"></script>
+		<link href="achievement.css?ver=1.6" rel="stylesheet" type="text/css" /> 
+		<script type="text/javascript" src="achievement.js?ver=1.6"></script>
 		<script type="text/javascript" src="prototype.js"></script>
 	</head>
 
@@ -19,7 +19,7 @@
 		<h1>Steam Achievement Formatter</h1>
 
 			<div id='center'>
-				<textarea id="content" rows="40" readonly>Copy/Paste from here</textarea>
+				<textarea id="content" rows="35" readonly>Copy/Paste from here</textarea>
 				<p>Copy and paste the text that is output above into your steam custom info box.<br/>
 				NOTICE: Text may look very misaligned on this page, but looks better once placed in steam.  
 				</p>
@@ -32,8 +32,8 @@
 					<dd>Take all your perfect games (100% Achievements Completed) 
 					and put them into a format that looks decent in a steam info box. </dd>
 					<dt>Requirements:</dt>
-					<dd>-Need an <a href='http://astats.astats.nl/astats/index.php'>astats</a> profile.</dd>
-					<dd>-You need to know the steamid64. Don't know what yours is? 
+					<dd>- Need an <a href='http://astats.astats.nl/astats/index.php'>astats</a> profile.</dd>
+					<dd>- You need to know the steamid64. Don't know what yours is? 
 					Go <a href='help.html'>here</a> for help or you can login through steam below.</dd>
 				</dl>
 
@@ -90,24 +90,25 @@
                             <option value="none">None</option>
 						</select>
 						</li>
-                        <button id="mover">Hide Examples (More room for output)</button>
+                        <button id="mover">Output Examples</button>
 	  				</ul>
   				</div>
   				<dl>
   					<dt>Notes:</dt>
-                    <dd>-Once you've loaded the games the first time they will load faster afterwards, feel free to try lots of different settings!</dd>
-                    <dd>-Unfortunately because of steam info box char limits you will only be able to fit a limited amount of your 100% games.</dd>
+                    <dd>- Once you've loaded the games the first time they will load faster afterwards, feel free to try lots of different settings!</dd>
+                    <dd>- Unfortunately because of steam info box char limits you will only be able to fit a limited amount of your 100% games.</dd>
+                    <dd>- Questions/Issues/Suggestions: dsantanaprof@gmail.com</dd>
+
                 </dl>
 			</div>
 
 			<div id="right">
 					<div id='hide'>
-						Examples of what output looks like in the steam info box.<br/><br/>
+						Examples<br/><br/>
 						With options of every column selected and split by year.<br/>
 						<img src='astatsexample.png' alt='Example output split by year'/>
 						With options of date column only and split by month<br/>
 						<img src='astatsmonthexample.png' alt='Example output split by month'/>
-						<p>Created By David Santana --- Questions/Issues/Suggestions: dsantanaprof@gmail.com</p>
 					</div>
 			</div>
 	</body>

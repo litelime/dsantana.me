@@ -1,7 +1,7 @@
-
 html,body{
-    background: #ccffcc;
-    background: linear-gradient(#99d3df,#88bbd6); /* Standard syntax */
+    margin:0;
+    padding: 0;
+    background: #99d3df; 
 	font-size: 17px;
     font-family: "Rockwell", "Courier New", Courier, Georgia,
                  Times, "Times New Roman", serif;
@@ -11,6 +11,11 @@ h1{
 	color:#0d0d0d;
 	text-align: center;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+    padding: 0;
+}
+
+dl{
+    margin:0;
 }
 
 dt{
@@ -18,26 +23,67 @@ dt{
 }
 
 dd{
-     margin: 5px 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 
 #left{ 
 	float: left; 
-	width: 40%; 
+	width: 45%; 
 	margin:15px;
 }
+
+#options{
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 15px;
+    padding: 5px;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+
+#optionsul {
+    display: inline-block;
+    text-align: left;
+}
+
+
 #right{ 
 	float: right; 
-	width: 25%; 
-	margin-right:0;
-	padding-right: 0;
-	margin-left: 5px;
+	width: 0%; 
+    text-align: center;
+}
+
+#right img{
+    margin:10px;
+    width: 95%;
+    
+}
+
+#hide{
+    display: none;
 }
 
 #center{ 
 	display: inline-block; 
-	width: 30%; 
+	width: 50%; 
+}
+
+textarea{
+	background-color: #46515b;
+    font-size: 12pt;
+    color: white;
+    font-family: "courier new", Courier, Georgia,
+                 Times, "Times New Roman", serif;
+	width:100%;
+	resize:none;
+}
+
+li{
+    margin: 10px 0;    
 }
 
 ul.help{
@@ -52,26 +98,6 @@ ul.help{
     text-align:center;
 }
 
-input[type=checkbox]{
-
-	text-align: left;
-}
-
-#options{
-    border-style: solid;
-    border-width: 2px;
-    border-radius: 15px;
-    padding: 5px;
-    text-align: center;
-
-}
-
-#right img{
-    margin-bottom: 10px;
-    margin-top:10px;
-    
-}
-
 li.help{
     display: block;
     color: black;
@@ -79,6 +105,10 @@ li.help{
     font-family: "Rockwell";
     padding: 8px 16px;
     text-decoration: none;
+}
+
+input[type=checkbox]{
+	text-align: left;
 }
 
 #mover{
@@ -98,26 +128,6 @@ li.help{
 	bottom:10%;
 	font-size: 30pt;
 	align-content: center;
-}
-
-textarea{
-	background-color: #46515b;
-    font-size: 12pt;
-    color: white;
-    font-family: "courier new", Courier, Georgia,
-                 Times, "Times New Roman", serif;
-	width:100%;
-	resize:none;
-}
-
-
-#optionsul {
-    display: inline-block;
-    text-align: left;
-}
-
-li{
-    margin: 10px 0;    
 }
 
 h2 {
