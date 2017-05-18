@@ -1,7 +1,5 @@
 function ajaxlookup(event) {
-
-	$("content").textContent = "loading...please wait";
-
+    
 	var steamidy = $("steamid").value;
 	var num_col = $("num_column").checked;
 	var date_col = $("date_column").checked;
@@ -35,7 +33,24 @@ function ajaxlookup(event) {
 	console.log(sortopt);
     console.log(surrounding);
 
-	new Ajax.Request("achievement.php", {
+    if(event.srcElement.id=="updater")
+        steamidy = $("entered").textContent;
+    
+    if(!steamidy.match(/\d{17}/)){
+        $("content").textContent = "The steam id entered is not valid.\nEnter a 17 digit value";
+        if (!$("entered").textContent.includes("None Yet")){
+            $("content").textContent+="\nOr click Update Text to see output for id: "+$("entered").textContent;
+        }
+        return;
+    }
+    
+    $("updater").disabled=false;
+    
+    $("entered").textContent = steamidy;
+
+    $("content").textContent = "loading...please wait";
+    
+	new Ajax.Request("achievement_site/achievement.php", {
 							onSuccess: success,
 							onFailure: failure,				
 							parameters:
@@ -112,4 +127,5 @@ window.onload = function() {
     $("button").onclick = ajaxlookup;
     $("copyButton").onclick = copyToClipboard;
     $("mover").onclick = hideandshow;
+    $("updater").onclick = ajaxlookup;
 }

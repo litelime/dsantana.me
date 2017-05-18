@@ -322,29 +322,8 @@
 
 	}
 
-	if(
-       isset($_POST["steamid"]) && isset($_POST["date_column"]) && isset($_POST["num_column"]) 
-	&& isset($_POST["split"])   && isset($_POST["schar"])       && isset($_POST["sort"])      
-    && isset($_POST["surrChar"])
-        )
-	{
-       $steamid = htmlspecialchars($_POST["steamid"]);
-       $date_column = $_POST['date_column'];
-       $num_column =  $_POST["num_column"];
-       $split = $_POST["split"];
-       $schar = $_POST["schar"];
-       $sort = $_POST["sort"];
-       $surrChar = $_POST['surrChar'];
-        
-	}else{
-		echo "Enter a SteamId64: Should be 17 digits long";
-        return;
-	}
 
-    if(strlen($steamid)!=17){
-        echo "SteamId64 is 17 digits long. Make sure it is entered correctly.";
-        return;
-    }
+//*****   MAIN    ********
     
     /*
         first check if there is already session data for either astats or steam.
@@ -353,17 +332,41 @@
         The steam process functions will check for errors regarding the existence of the account/whether
         the account has any games completed.  
     */
-    if(isset($_SESSION["achievement_page"]) && isset($_SESSION["mysteamid"]) && $_SESSION["mysteamid"]==$steamid){
 
+            
+        if(
+       isset($_POST["steamid"]) && isset($_POST["date_column"]) && isset($_POST["num_column"]) 
+	&& isset($_POST["split"])   && isset($_POST["schar"])       && isset($_POST["sort"])      
+    && isset($_POST["surrChar"]) && isset($_POST['steamid'])
+        ){
+            
+       $date_column = $_POST['date_column'];
+       $num_column =  $_POST["num_column"];
+       $split = $_POST["split"];
+       $schar = $_POST["schar"];
+       $sort = $_POST["sort"];
+       $surrChar = $_POST['surrChar'];
+       $steamid = htmlspecialchars($_POST["steamid"]);
+
+            
+	}else{
+		echo "Enter a SteamId64: Should be 17 digits long";
+        return;
+	}
+        
+    if(isset($_SESSION["achievement_page"]) && isset($_SESSION["mysteamid"]) && $_SESSION["mysteamid"]==$steamid){
         $achievement_page = $_SESSION['achievement_page'];
         $source = 'astats'; 
+        $_SESSION['homesteamid'] = $steamid;
+/*
+    }else if(isset($_SESSION["steam_games"]) && isset($_SESSION["mysteamid"]) && $_SESSION["mysteamid"]===$steamid){
 
- //   }else if(isset($_SESSION["steam_games"]) && isset($_SESSION["mysteamid"]) && $_SESSION["mysteamid"]===$steamid){
-
- //       $completed_games = $_SESSION['steam_games'];
-   //     $source = "steam_done";
-
+        $completed_games = $_SESSION['steam_games'];
+        $source = "steam_done";
+*/
     }else{
+        
+        unset($_SESSION['homesteamid']);
         
         $achievement_page = getAstatsInfo($steamid);
         

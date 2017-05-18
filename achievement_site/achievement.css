@@ -113,7 +113,14 @@ input[type=checkbox]{
 
 #mover{
 	height:30px;
-	width:100%;
+	width:45%;
+    float:left;
+}
+
+#updater{
+	height:30px;
+	width:45%;
+    float:right;
 }
 
 #button{
