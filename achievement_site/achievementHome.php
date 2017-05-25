@@ -10,9 +10,9 @@
 
 	<head>
 		<title>Steam Achievement Formatter</title>
-		<link href="../achievement_site/achievement.css?ver=1.2" rel="stylesheet" type="text/css" /> 
-		<script type="text/javascript" src="../achievement_site/achievement.js?ver=1.3"></script>
-		<script type="text/javascript" src="../prototype.js"></script>
+		<link href="achievement_site/achievement.css?ver=1.5" rel="stylesheet" type="text/css" /> 
+		<script type="text/javascript" src="achievement_site/achievement.js?ver=1.5"></script>
+		<script type="text/javascript" src="achievement_site/prototype.js"></script>
 	</head>
 
 	<body>
@@ -34,7 +34,7 @@
 					<dt>Requirements:</dt>
 					<dd>- Need an <a href='http://astats.astats.nl/astats/index.php'>astats</a> profile.</dd>
 					<dd>- You need to know the steamid64. Don't know what yours is? 
-					Go <a href='../achievement_site/help.html'>here</a> for help or you can login through steam below.</dd>
+					Go <a href='achievement_site/help.html'>here</a> for help or you can login through steam below.</dd>
 				</dl>
 
 					Your steamid64: <input name="userid" id="steamid" type='text' autocomplete="on">
@@ -44,7 +44,7 @@
 						if(!isset($_SESSION['steamid'])) {
 						    loginbutton(); //login button
 						}  else {
-						    include ('../achievement_site/steamauth/userInfo.php');
+						    include ('achievement_site/steamauth/userInfo.php');
 
 						    echo "Welcome " . $steamprofile['personaname'] . "<br/>";
 						    echo "Your steamid64 is ". $steamprofile['steamid'];
@@ -113,9 +113,9 @@
 					<div id='hide'>
 						Examples<br/><br/>
 						With options of every column selected and split by year.<br/>
-						<img src='../achievement_site/astatsexample.png' alt='Example output split by year'/>
+						<img src='achievement_site/astatsexample.png' alt='Example output split by year'/>
 						With options of date column only and split by month<br/>
-						<img src='../achievement_site/astatsmonthexample.png' alt='Example output split by month'/>
+						<img src='achievement_site/astatsmonthexample.png' alt='Example output split by month'/>
 					</div>
 			</div>
 	</body>

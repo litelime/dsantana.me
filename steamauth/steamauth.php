@@ -7,7 +7,7 @@ function logoutbutton() {
 }
 
 function loginbutton($buttonstyle = "square") {
-	$button = "<a href='?login'><img src='../achievement_site/sits_large_noborder.png' alt='sign in button'></a>";
+	$button = "<a href='?login'><img src='achievement_site/sits_large_noborder.png' alt='sign in button'></a>";
 	echo $button;
 }
 
