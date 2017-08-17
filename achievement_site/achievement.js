@@ -46,6 +46,8 @@ function ajaxlookup(event) {
     
     $("updater").disabled=false;
     
+    $("spacing").disabled=false;
+    
     $("entered").textContent = steamidy;
 
     $("content").textContent = "loading...please wait";
@@ -77,9 +79,44 @@ function success(ajax) {
 
 	$("copyButton").disabled = false;
 	$("copyButton").textContent = "Copy to Clipboard";
-	$("content").textContent = ajax.responseText;
+    
+    var response = ajax.responseText;
+    
+    //char Options
+	var e = $("charOption");
+	var char = e.options[e.selectedIndex].value;
+	if (char=="blank"){
+		char = String.fromCharCode(8194);
+	}
+    
+	$("content").textContent = response;
+    
+    $("spacing").max=getLongestCharSequence(response,char);
 
+    
 }	
+
+function getLongestCharSequence(response,char){
+    
+    
+    var lines = response.split('\n');
+    
+    var count = 0;
+    var greatest = 0;
+        
+    for(var i = 0; i < lines.length; i++){
+        for(var j=0; j < lines[i].length; j++){
+            if(lines[i].charAt(j)==char)
+                count++;
+        }
+        if(count>greatest){
+            greatest = count;
+            count=0;
+        }
+    }
+
+    return greatest;
+}
 
 function copyToClipboard(elem) {
 
@@ -123,9 +160,39 @@ function hideandshow(elem){
 
 }
 
+function changeOutput(){
+    
+    var e = $("charOption");
+	var char = e.options[e.selectedIndex].value;
+	if (char=="blank"){
+		char = String.fromCharCode(8194);
+	}
+    
+    var spaceVal = $("spacing").value;
+    var subtract = $("spacing").max - spaceVal;
+    
+    var allText = $("content").textContent;
+    
+    var lines = allText.split('\n');
+
+    var newlines="";
+        
+    for (var i=0; i < lines.length; i++){
+        for(var j=0; j<subtract; j++){
+            lines[i] = lines[i].replace(char,"");
+        }
+        newlines = newlines.concat(lines[i]);
+        newlines = newlines.concat("\n");
+    }
+        
+    $("content").textContent = newlines;
+    
+}
+
 window.onload = function() {
     $("button").onclick = ajaxlookup;
     $("copyButton").onclick = copyToClipboard;
     $("mover").onclick = hideandshow;
     $("updater").onclick = ajaxlookup;
+    $("spacing").onchange = changeOutput;
 }

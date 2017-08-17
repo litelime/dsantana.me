@@ -10,8 +10,8 @@
 
 	<head>
 		<title>Steam Achievement Formatter</title>
-		<link href="achievement_site/achievement.css?ver=1.5" rel="stylesheet" type="text/css" /> 
-		<script type="text/javascript" src="achievement_site/achievement.js?ver=1.5"></script>
+		<link href="achievement_site/achievement.css?ver=1.1" rel="stylesheet" type="text/css" /> 
+		<script type="text/javascript" src="achievement_site/achievement.js?ver=1.1"></script>
 		<script type="text/javascript" src="achievement_site/prototype.js"></script>
 	</head>
 
@@ -64,7 +64,8 @@
 
                         ?>
                         Click update text to apply options<br/><br/>
-						<li><label><input type="checkbox" id="num_column" name="num_column" value="num_column" checked="checked"/>
+                        
+                        <li><label><input type="checkbox" id="num_column" name="num_column" value="num_column" checked="checked"/>
                             Number of Achievements Column</label></li>
 						<li><label><input type="checkbox" id="date_column" name="date_column" value="date_column" checked="checked"/>
                             Date of Achievements Column</label></li>
@@ -104,8 +105,8 @@
   					<dt>Notes:</dt>
                     <dd>- Once you've loaded the games the first time they will load faster afterwards, feel free to try lots of different settings!</dd>
                     <dd>- Unfortunately because of steam info box char limits you will only be able to fit a limited amount of your 100% games.</dd>
-                    <dd>- Questions/Issues/Suggestions: dsantanaprof@gmail.com</dd>
-
+                    <dd>- For Questions/Issues/Suggestions email dsantanaprof@gmail.com</dd>
+                    <dd>- You can <a href=https://www.paypal.me/litelime>send me a dolla</a> if you found the site useful.</dd>
                 </dl>
 			</div>
 
