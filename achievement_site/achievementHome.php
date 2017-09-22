@@ -3,8 +3,8 @@
 <html>
 	<head>
 		<title>Steam Achievement Formatter</title>
-		<link href="achievement_site/achievement.css?ver=1.2" rel="stylesheet" type="text/css" /> 
-		<script type="text/javascript" src="achievement_site/achievement.js?ver=1.2"></script>
+		<link href="achievement_site/achievement.css?ver=1.0" rel="stylesheet" type="text/css" /> 
+		<script type="text/javascript" src="achievement_site/achievement.js?ver=1.0"></script>
 		<script type="text/javascript" src="achievement_site/prototype.js"></script>
 	</head>
 
@@ -27,7 +27,7 @@
 					<dt>Requirements:</dt>
 					<dd>- Need an <a href='http://astats.astats.nl/astats/index.php'>astats</a> profile.</dd>
 					<dd>- You need to know the steamid64. Don't know what yours is? 
-					Go <a href='achievement_site/help.html'>here</a> for help or you can login through steam below.</dd>
+					Go <a href='achievement_site/help.html'>here</a> for help on finding your steamid64</dd>
 				</dl>
 
 					Your steamid64: <input name="userid" id="steamid" type='text' autocomplete="on">
