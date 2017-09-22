@@ -20,8 +20,7 @@ function ajaxlookup(event) {
 
 	var j = $("sortOption");
 	var sortopt = j.options[j.selectedIndex].value;
-
-    
+ 
 	var k = $("closeOption");
 	var surrounding = k.options[k.selectedIndex].value;
     
@@ -120,6 +119,33 @@ function hideandshow(elem){
     	right.style.width = "0%";
         hide.style.display = 'none';
     }
+}
+
+function preset(elem){
+
+	var presetBox = $("presets");
+
+	var presetString = presetBox.options[presetBox.selectedIndex].value;
+
+	if(presetString=="amap"){
+		$("num_column").checked=false;
+		$("date_column").checked=false;
+		$("year").checked=true;
+		$("charOption").selectedIndex=6;
+		$("closeOption").selectedIndex=3;
+	}else if (presetString=="info"){
+		$("num_column").checked=true;
+		$("date_column").checked=true;
+		$("month").checked=true;
+		$("charOption").selectedIndex=0;
+		$("closeOption").selectedIndex=2;
+	}else if(presetString=="mine"){
+		$("num_column").checked=false;
+		$("date_column").checked=true;
+		$("month").checked=true;
+		$("charOption").selectedIndex=6;
+		$("closeOption").selectedIndex=2;
+	}
 
 }
 
@@ -128,4 +154,10 @@ window.onload = function() {
     $("copyButton").onclick = copyToClipboard;
     $("mover").onclick = hideandshow;
     $("updater").onclick = ajaxlookup;
+    $("presets").onchange = preset;
+    $("num_column").checked=false;
+	$("date_column").checked=false;
+	$("year").checked=true;
+	$("charOption").selectedIndex=6;
+	$("closeOption").selectedIndex=3;
 }

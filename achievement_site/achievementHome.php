@@ -1,17 +1,10 @@
-<?php
-	//sign in through steam. 
-    require ('steamauth/steamauth.php');
-	//You would uncomment the line beneath to make it refresh the data every time the page is loaded
-	// unset($_SESSION['steam_uptodate']);
-?>
 <!DOCTYPE html>
 
 <html>
-
 	<head>
 		<title>Steam Achievement Formatter</title>
-		<link href="achievement_site/achievement.css?ver=1.5" rel="stylesheet" type="text/css" /> 
-		<script type="text/javascript" src="achievement_site/achievement.js?ver=1.5"></script>
+		<link href="achievement_site/achievement.css?ver=1.2" rel="stylesheet" type="text/css" /> 
+		<script type="text/javascript" src="achievement_site/achievement.js?ver=1.2"></script>
 		<script type="text/javascript" src="achievement_site/prototype.js"></script>
 	</head>
 
@@ -39,38 +32,26 @@
 
 					Your steamid64: <input name="userid" id="steamid" type='text' autocomplete="on">
 					<input id='button' type='submit' value='Load Profile'><br/><br/>
-                
-					<?php
-						if(!isset($_SESSION['steamid'])) {
-						    loginbutton(); //login button
-						}  else {
-						    include ('achievement_site/steamauth/userInfo.php');
+					Using Steam id:<div id="entered"></div>
 
-						    echo "Welcome " . $steamprofile['personaname'] . "<br/>";
-						    echo "Your steamid64 is ". $steamprofile['steamid'];
-						    
-						    logoutbutton();
-						}
-
-					?>  
 				<div id="options">
 					<h2>Options</h2>
 					<ul id="optionsul">
-                        <?php
-                            if(isset($_SESSION['homesteamid']))
-                                echo "Using id: <span id=entered>". $_SESSION['homesteamid']."</span><br/>";
-                            else
-                                echo "Using id: <span id=entered>None Yet</span><br/>"
-
-                        ?>
                         Click update text to apply options<br/><br/>
+                        <li>Presets
+		  				<select id='presets'>
+							<option value="amap">Fit As Many Games As Possible</option>
+							<option value="info">Show as much info as possible</option>
+							<option value="mine">Creator's Favorite</option>
+						</select>
+						</li>
 						<li><label><input type="checkbox" id="num_column" name="num_column" value="num_column" checked="checked"/>
                             Number of Achievements Column</label></li>
 						<li><label><input type="checkbox" id="date_column" name="date_column" value="date_column" checked="checked"/>
                             Date of Achievements Column</label></li>
                         <li><label><input type="radio" name="split" id="year" value="year" checked="checked"/>Split by Year</label>
                             <label><input type="radio" name="split" id="month" value="month"/>Split by Month</label></li>
-		  				<li>Seperation Options
+		  				<li>Seperation
 		  				<select id='charOption'>
 							<option value="*">Asterisk *</option>
 							<option value=":">Colon :</option>
@@ -82,13 +63,13 @@
 							<option value="">No Spacing</option>
 						</select>
 						</li>
-						<li>Sorting Options
+						<li>Sorting
 						<select id='sortOption'>
 							<option value="dateD">Date Descending</option>
 							<option value="dateA">Date Ascending</option>
 						</select>
 						</li>
-                        <li>Enclosing Options
+                        <li>Enclosing
 						<select id="closeOption">
                             <option value="[]">Square Brackets []</option>
 							<option value="()">Parenthesis ()</option>
@@ -103,7 +84,7 @@
   				<dl>
   					<dt>Notes:</dt>
                     <dd>- Once you've loaded the games the first time they will load faster afterwards, feel free to try lots of different settings!</dd>
-                    <dd>- Unfortunately because of steam info box char limits you will only be able to fit a limited amount of your 100% games.</dd>
+                    <dd>- Unfortunately because of steam info box char limits you will only be able to fit a limited amount of your 100% games. Use presets to include as many as possible</dd>
                     <dd>- Questions/Issues/Suggestions: dsantanaprof@gmail.com</dd>
 
                 </dl>
