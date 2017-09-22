@@ -45,6 +45,8 @@ function ajaxlookup(event) {
     
     $("updater").disabled=false;
     
+    $("spacing").disabled=false;
+    
     $("entered").textContent = steamidy;
 
     $("content").textContent = "loading...please wait";
@@ -76,9 +78,44 @@ function success(ajax) {
 
 	$("copyButton").disabled = false;
 	$("copyButton").textContent = "Copy to Clipboard";
-	$("content").textContent = ajax.responseText;
+    
+    var response = ajax.responseText;
+    
+    //char Options
+	var e = $("charOption");
+	var char = e.options[e.selectedIndex].value;
+	if (char=="blank"){
+		char = String.fromCharCode(8194);
+	}
+    
+	$("content").textContent = response;
+    
+    $("spacing").max=getLongestCharSequence(response,char);
 
+    
 }	
+
+function getLongestCharSequence(response,char){
+    
+    
+    var lines = response.split('\n');
+    
+    var count = 0;
+    var greatest = 0;
+        
+    for(var i = 0; i < lines.length; i++){
+        for(var j=0; j < lines[i].length; j++){
+            if(lines[i].charAt(j)==char)
+                count++;
+        }
+        if(count>greatest){
+            greatest = count;
+            count=0;
+        }
+    }
+
+    return greatest;
+}
 
 function copyToClipboard(elem) {
 
@@ -160,4 +197,5 @@ window.onload = function() {
 	$("year").checked=true;
 	$("charOption").selectedIndex=6;
 	$("closeOption").selectedIndex=3;
+
 }
