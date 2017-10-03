@@ -3,13 +3,8 @@
 <html>
 	<head>
 		<title>Steam Achievement Formatter</title>
-<<<<<<< HEAD
-		<link href="achievement_site/achievement.css?ver=1.0" rel="stylesheet" type="text/css" /> 
-		<script type="text/javascript" src="achievement_site/achievement.js?ver=1.0"></script>
-=======
-		<link href="achievement_site/achievement.css?ver=1.1" rel="stylesheet" type="text/css" /> 
-		<script type="text/javascript" src="achievement_site/achievement.js?ver=1.1"></script>
->>>>>>> c614e88731b7c69b286ab33b3ca067e41ab155ef
+		<link href="achievement_site/achievement.css?ver=1.3" rel="stylesheet" type="text/css" /> 
+		<script type="text/javascript" src="achievement_site/achievement.js?ver=1.3"></script>
 		<script type="text/javascript" src="achievement_site/prototype.js"></script>
 	</head>
 
@@ -37,25 +32,20 @@
 
 					Your steamid64: <input name="userid" id="steamid" type='text' autocomplete="on">
 					<input id='button' type='submit' value='Load Profile'><br/><br/>
-					Using Steam id:<div id="entered"></div>
+					Using Steam id:<div id="entered">None Yet</div>
 
 				<div id="options">
 					<h2>Options</h2>
 					<ul id="optionsul">
                         Click update text to apply options<br/><br/>
-<<<<<<< HEAD
                         <li>Presets
 		  				<select id='presets'>
 							<option value="amap">Fit As Many Games As Possible</option>
 							<option value="info">Show as much info as possible</option>
 							<option value="mine">Creator's Favorite</option>
 						</select>
-						</li>
-						<li><label><input type="checkbox" id="num_column" name="num_column" value="num_column" checked="checked"/>
-=======
-                        
+						</li>                        
                         <li><label><input type="checkbox" id="num_column" name="num_column" value="num_column" checked="checked"/>
->>>>>>> c614e88731b7c69b286ab33b3ca067e41ab155ef
                             Number of Achievements Column</label></li>
 						<li><label><input type="checkbox" id="date_column" name="date_column" value="date_column" checked="checked"/>
                             Date of Achievements Column</label></li>
@@ -94,15 +84,9 @@
   				<dl>
   					<dt>Notes:</dt>
                     <dd>- Once you've loaded the games the first time they will load faster afterwards, feel free to try lots of different settings!</dd>
-<<<<<<< HEAD
                     <dd>- Unfortunately because of steam info box char limits you will only be able to fit a limited amount of your 100% games. Use presets to include as many as possible</dd>
-                    <dd>- Questions/Issues/Suggestions: dsantanaprof@gmail.com</dd>
-
-=======
-                    <dd>- Unfortunately because of steam info box char limits you will only be able to fit a limited amount of your 100% games.</dd>
                     <dd>- For Questions/Issues/Suggestions email dsantanaprof@gmail.com</dd>
                     <dd>- You can <a href=https://www.paypal.me/litelime>send me a dolla</a> if you found the site useful.</dd>
->>>>>>> c614e88731b7c69b286ab33b3ca067e41ab155ef
                 </dl>
 			</div>
 

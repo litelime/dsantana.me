@@ -44,9 +44,7 @@ function ajaxlookup(event) {
     }
     
     $("updater").disabled=false;
-    
-    $("spacing").disabled=false;
-    
+        
     $("entered").textContent = steamidy;
 
     $("content").textContent = "loading...please wait";
@@ -104,15 +102,19 @@ function getLongestCharSequence(response,char){
     var greatest = 0;
         
     for(var i = 0; i < lines.length; i++){
+
         for(var j=0; j < lines[i].length; j++){
             if(lines[i].charAt(j)==char)
                 count++;
         }
+
+ 
         if(count>greatest){
             greatest = count;
             count=0;
         }
     }
+
 
     return greatest;
 }
