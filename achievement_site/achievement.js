@@ -197,5 +197,4 @@ window.onload = function() {
 	$("year").checked=true;
 	$("charOption").selectedIndex=6;
 	$("closeOption").selectedIndex=3;
-
 }
