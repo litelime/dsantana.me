@@ -1,6 +1,5 @@
 <?php 
     session_start();
-    set_time_limit(180);
 
 	/*
 		$array - array to add surrounding chars to each element

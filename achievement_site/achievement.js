@@ -3,12 +3,12 @@ function ajaxlookup(event) {
 	var steamidy = $("steamid").value;
 	var num_col = $("num_column").checked;
 	var date_col = $("date_column").checked;
-
+    var split_opt;
 	//Split options
 	if ($("year").checked) {
-		var split_opt = "year";
+		split_opt = "year";
 	} else {
-		var split_opt = "month";
+		split_opt = "month";
 	}
 
 	//char Options
@@ -44,9 +44,7 @@ function ajaxlookup(event) {
     }
     
     $("updater").disabled=false;
-    
-    $("spacing").disabled=false;
-    
+        
     $("entered").textContent = steamidy;
 
     $("content").textContent = "loading...please wait";
@@ -90,8 +88,6 @@ function success(ajax) {
     
 	$("content").textContent = response;
     
-    $("spacing").max=getLongestCharSequence(response,char);
-
     
 }	
 
