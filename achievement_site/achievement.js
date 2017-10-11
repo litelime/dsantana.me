@@ -1,3 +1,4 @@
+
 function ajaxlookup(event) {
     
 	var steamidy = $("steamid").value;
@@ -49,7 +50,7 @@ function ajaxlookup(event) {
 
     $("content").textContent = "loading...please wait";
     
-	new Ajax.Request("achievement_site/achievement.php", {
+	new Ajax.Request("./achievement.php", {
 							onSuccess: success,
 							onFailure: failure,				
 							parameters:
