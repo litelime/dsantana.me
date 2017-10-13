@@ -3,34 +3,59 @@
 <html>
 	<head>
 		<title>David Santana's Photos</title>
-		<link href="./image.css?ver=1.1" rel="stylesheet" type="text/css" /> 
+		<link href="./image.css?ver=1.0" rel="stylesheet" type="text/css" /> 
 		<script type="text/javascript" src="./prototype.js"></script>
-		<script type="text/javascript" src="./image.js"></script>
+		<script type="text/javascript" src="./image.js?ver=1.0"></script>
 
 	</head>
 
 	<body>
 
 		<?php
-				$allExif=getAllExif();
-				$dates = getDates($allExif);
+
+			$allExif=getAllExif();
+
+			$dates = getDates($allExif);
+
+			$year="2017";
+
+			if(isset($_POST['year'])){
+
+				$year=$_POST['year'];
+
+			}else{
+
+				$randIndex=rand(1,sizeof($allExif)-1);
+
+				$randFile=$allExif[$randIndex]["FileName"];
+				$randPath="../Fotos/".$randFile;
+
 				$years  = getYears($dates);
 
+				echo '<div id="mainBox">';
+				echo '<img id="main" src="';
+				echo $randPath;
+				echo '">';
+				echo "</div>";
+
+				echo "<div id='allPhotosBox'>";
+
+				echo '<div id="selectBox">';
 				//SELECT BOXES
-				echo "<label>Date Taken: ";
 		 		echo "<select disabled='disabled' name='date' id='date'>";
 		 		foreach ($years as $value ) {
 		 			echo "<option> {$value} </option>";
 		 		}
-				echo "</select><br>";
-				echo "</label></br>";
+				echo "</select>";
+				echo "</div>";
 
 				echo "<div id='allPhotos'>";
+				echo "<div id='allPhotosIn'>"; 
 
-				$printCount=1;
+			}
 
 				foreach ($dates as $date) {
-					if(substr($date, 0,4)==="2013"){
+					if(substr($date, 0,4)===$year){
 						$index = array_search($date, array_column($allExif, 'DateTimeOriginal'));
 						if(isset($allExif[$index]["FileName"])){
 							$fileName = $allExif[$index]["FileName"];
@@ -38,12 +63,14 @@
 							echo ' <img class="foto" src="';
 							echo $path;
 							echo '"> ';
-							if($printCount%5==0)
-								echo "</br>";
-							$printCount++;
 						}
 					}
 				}
+
+				if(!isset($_POST['year'])){
+					echo "</div></div></div>";
+				}
+
 
 			function getAllExif(){
 				opendir("../Fotos");
@@ -115,7 +142,7 @@
 				foreach ($allDates as $date) {
 					$date = substr($date, 0,4);
 					if(!in_array($date, $yearsArray)){
-						array_push($yearsArray, $date);
+						array_unshift($yearsArray, $date);
 					}
 				}
 
