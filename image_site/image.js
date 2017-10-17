@@ -28,6 +28,7 @@ function mainChange(event){
 	}
 	clicked.id="selected";
 	clicked.style.borderStyle="solid";
+	clicked.style.borderColor="#00FFFF";
 	console.log(path);
 	$("main").src=path;
 }
@@ -42,8 +43,6 @@ function datefailure(ajax) {
 function setScrollWidth(){
 
 		var children = $("allPhotosIn").childElements();
-
-		console.log(children);
 
 		var container_width=0;
 		var altwidth=0;
@@ -61,8 +60,6 @@ function setScrollWidth(){
 			container_width=altwidth;
 		}
 
-		console.log(container_width);
-
 	   $("allPhotosIn").setStyle(
 		   	{
 		   		width: container_width+"px"
@@ -79,6 +76,12 @@ function datesuccess(ajax) {
 	response = response.match(regex);
     $("allPhotosIn").innerHTML=response[0];
     $$('.foto').invoke('observe', 'click', mainChange);
+
+    var fotos = $$('.foto');
+   	fotos[0].style.borderStyle="solid";
+   	fotos[0].style.borderColor="#00FFFF";
+   	fotos[0].id="selected";
+   	$("main").src=fotos[0].src;
 	setScrollWidth();
 
 }	

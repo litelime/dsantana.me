@@ -25,12 +25,15 @@
 
 			}else{
 
-				$randIndex=rand(1,sizeof($allExif)-1);
+				$years  = getYears($dates);
+
+				$dateIndeces = sepDates($dates, $allExif, $years);
+
+				$randIndex=rand(0,sizeof($dateIndeces[$year])-1);
+				$randIndex=$dateIndeces[$year][$randIndex];
 
 				$randFile=$allExif[$randIndex]["FileName"];
 				$randPath="../Fotos/".$randFile;
-
-				$years  = getYears($dates);
 
 				echo '<div id="mainBox">';
 				echo '<img id="main" src="';
@@ -116,6 +119,23 @@
 				sort($allDates);
 
 				return $allDates;
+			}
+
+			function sepDates($allDates, $allExif, $years){
+
+				$assocDates = array_fill_keys($years, array());
+
+				foreach ($years as $year) {
+			
+					foreach ($allDates as $date) {
+		
+						if(substr($date, 0,4)===$year){
+							$index = array_search($date, array_column($allExif, 'DateTimeOriginal'));
+							array_push($assocDates[$year],$index);
+						}
+					}
+				}	
+				return $assocDates;
 			}
 
 			function getUniqueExposures($allExif){
