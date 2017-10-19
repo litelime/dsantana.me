@@ -23,6 +23,18 @@ class DataBase {
 			return $stmt->fetchAll(PDO::FETCH_COLUMN);
 		}
 
+		public function getIsos($year){
+			$stmt = $this->DB->prepare ("SELECT DISTINCT ISO FROM `Image` where YearTaken={$year}");
+			$stmt->execute();
+			return $stmt->fetchAll(PDO::FETCH_COLUMN);
+		}
+
+		public function getNamesOfYearandISO($year, $iso){
+			$stmt = $this->DB->prepare ("SELECT Filename FROM `Image` WHERE YearTaken={$year} AND ISO={$iso}");
+			$stmt->execute();
+			return $stmt->fetchAll(PDO::FETCH_COLUMN);
+		}
+
 		public function getNamesOfYear($year){
 			$stmt = $this->DB->prepare ("SELECT Filename FROM `Image` WHERE YearTaken={$year}");
 			$stmt->execute();

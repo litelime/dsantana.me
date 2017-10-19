@@ -5,6 +5,7 @@
 
 #saf {
     float:left;
+    text-align: center;
     background: #1e5799; /* Old browsers */
     background: -moz-linear-gradient(-45deg,  #1e5799 0%, #2989d8 60%, #7db9e8 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(-45deg,  #1e5799 0%,#2989d8 60%,#7db9e8 100%); /* Chrome10-25,Safari5.1-6 */
@@ -12,6 +13,34 @@
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
     width:50%;
     height:100%;
+}
+
+#bigsaf{
+    text-align: center;
+    font-size: 100px;
+    font-size: 6vw;
+
+}
+
+#smallsaf{
+    text-align: center;
+    font-size: 40px;
+    font-size: 4vw;
+
+}
+
+#bigphoto{
+    text-align: center;
+    font-size: 100px;
+    font-size: 6vw;
+}
+
+#smallphoto{
+
+    text-align: center;
+    font-size: 40px;
+    font-size: 4vw;
+
 }
 
 #photo {
@@ -43,10 +72,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7db9e8', end
 }
 
 p{
-    font-size: 100px;
-    font-size: 8vw;
     color: white;
-    text-shadow: 0 3px rgba(255, 255, 255, 0.5);
 }
 
 html{
