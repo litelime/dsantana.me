@@ -37,6 +37,18 @@
 				echo '<div id="mainBox">';
 				echo '<div id="options">';
 				echo '<p>Options</p>';
+
+
+				echo '<div id="dateBox">';
+				//SELECT BOXES
+		 		echo "<label id='datelabel'> Year Taken: <select disabled='disabled' name='date' id='date'>";
+		 		foreach ($years as $value ) {
+		 			echo "<option> {$value} </option>";
+		 		}
+				echo "</select></label>";
+				echo "</div><br><br>";
+
+
 				echo '<input type="checkbox" id="ISO" name="ISO" value="ISO">';
 				echo '<label id="isolabel"> ISO: <select name="ISOselect" id="ISOselect">';
 		 		foreach ($isos as $value ) {
@@ -46,6 +58,7 @@
 
 				echo '</div>';
 
+
 				echo '<div id="imgbox">';
 				echo '<img id="main" src="../Fotos/';
 				echo $first[0];
@@ -53,16 +66,6 @@
 				echo "</div></div>";
 
 				echo "<div id='allPhotosBox'>";
-
-				echo '<div id="selectBox">';
-				//SELECT BOXES
-		 		echo "<select disabled='disabled' name='date' id='date'>";
-		 		foreach ($years as $value ) {
-		 			echo "<option> {$value} </option>";
-		 		}
-				echo "</select>";
-				echo "</div>";
-
 				echo "<div id='allPhotos'>";
 				echo "<div id='allPhotosIn'>"; 
 
