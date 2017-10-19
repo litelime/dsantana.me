@@ -1,3 +1,4 @@
+
 function ajaxlookup(event) {
     
 	var steamidy = $("steamid").value;
@@ -49,7 +50,7 @@ function ajaxlookup(event) {
 
     $("content").textContent = "loading...please wait";
     
-	new Ajax.Request("achievement_site/achievement.php", {
+	new Ajax.Request("/achievement_site/achievement.php", {
 							onSuccess: success,
 							onFailure: failure,				
 							parameters:
@@ -100,15 +101,19 @@ function getLongestCharSequence(response,char){
     var greatest = 0;
         
     for(var i = 0; i < lines.length; i++){
+
         for(var j=0; j < lines[i].length; j++){
             if(lines[i].charAt(j)==char)
                 count++;
         }
+
+ 
         if(count>greatest){
             greatest = count;
             count=0;
         }
     }
+
 
     return greatest;
 }
