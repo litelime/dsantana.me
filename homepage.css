@@ -1,0 +1,64 @@
+#parent{
+    text-align: center;
+    height:100%;
+}
+
+#saf {
+    float:left;
+    background: #1e5799; /* Old browsers */
+    background: -moz-linear-gradient(-45deg,  #1e5799 0%, #2989d8 60%, #7db9e8 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg,  #1e5799 0%,#2989d8 60%,#7db9e8 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg,  #1e5799 0%,#2989d8 60%,#7db9e8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    width:50%;
+    height:100%;
+}
+
+#photo {
+    float:right;
+    background: #1ABC9C; /* Old browsers */
+    background: -moz-linear-gradient(-45deg,  #1ABC9C 0%, #A3E4D7 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg,  #1ABC9C 0%,#A3E4D7 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg,  #1ABC9C 0%,#A3E4D7 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1ABC9C', endColorstr='#A3E4D7',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    width:50%;
+    height:100%;
+}
+
+#photo:hover{
+background: #A3E4D7; /* Old browsers */
+background: -moz-linear-gradient(-45deg,  #A3E4D7 0%, #1ABC9C 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(-45deg,  #A3E4D7 0%,#1ABC9C 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(135deg,  #A3E4D7 0%,#1ABC9C 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#A3E4D7', endColorstr='#1ABC9C',GradientType=1 ); 
+}
+
+#saf:hover{
+background: #7db9e8; /* Old browsers */
+background: -moz-linear-gradient(-45deg,  #7db9e8 0%, #1e5799 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(-45deg,  #7db9e8 0%,#1e5799 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(135deg,  #7db9e8 0%,#1e5799 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7db9e8', endColorstr='#1e5799',GradientType=1 ); 
+    
+}
+
+p{
+    font-size: 100px;
+    font-size: 8vw;
+    color: white;
+    text-shadow: 0 3px rgba(255, 255, 255, 0.5);
+}
+
+html{
+    height:100%;
+    width: 100%;
+    background: black;
+}
+
+body {
+    height:100%;
+    width: 100%;
+    margin:0;
+    background: black;
+    overflow: hidden;
+}

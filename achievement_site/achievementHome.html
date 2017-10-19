@@ -3,10 +3,9 @@
 <html>
 	<head>
 		<title>Steam Achievement Formatter</title>
-
-		<link href="achievement_site/achievement.css?ver=1.1" rel="stylesheet" type="text/css" /> 
-		<script type="text/javascript" src="achievement_site/achievement.js?ver=1.1"></script>
-		<script type="text/javascript" src="achievement_site/prototype.js"></script>
+		<link href="./achievement.css?ver=1.1" rel="stylesheet" type="text/css" /> 
+		<script type="text/javascript" src="./achievement.js?ver=1.1"></script>
+		<script type="text/javascript" src="./prototype.js"></script>
 	</head>
 
 	<body>
@@ -28,12 +27,12 @@
 					<dt>Requirements:</dt>
 					<dd>- Need an <a href='http://astats.astats.nl/astats/index.php'>astats</a> profile.</dd>
 					<dd>- You need to know the steamid64. Don't know what yours is? 
-					Go <a href='achievement_site/help.html'>here</a> for help on finding your steamid64</dd>
+					Go <a href='./help.html'>here</a> for help on finding your steamid64</dd>
 				</dl>
 
 					Your steamid64: <input name="userid" id="steamid" type='text' autocomplete="on">
 					<input id='button' type='submit' value='Load Profile'><br/><br/>
-					Using Steam id:<div id="entered"></div>
+					Using Steam id:<div id="entered">None Yet</div>
 
 				<div id="options">
 					<h2>Options</h2>
@@ -45,9 +44,8 @@
 							<option value="info">Show as much info as possible</option>
 							<option value="mine">Creator's Favorite</option>
 						</select>
-						</li>
-						<li><label><input type="checkbox" id="num_column" name="num_column" value="num_column" checked="checked"/>
-                        
+						</li>                        
+                        <li><label><input type="checkbox" id="num_column" name="num_column" value="num_column" checked="checked"/>
                             Number of Achievements Column</label></li>
 						<li><label><input type="checkbox" id="date_column" name="date_column" value="date_column" checked="checked"/>
                             Date of Achievements Column</label></li>
@@ -86,7 +84,7 @@
   				<dl>
   					<dt>Notes:</dt>
                     <dd>- Once you've loaded the games the first time they will load faster afterwards, feel free to try lots of different settings!</dd>
-                    <dd>- Unfortunately because of steam info box char limits you will only be able to fit a limited amount of your 100% games.</dd>
+                    <dd>- Unfortunately because of steam info box char limits you will only be able to fit a limited amount of your 100% games. Use presets to include as many as possible</dd>
                     <dd>- For Questions/Issues/Suggestions email dsantanaprof@gmail.com</dd>
                     <dd>- You can <a href=https://www.paypal.me/litelime>send me a dolla</a> if you found the site useful.</dd>
                 </dl>
@@ -96,9 +94,9 @@
 					<div id='hide'>
 						Examples<br/><br/>
 						With options of every column selected and split by year.<br/>
-						<img src='achievement_site/astatsexample.png' alt='Example output split by year'/>
+						<img src='./astatsexample.png' alt='Example output split by year'/>
 						With options of date column only and split by month<br/>
-						<img src='achievement_site/astatsmonthexample.png' alt='Example output split by month'/>
+						<img src='./astatsmonthexample.png' alt='Example output split by month'/>
 					</div>
 			</div>
 	</body>
