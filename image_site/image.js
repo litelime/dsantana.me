@@ -6,7 +6,7 @@ function yearAjax(event) {
 
 	console.log(yeary);
 
-	new Ajax.Request("./index.php", {
+	new Ajax.Request("./image.php", {
 							onSuccess: datesuccess,
 							onFailure: datefailure,	
 							onComplete:setScrollWidth,
@@ -18,10 +18,13 @@ function yearAjax(event) {
 	);
 }
 
+
 function mainChange(event){
 
+	setScrollWidth();
 	var clicked=event.target;
 	var path=clicked.src;
+	$("main").src = "";
 	if($("selected")!=null){
 		$("selected").style.borderStyle="none";
 		$("selected").id="none";
@@ -30,9 +33,10 @@ function mainChange(event){
 	clicked.style.borderStyle="solid";
 	clicked.style.borderColor="#00FFFF";
 	console.log(path);
-	$("main").src=path;
-}
+	$("main").src=path.replace("Small","");
 
+
+}
 
 function datefailure(ajax) {
 	console.log("Failed");
@@ -46,17 +50,22 @@ function setScrollWidth(){
 
 		var container_width=0;
 		var altwidth=0;
+		var greatest=0;
 
 		for (var i = children.length - 1; i >= 0; i--) {
+			if(children[i].width>greatest)
+				greatest=children[i].width;
 			container_width+=children[i].width;
 		}
 
-		container_width+=children[0].width;
+		container_width+=(greatest*2);
+
 
 		//if images not properly loaded use altwidth
 		altwidth = 190 * children.length;
 
 		if(container_width<500){
+			console.log("alt");
 			container_width=altwidth;
 		}
 
@@ -81,7 +90,7 @@ function datesuccess(ajax) {
    	fotos[0].style.borderStyle="solid";
    	fotos[0].style.borderColor="#00FFFF";
    	fotos[0].id="selected";
-   	$("main").src=fotos[0].src;
+   	$("main").src=fotos[0].src.replace("Small","");
 	setScrollWidth();
 
 }	
@@ -91,5 +100,9 @@ window.onload = function() {
 	$("date").disabled=false;
     $("date").onchange = yearAjax;
 	$$('.foto').invoke('observe', 'click', mainChange);
-	setScrollWidth();
+	var fotos = $$('.foto');
+   	fotos[0].style.borderStyle="solid";
+   	fotos[0].style.borderColor="#00FFFF";
+   	fotos[0].id="selected";
+   	setScrollWidth();
 }
