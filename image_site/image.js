@@ -1,23 +1,41 @@
-function yearAjax(event) {
+function ajax(event) {
     
-	var presetBox=$("date");
+	var dateSelect=$("date");
+	var isoSelect= $('ISOselect');
 
-	var yeary = presetBox.options[presetBox.selectedIndex].value;
+	var yeary = dateSelect.options[dateSelect.selectedIndex].value;
 
+	//if the year is changing then change the stats. 
+	if(event.target.name=="date"){
+		var	change='true';
+		$("ISO").checked=false;
+	}
+	else
+		var change='false';
+
+	if($('ISO').checked){
+		var isoy  = isoSelect.options[isoSelect.selectedIndex].value;
+	}else{
+		isoy="false";
+	}
+
+	console.log("event "+event.target.name);
 	console.log(yeary);
+	console.log(isoy);
+	console.log(change);
 
 	new Ajax.Request("./image.php", {
 							onSuccess: datesuccess,
 							onFailure: datefailure,	
-							onComplete:setScrollWidth,
 							parameters:
 							{
-								year:yeary
+								year:yeary,
+								iso:isoy,
+								isoChange:change
 							}
 						}
 	);
 }
-
 
 function mainChange(event){
 
@@ -69,6 +87,8 @@ function setScrollWidth(){
 			container_width=altwidth;
 		}
 
+		console.log(container_width);
+
 	   $("allPhotosIn").setStyle(
 		   	{
 		   		width: container_width+"px"
@@ -82,23 +102,48 @@ function datesuccess(ajax) {
 	console.log("success");
 	var response = ajax.responseText;
 	var regex = /<img.*<\/div>/;
-	response = response.match(regex);
-    $("allPhotosIn").innerHTML=response[0];
-    $$('.foto').invoke('observe', 'click', mainChange);
+	allPhotosInMatch = response.match(regex);
 
-    var fotos = $$('.foto');
-   	fotos[0].style.borderStyle="solid";
-   	fotos[0].style.borderColor="#00FFFF";
-   	fotos[0].id="selected";
-   	$("main").src=fotos[0].src.replace("Small","");
-	setScrollWidth();
+	if(!allPhotosInMatch){
+		console.log("none");
+		 $("allPhotosIn").innerHTML="No Photos";
+		  
+		 $("allPhotosIn").setStyle(
+			  {
+			  	width: "200px"
+			  }
+		  );
+	}
+	else{
+	    $("allPhotosIn").innerHTML=allPhotosInMatch[0];
+	    $$('.foto').invoke('observe', 'click', mainChange);
+
+	    var fotos = $$('.foto');
+	   	fotos[0].style.borderStyle="solid";
+	   	fotos[0].style.borderColor="#00FFFF";
+	   	fotos[0].id="selected";
+	   	$("main").src=fotos[0].src.replace("Small","");
+	   	setScrollWidth();
+	}
+
+	//update iso select boxes. Only done when year is changed. 
+	regex = /<option>.*<\/option>/;
+	isoSelectMatch = response.match(regex);
+	if(isoSelectMatch)
+		$("ISOselect").innerHTML=isoSelectMatch[0];
 
 }	
+
+Event.observe(window, "resize", function() {
+	setScrollWidth();
+});	
 
 window.onload = function() {
 
 	$("date").disabled=false;
-    $("date").onchange = yearAjax;
+    $("date").onchange = ajax;
+    $("ISO").onchange = ajax; 
+    $("ISOselect").onchange=ajax;
 	$$('.foto').invoke('observe', 'click', mainChange);
 	var fotos = $$('.foto');
    	fotos[0].style.borderStyle="solid";
