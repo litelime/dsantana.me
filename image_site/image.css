@@ -10,13 +10,6 @@ html,body{
     padding: 0;
 }
 
-#date{
-	width:100px;
-	height: 100px;
-	font-size: 20pt;
-	text-align: center;
-}
-
 #mainBox{
 	height: 80%;
 	max-height: 80%;
@@ -34,6 +27,31 @@ html,body{
 	font-size: 20pt;
 }
 
+#options p{
+	width:100%;
+	font-size: 2vw;
+}
+
+#dateBox{
+	text-align: center;
+	align-content: center;
+	width: 100%;
+	font-size: 2vw;
+
+}
+
+#date{
+	width: 30%;
+	text-align: center;
+	font-size: 1.5vw;
+}
+
+#datelabel{
+	fontsize:2vw;
+	width: 30%;
+	height: 20%;
+}
+
 #isolabel{
 	text-align: center;
 	align-content: center;
@@ -42,13 +60,20 @@ html,body{
 	font-size: 2vw;
 }
 
+#ISO{
+	width:20px;
+	height:20px;
+}
+
 #ISOselect{
 	font-size: 1.5vw;
 }
 
-#options p{
-	width:100%;
-	font-size: 2vw;
+#main{
+	height: auto;
+	width: auto;
+	max-width: 100%;
+	max-height: 100%;
 }
 
 #imgbox{
@@ -59,19 +84,6 @@ html,body{
 	max-height: 100%;
 	max-width: 70%;
 	padding:2%;
-}
-
-#main{
-	height: auto;
-	width: auto;
-	max-width: 100%;
-	max-height: 100%;
-}
-
-#selectBox{
-	width: 10%;
-	height:100%;
-	float: left;
 }
 
 .foto{
