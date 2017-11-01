@@ -1,74 +1,63 @@
 #parent{
+    margin-top:5%;
+    margin-left:10%; 
     text-align: center;
-    height:100%;
+    display: inline-block;
+    height:80%;
+    width: 80%;
 }
 
-#saf {
-    float:left;
-    text-align: center;
-    background: #1e5799; /* Old browsers */
-    background: -moz-linear-gradient(-45deg,  #1e5799 0%, #2989d8 60%, #7db9e8 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(-45deg,  #1e5799 0%,#2989d8 60%,#7db9e8 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(135deg,  #1e5799 0%,#2989d8 60%,#7db9e8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-    width:50%;
-    height:100%;
-}
+
 
 #bigsaf{
     text-align: center;
     font-size: 100px;
-    font-size: 6vw;
+    font-size: 5vw;
 
 }
 
 #smallsaf{
     text-align: center;
     font-size: 40px;
-    font-size: 4vw;
+    font-size: 2vw;
 
 }
 
 #bigphoto{
     text-align: center;
     font-size: 100px;
-    font-size: 6vw;
+    font-size: 5vw;
 }
 
 #smallphoto{
 
     text-align: center;
     font-size: 40px;
-    font-size: 4vw;
+    font-size: 2vw;
 
+}
+
+#saf {
+    float:left;
+    text-align: center;
+    width:45%;    
+    background: #1e5799; /* Old browsers */
+    height:100%;
 }
 
 #photo {
     float:right;
-    background: #1ABC9C; /* Old browsers */
-    background: -moz-linear-gradient(-45deg,  #1ABC9C 0%, #A3E4D7 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(-45deg,  #1ABC9C 0%,#A3E4D7 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(135deg,  #1ABC9C 0%,#A3E4D7 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1ABC9C', endColorstr='#A3E4D7',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-    width:50%;
+    background: #149e90; /* Old browsers */
+    width:45%;
     height:100%;
 }
 
 #photo:hover{
-background: #A3E4D7; /* Old browsers */
-background: -moz-linear-gradient(-45deg,  #A3E4D7 0%, #1ABC9C 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(-45deg,  #A3E4D7 0%,#1ABC9C 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(135deg,  #A3E4D7 0%,#1ABC9C 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#A3E4D7', endColorstr='#1ABC9C',GradientType=1 ); 
+background: #1ac2ae; /* Old browsers */
 }
 
 #saf:hover{
-background: #7db9e8; /* Old browsers */
-background: -moz-linear-gradient(-45deg,  #7db9e8 0%, #1e5799 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(-45deg,  #7db9e8 0%,#1e5799 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(135deg,  #7db9e8 0%,#1e5799 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7db9e8', endColorstr='#1e5799',GradientType=1 ); 
-    
+background: #2b7ad4; /* Old browsers */
 }
 
 p{
@@ -78,13 +67,13 @@ p{
 html{
     height:100%;
     width: 100%;
-    background: black;
+    background: #8fddff;
 }
 
 body {
     height:100%;
     width: 100%;
     margin:0;
-    background: black;
+    background: #8fddff;
     overflow: hidden;
 }
