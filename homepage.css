@@ -1,19 +1,49 @@
 #parent{
-    margin-top:5%;
-    margin-left:10%; 
     text-align: center;
-    display: inline-block;
-    height:80%;
-    width: 80%;
+    margin-top:5%;
+    height:100%;
+    width: 100%;
 }
 
+#saf {
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    width:32%; 
+    height:70%;
+    background: #1e5799;
+}
 
+#photo {
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    background: #149e90; 
+    width:32%;
+    height: 60%;   
+
+}
+
+#resume{
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    background: #9e3c37; 
+    width:32%;
+    height: 50%;   
+}
 
 #bigsaf{
     text-align: center;
     font-size: 100px;
     font-size: 5vw;
 
+}
+
+#bigRes{
+    text-align: center;
+    font-size: 100px;
+    font-size: 5vw;
 }
 
 #smallsaf{
@@ -37,27 +67,19 @@
 
 }
 
-#saf {
-    float:left;
-    text-align: center;
-    width:45%;    
-    background: #1e5799; /* Old browsers */
-    height:100%;
-}
-
-#photo {
-    float:right;
-    background: #149e90; /* Old browsers */
-    width:45%;
-    height:100%;
-}
-
 #photo:hover{
-background: #1ac2ae; /* Old browsers */
+    background: #1ac2ae; 
+    height: 100%;
 }
 
 #saf:hover{
-background: #2b7ad4; /* Old browsers */
+    background: #2b7ad4;
+    height: 100%;
+}
+
+#resume:hover{
+    background: #de5349;
+    height: 100%;
 }
 
 p{
@@ -68,6 +90,7 @@ html{
     height:100%;
     width: 100%;
     background: #8fddff;
+    overflow: hidden;
 }
 
 body {
@@ -75,5 +98,4 @@ body {
     width: 100%;
     margin:0;
     background: #8fddff;
-    overflow: hidden;
 }
