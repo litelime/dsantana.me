@@ -42,7 +42,6 @@ function mainChange(event){
 	setScrollWidth();
 	var clicked=event.target;
 	var path=clicked.src;
-	$("main").src = "";
 	if($("selected")!=null){
 		$("selected").style.borderStyle="none";
 		$("selected").id="none";
@@ -52,7 +51,6 @@ function mainChange(event){
 	clicked.style.borderColor="#00FFFF";
 	console.log(path);
 	$("main").src=path.replace("Small","");
-
 
 }
 
