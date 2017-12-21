@@ -28,9 +28,22 @@ class DataBase {
 			$stmt->execute();
 			return $stmt->fetchAll(PDO::FETCH_COLUMN);
 		}
+    
+        public function getTimes($year){
+			$stmt = $this->DB->prepare ("SELECT DISTINCT ExposureTime FROM `Image` where YearTaken={$year}");
+			$stmt->execute();
+			return $stmt->fetchAll(PDO::FETCH_COLUMN);
+		}
 
-		public function getNamesOfYearandISO($year, $iso){
-			$stmt = $this->DB->prepare ("SELECT Filename FROM `Image` WHERE YearTaken={$year} AND ISO={$iso}");
+		public function getNamesOfYearWithAttributes($year, $iso, $time){
+            $query = "SELECT Filename FROM `Image` WHERE YearTaken={$year}";
+            
+            if($time!='false')
+                $query = $query . " AND ExposureTime='{$time}'";
+            if($iso!='false')
+                $query = $query . " AND ISO={$iso}";
+            
+			$stmt = $this->DB->prepare ($query);
 			$stmt->execute();
 			return $stmt->fetchAll(PDO::FETCH_COLUMN);
 		}
