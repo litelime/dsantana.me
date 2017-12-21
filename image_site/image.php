@@ -45,6 +45,8 @@
 			 		echo "<option class='iso'> {$value} </option>";
 				}
              
+                echo "</select>";
+                
                 $times  = $myAdaptor->getTimes($year);
                 foreach ($times as $value) {
 			 		echo "<option class='time'> {$value} </option>";

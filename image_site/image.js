@@ -147,7 +147,7 @@ function datesuccess(ajax) {
 	}
 
 	//update iso select boxes. Only done when year is changed. 
-	regex = /<option class='iso'>.*<\/option>/;
+	regex = /<option class='iso'>.*<\/select>/;
 	isoSelectMatch = response.match(regex);
 	if(isoSelectMatch)
 		$("ISOselect").innerHTML=isoSelectMatch[0];
