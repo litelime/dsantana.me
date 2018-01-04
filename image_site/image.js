@@ -2,26 +2,43 @@ function ajax(event) {
     
 	var dateSelect=$("date");
 	var isoSelect= $('ISOselect');
-
+	var timeSelect= $('timeSelect');
+    
 	var yeary = dateSelect.options[dateSelect.selectedIndex].value;
 
 	//if the year is changing then change the stats. 
 	if(event.target.name=="date"){
 		var	change='true';
 		$("ISO").checked=false;
+        $("time").checked=false;
 	}
-	else
-		var change='false';
+	// if user changed the iso option, but iso is not checked then just return
+	else if(event.target.name=="ISOselect"){
+		if ($('ISO').checked==false)
+			return;
+	}else if(event.target.name=="timeSelect"){
+        if($("time").checked==false)
+            return;
+    }
 
-	if($('ISO').checked){
+	//if iso box is checked set isoy to iso value if not isoy is false. 
+	if ($('ISO').checked)
 		var isoy  = isoSelect.options[isoSelect.selectedIndex].value;
-	}else{
-		isoy="false";
+	else{
+		var isoy= false;
+	}
+    
+    	//if iso box is checked set isoy to iso value if not isoy is false. 
+	if ($('time').checked)
+		var timey  = timeSelect.options[timeSelect.selectedIndex].value;
+	else{
+		var timey= false;
 	}
 
 	console.log("event "+event.target.name);
 	console.log(yeary);
 	console.log(isoy);
+    console.log(timey);
 	console.log(change);
 
 	new Ajax.Request("./image.php", {
@@ -31,7 +48,8 @@ function ajax(event) {
 							{
 								year:yeary,
 								iso:isoy,
-								isoChange:change
+                                time:timey,
+								yearChange:change
 							}
 						}
 	);
@@ -41,16 +59,20 @@ function mainChange(event){
 
 	setScrollWidth();
 	var clicked=event.target;
-	var path=clicked.src;
+	var smallPath=clicked.src;
+	var bigPath = smallPath.replace("Small","");
+		
+	$("main").src=bigPath;
+
 	if($("selected")!=null){
 		$("selected").style.borderStyle="none";
 		$("selected").id="none";
 	}
+
+	//add blue border to the small image that was clicked. 
 	clicked.id="selected";
 	clicked.style.borderStyle="solid";
 	clicked.style.borderColor="#00FFFF";
-	console.log(path);
-	$("main").src=path.replace("Small","");
 
 }
 
@@ -115,21 +137,27 @@ function datesuccess(ajax) {
 	else{
 	    $("allPhotosIn").innerHTML=allPhotosInMatch[0];
 	    $$('.foto').invoke('observe', 'click', mainChange);
-
 	    var fotos = $$('.foto');
 	   	fotos[0].style.borderStyle="solid";
 	   	fotos[0].style.borderColor="#00FFFF";
 	   	fotos[0].id="selected";
+	   	$("main").src=fotos[0].src;
 	   	$("main").src=fotos[0].src.replace("Small","");
 	   	setScrollWidth();
 	}
 
 	//update iso select boxes. Only done when year is changed. 
-	regex = /<option>.*<\/option>/;
+	regex = /<option class='iso'>.*<\/select>/;
 	isoSelectMatch = response.match(regex);
 	if(isoSelectMatch)
 		$("ISOselect").innerHTML=isoSelectMatch[0];
-
+    
+    //update exposure time boxes
+	regex = /<option class='time'>.*<\/option>/;
+	timeSelectMatch = response.match(regex);
+    if(timeSelectMatch)
+        $("timeSelect").innerHTML=timeSelectMatch[0];
+    
 }	
 
 Event.observe(window, "resize", function() {
@@ -142,6 +170,8 @@ window.onload = function() {
     $("date").onchange = ajax;
     $("ISO").onchange = ajax; 
     $("ISOselect").onchange=ajax;
+    $("time").onchange = ajax;
+    $("timeSelect").onchange = ajax;
 	$$('.foto').invoke('observe', 'click', mainChange);
 	var fotos = $$('.foto');
    	fotos[0].style.borderStyle="solid";
