@@ -32,13 +32,6 @@ html,body{
 	font-size: 2vw;
 }
 
-#dateBox{
-	text-align: center;
-	align-content: center;
-	width: 100%;
-	font-size: 2vw;
-
-}
 
 #date{
 	width: 30%;
@@ -47,12 +40,12 @@ html,body{
 }
 
 #datelabel{
-	fontsize:2vw;
+	font-size:2vw;
 	width: 30%;
 	height: 20%;
 }
 
-#isolabel{
+label{
 	text-align: center;
 	align-content: center;
 	width: 30%;
@@ -65,7 +58,7 @@ html,body{
 	height:20px;
 }
 
-#ISOselect{
+select{
 	font-size: 1.5vw;
 }
 
