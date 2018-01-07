@@ -36,6 +36,10 @@ function ajaxlookup(event) {
     if(event.target.id=="updater")
         steamidy = $("entered").textContent;
     
+    if(steamidy=="litelime"){
+    	steamidy="76561198025425430";
+    }
+
     if(!steamidy.match(/\d{17}/)){
         $("content").textContent = "The steam id entered is not valid.\nEnter a 17 digit value";
         if (!$("entered").textContent.includes("None Yet")){
@@ -50,7 +54,7 @@ function ajaxlookup(event) {
 
     $("content").textContent = "loading...please wait";
     
-	new Ajax.Request("/achievement_site/achievement.php", {
+	new Ajax.Request("./achievement.php", {
 							onSuccess: success,
 							onFailure: failure,				
 							parameters:
