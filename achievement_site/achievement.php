@@ -294,7 +294,7 @@
             exit;
         }
 
-        // close cURL resou76561198031300233rce, and free up system resources
+        // close cURL resource, and free up system resources
         return $completedGames;
 
 	}
@@ -332,12 +332,15 @@
         the account has any games completed.  
     */
 
+    require_once("./Database.php");
+
+    $myAdaptor = new DataBase();
             
         if(
        isset($_POST["steamid"]) && isset($_POST["date_column"]) && isset($_POST["num_column"]) 
 	&& isset($_POST["split"])   && isset($_POST["schar"])       && isset($_POST["sort"])      
-    && isset($_POST["surrChar"]) && isset($_POST['steamid'])
-        ){
+    && isset($_POST["surrChar"]))
+        {
             
        $date_column = $_POST['date_column'];
        $num_column =  $_POST["num_column"];
@@ -345,9 +348,51 @@
        $schar = $_POST["schar"];
        $sort = $_POST["sort"];
        $surrChar = $_POST['surrChar'];
+       $button = $_POST['button'];
+       $newName = htmlspecialchars($_POST['newName']);
        $steamid = htmlspecialchars($_POST["steamid"]);
 
-            
+       //if trying to create new account
+       if($button == "new"){
+
+            //check steam id value. 
+          if(preg_match("/[0-9]{17}/",$steamid)!=1){
+            echo "The steamdid value entered was invalid, this should be a 17 digit value";
+            return;
+          }
+
+            // check if name already exists. 
+          if($myAdaptor->isValid($newName)>0){
+
+              echo "Sorry, that Username has been taken, try again.";  
+              return;
+
+              //if name works add to database. 
+          }else{
+            $myAdaptor->insertAccount($newName, $steamid);
+            echo "You account has been added, please enter your username and click loadprofile.";
+            return;
+          }
+
+        //if trying to log in with already made account
+       }else{
+
+            //if not a digit value, try database. 
+            if(preg_match("/[0-9]{17}/",$steamid)==0){
+
+                //if the name is valid then set steamid to the 17 digit value rather than the username. 
+                if($myAdaptor->isValid($steamid)>0){
+
+                    $steamid = $myAdaptor->getSteamID($steamid);
+
+                //if not in database and not 17 digit value, name is invalid give error;
+                }else{
+                    echo "Could not find the given username or steam id. If trying to enter a steamd id, it should be 17 digits long.";
+                    return;
+                }
+            }
+       }
+                    
 	}else{
 		echo "Enter a SteamId64: Should be 17 digits long";
         return;

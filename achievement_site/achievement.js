@@ -4,6 +4,7 @@ function ajaxlookup(event) {
 	var steamidy = $("steamid").value;
 	var num_col = $("num_column").checked;
 	var date_col = $("date_column").checked;
+
     var split_opt;
 	//Split options
 	if ($("year").checked) {
@@ -25,6 +26,9 @@ function ajaxlookup(event) {
 	var k = $("closeOption");
 	var surrounding = k.options[k.selectedIndex].value;
     
+	var newNamey = $("newUser").value;
+
+	console.log(newNamey);
 	console.log(num_col);
 	console.log(date_col);
 	console.log(steamidy);
@@ -33,20 +37,15 @@ function ajaxlookup(event) {
 	console.log(sortopt);
     console.log(surrounding);
 
+    var buttonType;
+
+    if(event.target.id=="newButton")
+    	buttonType = "new";
+    else
+    	buttonType = "regular";
+
     if(event.target.id=="updater")
         steamidy = $("entered").textContent;
-    
-    if(steamidy=="litelime"){
-    	steamidy="76561198025425430";
-    }
-
-    if(!steamidy.match(/\d{17}/)){
-        $("content").textContent = "The steam id entered is not valid.\nEnter a 17 digit value";
-        if (!$("entered").textContent.includes("None Yet")){
-            $("content").textContent+="\nOr click Update Text to see output for id: "+$("entered").textContent;
-        }
-        return;
-    }
     
     $("updater").disabled=false;
         
@@ -55,29 +54,31 @@ function ajaxlookup(event) {
     $("content").textContent = "loading...please wait";
     
 	new Ajax.Request("./achievement.php", {
-							onSuccess: success,
-							onFailure: failure,				
+							onSuccess: lookup_success,
+							onFailure: lookup_failure,				
 							parameters:
 							{
 								steamid: steamidy,
+								button: buttonType,
 								num_column: num_col,
 								date_column: date_col,
 								split: split_opt,
 								schar: char,
 								sort: sortopt,
-                                surrChar:surrounding
+                                surrChar:surrounding,
+                                newName: newNamey,
 							}
 						}
 	);
 }
 
-function failure(ajax) {
+function lookup_failure(ajax) {
 	console.log("Failed");
 	console.log(ajax.status);
 	console.log(ajax.statusText);
 }
 
-function success(ajax) {
+function lookup_success(ajax) {
 
 	$("copyButton").disabled = false;
 	$("copyButton").textContent = "Copy to Clipboard";
@@ -92,7 +93,6 @@ function success(ajax) {
 	}
     
 	$("content").textContent = response;
-    
     
 }	
 
@@ -193,6 +193,7 @@ function preset(elem){
 
 window.onload = function() {
     $("button").onclick = ajaxlookup;
+    $("newButton").onclick = ajaxlookup;
     $("copyButton").onclick = copyToClipboard;
     $("mover").onclick = hideandshow;
     $("updater").onclick = ajaxlookup;
