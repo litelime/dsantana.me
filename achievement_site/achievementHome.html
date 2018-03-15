@@ -17,6 +17,14 @@
 				NOTICE: Text may look very misaligned on this page, but looks better once placed in steam.  
 				</p>
 				<button id="copyButton" disabled="disabled">Nothing to Copy</button><br/><br/>
+
+				<dl>
+  					<dt>Notes:</dt>
+                    <dd>- Once you've loaded the games the first time they will load faster afterwards, feel free to try lots of different settings!</dd>
+                    <dd>- Unfortunately because of steam info box char limits you will only be able to fit a limited amount of your 100% games. Use presets to include as many as possible</dd>
+                    <dd>- For Questions/Issues/Suggestions email dsantanaprof@gmail.com</dd>
+                    <dd>- You can <a href=https://www.paypal.me/litelime>send me a dolla</a> if you found the site useful.</dd>
+                </dl>
 			</div>
 
 			<div id='left'>
@@ -26,23 +34,16 @@
 					and put them into a format that looks decent in a steam info box. </dd>
 					<dt>Requirements:</dt>
 					<dd>- Need an <a href='http://astats.astats.nl/astats/index.php'>astats</a> profile.</dd>
-					<dd>- You need to know the steamid64. Don't know what yours is? 
+					<dd>- You need to know the steamid64 (17 digit number). Don't know what yours is? 
 					Go <a href='./help.html'>here</a> for help on finding your steamid64</dd>
 				</dl>
 
 					Your steamid64 or Username: <input name="userid" id="steamid" type='text' autocomplete="on" required="required">
 					<input id='button' type='submit' value='Load Profile'><br/><br/>
-		
-					Associate a Username with your steamid above so you don't need to enter the full steamid64 every time you visit
-					<br>
-					<input id='newUser' type='text' placeholder="New User"/>
-					<input id='newButton' type='submit' value='Create New User'>
-					<br>
-					<br>
+				
+				Using Steam id:<div id="entered">None Yet</div>
 
-					Using Steam id:<div id="entered">None Yet</div>
-					<br>
-
+				
 
 				<div id="options">
 					<h2>Options</h2>
@@ -91,14 +92,28 @@
                         <button id="mover">Output Examples</button>
 	  				</ul>
   				</div>
-  				<dl>
-  					<dt>Notes:</dt>
-                    <dd>- Once you've loaded the games the first time they will load faster afterwards, feel free to try lots of different settings!</dd>
-                    <dd>- Unfortunately because of steam info box char limits you will only be able to fit a limited amount of your 100% games. Use presets to include as many as possible</dd>
-                    <dd>- For Questions/Issues/Suggestions email dsantanaprof@gmail.com</dd>
-                    <dd>- You can <a href=https://www.paypal.me/litelime>send me a dolla</a> if you found the site useful.</dd>
-                </dl>
+  				
+				<div id="Username">
+					<h2>Create Username</h2>
+
+					<ul>	
+						<li>Enter your full 17 digit steamid64 in the box above. </li>
+						<li>Enter the username you would like to use below</li>
+						<li>Click create new user.</li> 
+						<li>After the username is created you may use it each time you visit the site!</li>
+					</ul>
+					<br>
+					<input id='newUser' type='text' placeholder="New User"/>
+					<input id='newButton' type='submit' value='Create New User'>
+					<br>
+
+
+					<br>
+				</div>
+
 			</div>
+
+
 
 			<div id="right">
 					<div id='hide'>

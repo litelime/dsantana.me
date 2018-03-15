@@ -34,7 +34,7 @@ dd{
 	margin:15px;
 }
 
-#options{
+#options, #Username{
     border-style: solid;
     border-width: 2px;
     border-radius: 15px;
@@ -45,7 +45,7 @@ dd{
 
 }
 
-#optionsul {
+ul {
     display: inline-block;
     text-align: left;
 }
