@@ -1,11 +1,17 @@
 
 function ajaxlookup(event) {
     
+    //the users entered steam id value
 	var steamidy = $("steamid").value;
+
+	//user option box for number of achievements
 	var num_col = $("num_column").checked;
+
+	//user option box for date of achievements
 	var date_col = $("date_column").checked;
 
     var split_opt;
+
 	//Split options
 	if ($("year").checked) {
 		split_opt = "year";
@@ -20,12 +26,15 @@ function ajaxlookup(event) {
 		char = String.fromCharCode(8194);
 	}
 
+	//sort descending or ascending
 	var j = $("sortOption");
 	var sortopt = j.options[j.selectedIndex].value;
  
+ 	//enclosing characters options
 	var k = $("closeOption");
 	var surrounding = k.options[k.selectedIndex].value;
     
+    //the new username box. 
 	var newNamey = $("newUser").value;
 
 	console.log(newNamey);
@@ -39,15 +48,18 @@ function ajaxlookup(event) {
 
     var buttonType;
 
+    //If clicked create new user. 
     if(event.target.id=="newButton")
     	buttonType = "new";
     else
     	buttonType = "regular";
 
+    //if they already entered an id and want to 
+    //update with new options
     if(event.target.id=="updater")
         steamidy = $("entered").textContent;
     
-    $("updater").disabled=false;
+    $("updater").disabled = false;
         
     $("entered").textContent = steamidy;
 
@@ -85,43 +97,18 @@ function lookup_success(ajax) {
     
     var response = ajax.responseText;
     
-    //char Options
-	var e = $("charOption");
-	var char = e.options[e.selectedIndex].value;
-	if (char=="blank"){
-		char = String.fromCharCode(8194);
-	}
-    
+      //put the response in the content box
 	$("content").textContent = response;
     
 }	
 
-function getLongestCharSequence(response,char){
-    
-    
-    var lines = response.split('\n');
-    
-    var count = 0;
-    var greatest = 0;
-        
-    for(var i = 0; i < lines.length; i++){
+/*
+	Copies the output pane content to the user clipboard
 
-        for(var j=0; j < lines[i].length; j++){
-            if(lines[i].charAt(j)==char)
-                count++;
-        }
+	This function triggered when user clicks
+	"Copy to Clipboard" button
 
- 
-        if(count>greatest){
-            greatest = count;
-            count=0;
-        }
-    }
-
-
-    return greatest;
-}
-
+*/
 function copyToClipboard(elem) {
 
 	target = $('content');
@@ -143,6 +130,14 @@ function copyToClipboard(elem) {
     return succeed;
 }
 
+/*
+	Used to hide or show the output examples
+	pane on the site. Hidden by default on first
+	load. 
+	This function triggered by clicking the 
+	"Output examples" button. 
+
+*/
 function hideandshow(elem){
 
 	var right = $("right");
@@ -163,6 +158,14 @@ function hideandshow(elem){
     }
 }
 
+/*
+	This function used to change output options
+	when the user chooses one of the possible presets
+
+	This function triggered when the option in the presets
+	select box changes. 
+
+*/
 function preset(elem){
 
 	var presetBox = $("presets");

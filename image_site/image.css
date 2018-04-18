@@ -10,6 +10,7 @@ html,body{
     padding: 0;
 }
 
+/* The div holding both options and the main image*/
 #mainBox{
 	height: 80%;
 	max-height: 80%;
@@ -17,6 +18,7 @@ html,body{
 	max-width: 100%;
 }
 
+/* The div holding all filtering options*/
 #options{
 	float:left;
 	text-align: center;
@@ -32,7 +34,7 @@ html,body{
 	font-size: 2vw;
 }
 
-
+/* The select box for user to choose a year*/
 #date{
 	width: 30%;
 	text-align: center;
@@ -52,7 +54,7 @@ label{
 	height: 20%;
 	font-size: 2vw;
 }
-
+/* The select box for user to choose an ISO value*/
 #ISO{
 	width:20px;
 	height:20px;
@@ -62,6 +64,7 @@ select{
 	font-size: 1.5vw;
 }
 
+/* The img src itself */
 #main{
 	height: auto;
 	width: auto;
@@ -69,6 +72,7 @@ select{
 	max-height: 100%;
 }
 
+/* A div which will contain the main image src */
 #imgbox{
 	float:right;
 	display:inline-block;
@@ -79,10 +83,12 @@ select{
 	padding:2%;
 }
 
+/* All small fotos in the scrollbar */
 .foto{
 	height: 95%;
 }
 
+/* The outer container for all the small photos in the scrollbar*/
 #allPhotosBox{
 	position: fixed;
 	bottom:0;
@@ -95,6 +101,7 @@ select{
 
 }
 
+/* A second outer div for the fotos scrollbar*/
 #allPhotos{
 	display: inline-block;
 	overflow-x: scroll;
@@ -102,6 +109,7 @@ select{
     height:100%;
 }
 
+/*The inner container for all scrollbar photos*/
 #allPhotosIn{
     height:90%;
     width:1500px;

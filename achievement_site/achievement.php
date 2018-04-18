@@ -1,9 +1,11 @@
 <?php 
     session_start();
 
+    include './pass.php';
 	/*
-		$array - array to add surrounding chars to each element
-		$chartype - a string of two chars, the opening char then closing char. 
+        Arguments:
+		  $array - array to add surrounding chars to each element
+		  $chartype - a string of two chars, the opening char then closing char. 
 
 		return the given array with all surrounding chars added. 
 
@@ -16,7 +18,8 @@
 		return $array;
 	}
 
-	//Thanks to qeremy at php.net for this function. http://php.net/manual/en/function.str-split.php#107658
+	#Thanks to qeremy at php.net for this function. http://php.net/manual/en/function.str-split.php#107658
+    # Splits a string while taking unicode into account. 
 	function str_split_unicode($str, $l = 0) {
 	    if ($l > 0) {
 	        $ret = array();
@@ -31,6 +34,8 @@
 
 
 	#width of given string. 
+    # Width is defined by the width value given to individual characters in 
+    # getSizeOfChar function
 	function lengthOfChars($string){
 
 		$str_arr = str_split_unicode($string);
@@ -42,7 +47,7 @@
 		
 	}
 
-	#length values based on steam font looked at by eye. Not exact...
+	#length values based on steam font in profile info boxes looked at by eye. Not exact...
 	#sizes are relative, ex: Capital W(16) looks 4 times bigger than Capital J(4)
 	function getSizeOfChar($char){
 
@@ -69,8 +74,8 @@
 
 	}
 
-	#Return array of how many games completed in a year
-	#returns: [year=>numGamesCompleted]
+	#Return a map of how many games were completed in a year
+	#returns: [year -> Num Games Completed That Year]
 	function createYearArray ($datesArray){
 
 		//make the array of dates one big string
@@ -198,9 +203,15 @@
 
 	}
 
+    /*   STEAMAPI
+        Access the steam api with 'steamid' to see all the games that user owns on their account
+        returns an array of all the games. 
+    */
 	function getSteamGames($steamid){
         
-        $url = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=9B72D30B21EBDC4B8299D41D8691706D&steamid=$steamid&format=json";
+        $constant='constant';
+
+        $url = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={$constant('steam_api_key')}&steamid=$steamid&format=json";
 
         $achievement_page = @file_get_contents($url);
                       
@@ -221,7 +232,7 @@
 		return $achievement_page['response']['games'];
 	}
 
-	/*
+	/* STEAMAPI
 		function: getPlayedGames($gamesArray)
 
 		arg: $gamesArray Array of form [int] =>{ 'appid':
@@ -250,6 +261,10 @@
 		return $playedGames;
 	}
 
+    /* STEAM API
+        Uses the gamesArray from getSteamGames to create a list of the 
+        games the user has completed all achievements for. 
+    */
 	function getCompletedGames($gamesArray,$steamid){
 
 		$completed = true;
@@ -261,7 +276,9 @@
         //get all games as objects from api and place in completedTemp array. 
 		foreach ($gamesArray as $game){
             
-			$url = "http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=$game&key=9B72D30B21EBDC4B8299D41D8691706D&steamid=$steamid";
+            $constant = 'constant';
+
+			$url = "http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=$game&key={$constant('steam_api_key')}&steamid=$steamid";
 
             $gameObject=json_decode(@file_get_contents($url),true);
 
@@ -272,15 +289,22 @@
         //create completedGames array;
         foreach($completedTemp as $gameObject){
 
-            //echo $gameObject['playerstats']['gameName'];
+
             if ((is_array($gameObject) || is_object($gameObject))&&(isset($gameObject['playerstats']['achievements']))){
+
                 $achObject=$gameObject['playerstats']['achievements'];
-                //print_r($gameObject);
+
+                //for every game loop through all achievements
                 foreach($achObject as $achievement){
+
+                    //if any achievement is not achieved, they have not gotten 100%, completed=false.
                     if($achievement['achieved']==0){
                         $completed = false;
                     }
+
                 }
+
+                //place every completed game in the completeGames array
                 if($completed==true){
                     $completedGames[]=$gameObject['playerstats'];
                 }
@@ -294,7 +318,7 @@
             exit;
         }
 
-        // close cURL resource, and free up system resources
+        // return the array of completed games. 
         return $completedGames;
 
 	}
@@ -342,6 +366,7 @@
     && isset($_POST["surrChar"]))
         {
             
+        // All user options
        $date_column = $_POST['date_column'];
        $num_column =  $_POST["num_column"];
        $split = $_POST["split"];
@@ -349,10 +374,12 @@
        $sort = $_POST["sort"];
        $surrChar = $_POST['surrChar'];
        $button = $_POST['button'];
+
+       //a new username. 
        $newName = htmlspecialchars($_POST['newName']);
        $steamid = htmlspecialchars($_POST["steamid"]);
 
-       //if trying to create new account
+       //if trying to create new SAF account
        if($button == "new"){
 
             //check steam id value. 
@@ -398,16 +425,17 @@
         return;
 	}
         
+    //if the session is prepared. 
     if(isset($_SESSION["achievement_page"]) && isset($_SESSION["mysteamid"]) && $_SESSION["mysteamid"]==$steamid){
         $achievement_page = $_SESSION['achievement_page'];
         $source = 'astats'; 
         $_SESSION['homesteamid'] = $steamid;
-/*
+
     }else if(isset($_SESSION["steam_games"]) && isset($_SESSION["mysteamid"]) && $_SESSION["mysteamid"]===$steamid){
 
         $completed_games = $_SESSION['steam_games'];
         $source = "steam_done";
-*/
+
     }else{
         
         unset($_SESSION['homesteamid']);
@@ -416,9 +444,9 @@
         
         //DONT set session mysteamid yet for steam, will get set below if provided id is valid. 
         if($achievement_page == "not found"){
-            echo "No astats profile found with that id.";
-            exit;
-        //    $source = 'steam';
+            //echo "No astats profile found with that id.";
+            // exit;
+            $source = 'steam';
         }else{
             $source = 'astats'; 
             $_SESSION['achievement_page'] = $achievement_page;
@@ -427,6 +455,7 @@
     }
     
     if($source == 'astats'){
+
         //slimpage gets just the game data html, remove most website styling. 
         preg_match("/<tbody>[\s\S]*<\/tbody>/",$achievement_page,$temp);
         $slimpage = $temp[0];
@@ -456,7 +485,7 @@
         $names = str_replace("<del>","",$names);
     
     }
-/*
+
     //If we are pulling data from steam
     if($source == "steam"){
     
@@ -482,7 +511,7 @@
         //sort dates descending order, sort names and total based on dates. 
         array_multisort($dates,SORT_DESC,$names,$total);
     }
-    */
+    
         
     // ***** BEGIN MAIN ALGORITHM, RUNS REGARDLESS OF STEAM OR ASTATS SOURCE FROM HERE ON. *******
 

@@ -7,6 +7,7 @@ html,body{
                  Times, "Times New Roman", serif;
 }
 
+/* Top of page Steam Achievement Formatter*/
 h1{
 	color:#0d0d0d;
 	text-align: center;
@@ -27,13 +28,17 @@ dd{
     margin-bottom: 5px;
 }
 
+/* The entire left side of the page 
 
+    Description, options, and create username. 
+*/
 #left{ 
 	float: left; 
 	width: 45%; 
 	margin:15px;
 }
 
+/* The divs containing options and create username*/
 #options, #Username{
     border-style: solid;
     border-width: 2px;
@@ -50,7 +55,11 @@ ul {
     text-align: left;
 }
 
-
+/*
+Output examples panel
+Only shows if the user clicks output examples
+button.
+*/
 #right{ 
 	float: right; 
 	width: 0%; 
@@ -67,6 +76,13 @@ ul {
     display: none;
 }
 
+
+/* The center of the page
+    Usually the right side unless output
+    examples are showing.
+
+    The output window and notes. 
+*/
 #center{ 
 	display: inline-block; 
 	width: 50%; 
@@ -111,24 +127,28 @@ input[type=checkbox]{
 	text-align: left;
 }
 
+/* The output examples button in the options div*/
 #mover{
 	height:30px;
 	width:45%;
     float:left;
 }
 
+/* Update text button within the options div*/
 #updater{
 	height:30px;
 	width:45%;
     float:right;
 }
 
+/* The load profile button */
 #button{
 	font-size: 14px;
 	font-family:"Rockwell","Courier New", Courier, Georgia,
                  Times, "Times New Roman", serif;
 }
 
+/* The homebutton on the help page*/
 .homebutton{
 	position:fixed;
 	left:45%;
@@ -137,6 +157,7 @@ input[type=checkbox]{
 	align-content: center;
 }
 
+/* Options and create username titles*/
 h2 {
     text-align: center;
     height: 0;
