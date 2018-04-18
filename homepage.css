@@ -1,3 +1,39 @@
+/* The bar going across the top of the site.*/
+header{
+    text-align: center;
+    height: 10%;
+    width: 98%;
+    margin: 1%;
+    background-color: #1c1f24;
+    color: #BAB2B5;
+}
+
+/*large sized text used in header block divs */
+.headerText{
+    text-decoration: none;
+    font-size: 75px;
+    font-size: 3vw;
+    color: white;
+}
+
+/* The div that holds elements of the header*/
+.headerBlock{
+    display: inline-block;
+    vertical-align: middle;
+    width:25%;
+    height:70%;
+    margin:1%;
+    text-align: center;
+    background-color: #5b6073;
+    border-radius: 5px;
+}
+
+/* create border when hovering over links*/
+.headerBlock:hover{
+    border: solid;
+    border-color: #EEE2DC;
+}
+
 #parent{
     text-align: center;
     text-decoration: none;
@@ -5,29 +41,32 @@
     width: 100%;
 }
 
-/*style of the div which represents the achievement site banner*/
+/*the achievement site banner*/
 #saf {
     display: inline-block;
     vertical-align: top;
     text-align: center;
     width:49%; 
     height:100%;
+    border-radius: 5px;
     background: url(achievementBackground.png) no-repeat;
     background-size: 100%;
 }
 
-/* style of the div which represents the image site banner. */
+/* the image site banner. */
 #photo {
     display: inline-block;
     vertical-align: top;
     text-align: center;
     background: url(imageBackground.png) no-repeat ; 
     background-size: 100%;
+    border-radius: 5px;
     width:49%;
     height: 100%;   
 
 }
 
+/* show a border when hovering over either of the site banners*/
 #saf:hover{
     border: solid;
     border-color: #EEE2DC;
@@ -44,6 +83,7 @@
     font-size: 100px;
     font-size: 4vw;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    color:white;
 }
 
 
@@ -53,6 +93,8 @@
     font-size: 40px;
     font-size: 2vw;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px  black;
+    color:white;
+
 }
 
 /*Large sized text for the image site banner */
@@ -61,53 +103,19 @@
     font-size: 100px;
     font-size: 5vw;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px  black;
+    color:white;
+
 }
 
 /*Smaller sized text used as description for the image site banner. */
 #smallphoto{
-
     text-align: center;
     font-size: 40px;
     font-size: 3vw;
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px  black;
+    color:white;
 }
 
-p{
-    color: white;
-}
-
-header{
-    text-align: center;
-    height: 10%;
-    width: 98%;
-    margin: 1%;
-    background-color: #BAB2B5;
-    color: #BAB2B5;
-}
-
-/*large sized text used as description for the site banner. */
-.headerText{
-    text-decoration: none;
-    font-size: 75px;
-    font-size: 3vw;
-    color: white;
-}
-
-/* The div that holds elements of the header*/
-.headerBlock{
-    display: inline-block;
-    vertical-align: middle;
-    width:25%;
-    height:70%;
-    margin:1%;
-    text-align: center;
-    background-color: #123C69;
-}
-
-.headerBlock:hover{
-    border: solid;
-    border-color: #EEE2DC;
-}
 
 /* prevent scrolling on homepage
 sidenote: I try to prevent scrolling on all sites in general. 
@@ -116,7 +124,7 @@ html{
     height:100%;
     width: 100%;
     font-family: "Courier New";
-    background: #EEE2DC;
+    background: black;
     overflow: hidden;
 }
 
@@ -124,5 +132,5 @@ body {
     height:100%;
     width: 100%;
     margin:0;
-    background: #EEE2DC;
+    background: black;
 }

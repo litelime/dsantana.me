@@ -1,4 +1,13 @@
 <?php
+
+/*
+DataBase
+
+This class used for a PDO database connection. 
+
+*/
+include 'pass.php';
+
 class DataBase {
 
 		private $DB;
@@ -6,10 +15,9 @@ class DataBase {
 		public function __construct(){
 			$db = 'mysql:dbname=u632321490_image;host=sql122.main-hosting.eu';
 			$user = 'u632321490_david';
-			$password ='Silencedb1!';
 
 			try{
-				$this->DB = new PDO ($db, $user, $password);
+				$this->DB = new PDO ($db, $user, db_password);
 				$this->DB->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			}catch (PDOException $e){
 				echo ("Error Establishing Connection");
