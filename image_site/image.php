@@ -22,7 +22,7 @@
 			$iso="false";
             $time="false";
         
-			//if this is not the first page load.
+			//if this is not the first page load retrieve set values.
 			if(isset($_POST['year'])){
 
 				$year=$_POST['year'];
@@ -47,14 +47,16 @@
              
                 echo "</select>";
                 
+                //get all unique times for the users chosen year. 
                 $times  = $myAdaptor->getTimes($year);
+                
                 foreach ($times as $value) {
 			 		echo "<option class='time'> {$value} </option>";
 				}
                 
 			}
 
-			//printing all the photos in the scrollbar. 
+			//printing all the photos in the scrollbar at bottom of page. 
 			foreach ($names as $fileName) {
 
 				$path = "../FotosSmall/".$fileName;
@@ -69,6 +71,12 @@
 				echo "</div></div></div>";
 			}
 
+
+			/* firstPageLoad()
+				called the first time a user opens the site.
+				writes all html divs for site layout.
+				calls database to retrieve photos. 
+			*/
 			function firstPageLoad(){
 			
 				$myAdaptor = new DataBase();
@@ -77,9 +85,15 @@
 				$years = $myAdaptor->getYears();
 				rsort($years);
 
+				//the names of files of photos taken in 2017
 				$first = $myAdaptor->getNamesOfYear(2017);
+
+				//all unique iso value from 2017
 				$isos  = $myAdaptor->getIsos(2017);
+
+				//all unique exposure times from 2017. 
                 $times = $myAdaptor->getTimes(2017);
+
                 sort($times);
 				sort($isos);
 
@@ -98,21 +112,22 @@
 		 					
 						echo "</select></label><br><br>";
 
-						//ISO CHECKBOX. 
+						//ISO CHECKBOX does user want to filter by ISO?. 
 						echo '<input type="checkbox" id="ISO" name="ISO" value="ISO">'; 
 
-						//ISO SELECT
+						//ISO SELECT choose what iso value to filter by. 
 						echo '<label id="isolabel"> ISO: <select name="ISOselect" id="ISOselect">';
 
+							//options of each unique iso value. 
 		 					foreach ($isos as $value ) 
 		 						echo "<option> {$value} </option>";
 		 					
 		 				echo '</select></label><br><br>';
                 
-                		//TIME CHECKBOX. 
+                		//TIME CHECKBOX. does user want to filter by exposure time?
 						echo '<input type="checkbox" id="time" name="time" value="time">'; 
 
-						//TIME SELECT
+						//TIME SELECT    listing of unique exposure times. 
 						echo '<label id="timelabel"> Exposure Time: <select name="timeSelect" id="timeSelect">';
 
 		 					foreach ($times as $value ) 

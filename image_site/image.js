@@ -1,7 +1,12 @@
 function ajax(event) {
     
+    //the date currently selected
 	var dateSelect=$("date");
+
+	//the iso currently selected 
 	var isoSelect= $('ISOselect');
+
+	//the exposure time currently selected
 	var timeSelect= $('timeSelect');
     
 	var yeary = dateSelect.options[dateSelect.selectedIndex].value;
@@ -55,15 +60,31 @@ function ajax(event) {
 	);
 }
 
+/* mainChange(event)
+
+	Changing the large photo in the middle of the page. 
+	event will be used to see what small photo in the scroll
+	bar the user clicked on. The large photo will be changed 
+	to that picture clicked. 
+
+*/
 function mainChange(event){
 
 	setScrollWidth();
+
+	//what photo clicked on 
 	var clicked=event.target;
+
+	//path to the small versio of the photo clicked on 
 	var smallPath=clicked.src;
+
+	//path to the large version of the photo clicked on 
 	var bigPath = smallPath.replace("Small","");
 		
+	//change path of the large image box. 
 	$("main").src=bigPath;
 
+	//remove the border from the previously clicked picture
 	if($("selected")!=null){
 		$("selected").style.borderStyle="none";
 		$("selected").id="none";
@@ -82,6 +103,16 @@ function datefailure(ajax) {
 	console.log(ajax.statusText);
 }
 
+/* setScrollWidth
+
+sets the css width of the scrollbar of small photos
+Needed because the amount of photos there will change
+so the width reflects the number of photos there.
+
+Width is calculated based on the actual width of photos
+if they are loaded, if not uses an approximation.
+
+*/
 function setScrollWidth(){
 
 		var children = $("allPhotosIn").childElements();
@@ -97,7 +128,6 @@ function setScrollWidth(){
 		}
 
 		container_width+=(greatest*2);
-
 
 		//if images not properly loaded use altwidth
 		altwidth = 190 * children.length;
@@ -117,13 +147,22 @@ function setScrollWidth(){
 	
 }
 
+/* datesuccess
+
+Changes to be made after the user has made a selection on the
+page. 
+*/
 function datesuccess(ajax) {
 
 	console.log("success");
+
 	var response = ajax.responseText;
+
 	var regex = /<img.*<\/div>/;
+
 	allPhotosInMatch = response.match(regex);
 
+	//if there are no photos that match the user filters. 
 	if(!allPhotosInMatch){
 		console.log("none");
 		 $("allPhotosIn").innerHTML="No Photos";
@@ -135,14 +174,23 @@ function datesuccess(ajax) {
 		  );
 	}
 	else{
+		//take the regex match (all the img divs) and place it in the scrollbar.
 	    $("allPhotosIn").innerHTML=allPhotosInMatch[0];
+
+	    //make all photos observe clicks, mainChange will be the called method. 
 	    $$('.foto').invoke('observe', 'click', mainChange);
+
 	    var fotos = $$('.foto');
+
+	    //the first photo will be the 'selected' one, w/ blue border
 	   	fotos[0].style.borderStyle="solid";
 	   	fotos[0].style.borderColor="#00FFFF";
 	   	fotos[0].id="selected";
+
+	   	//the large middle photo will be the first in the scrollbar as well. 
 	   	$("main").src=fotos[0].src;
 	   	$("main").src=fotos[0].src.replace("Small","");
+
 	   	setScrollWidth();
 	}
 
