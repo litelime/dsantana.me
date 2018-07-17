@@ -22,27 +22,45 @@ This is the landing page of davidsantana.me
 
 <body>
 
-    <ul class="nav nav-pills justify-content-center">
+    <ul class="nav justify-content-center">
         <li class="nav-item">
             <a class="nav-link" href="http://www.github.com/litelime/dsantana.me"> GitHub</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="pill" href="resume_site/dSantanaResume.pdf"> Resume</a>
+            <a class="nav-link" href="resume_site/dSantanaResume.pdf"> Resume</a>
         </li>
     </ul>
 
-    <div class="container">
+    <div class="container-fluid align-items-center d-flex justify-content-center h-75">
+        <div class="card-deck h-75 w-75">
 
-        <a class=banner href="achievement_site/achievementHome.html">
-            <p>Steam Achievement Formatter</p>
-            <p>Display all the games you have received 100% of the achievements for on steam</p>
-        </a>
+            <a class="card" href="image_site/image.php">
 
-        <a class=banner href="image_site/image.php">
-            <p>My Photography</p>
-        </a>
+                <h3 class="card-header bg-dark text-white">
+                        Steam Achievement Formatter
+                </h3>
 
+                <div id="steamCard" class="card-body align-items-center d-flex justify-content-center">
+                    Display all the games you have received 100% of the achievements for on steam
+                </div>
+            </a>
+
+            <a class="card"  href="achievement_site/achievementHome.html">
+
+                <h3 class="card-header bg-dark text-white">
+                        My Photography
+                </h3>
+
+                <div id="photoCard" class="card-body align-items-center d-flex justify-content-center">
+                    View and filter photos by attribute
+                </div>
+
+            </a>
+        </div>
     </div>
+
+
+
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>

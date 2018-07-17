@@ -4,8 +4,8 @@
     include './pass.php';
 	/*
         Arguments:
-		  $array - array to add surrounding chars to each element
-		  $chartype - a string of two chars, the opening char then closing char. 
+		$array - array to add surrounding chars to each element
+		$chartype - a string of two chars, the opening char then closing char. 
 
 		return the given array with all surrounding chars added. 
 
@@ -149,7 +149,7 @@
 
 		//temp[0][0] = year
 		$formatstring.=$months[$month_num]." ".$temp[0][0];
- 
+
 		return $formatstring;
 	}
 
@@ -214,7 +214,7 @@
         $url = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={$constant('steam_api_key')}&steamid=$steamid&format=json";
 
         $achievement_page = @file_get_contents($url);
-                      
+
         if(!$achievement_page||preg_match('/Internal Server Error/',$achievement_page)){
             echo "Couldn't find that steam account";
             exit;
@@ -346,7 +346,7 @@
 	}
 
 
-//*****   MAIN    ********
+    //*****   MAIN    ********
     
     /*
         first check if there is already session data for either astats or steam.
