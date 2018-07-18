@@ -53,9 +53,13 @@ html,body{
 #steamCard{
     color:white;
     background-image:url("achievementBackground.png");
+    background-size: 100%;
+    background-position: center;
+
 }
 
 #photoCard{
     color:white;
     background-image: url("imageBackground.png");
+    background-repeat: round;
 }
