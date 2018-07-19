@@ -1,128 +1,219 @@
 <!DOCTYPE html>
 
 <html>
-	<head>
-		<title>Steam Achievement Formatter</title>
-		<link href="./achievement.css?ver=1.1" rel="stylesheet" type="text/css" /> 
-		<script type="text/javascript" src="./achievement.js?ver=1.1"></script>
-		<script type="text/javascript" src="./prototype.js"></script>
-	</head>
 
-	<body>
-		<h1>Steam Achievement Formatter</h1>
+<head>
+	<title>Steam Achievement Formatter</title>
 
-			<div id='center'>
-				<textarea id="content" rows="35" readonly>Copy/Paste from here</textarea>
-				<p>Copy and paste the text that is output above into your steam custom info box.<br/>
-				NOTICE: Text may look very misaligned on this page, but looks better once placed in steam.  
-				</p>
-				<button id="copyButton" disabled="disabled">Nothing to Copy</button><br/><br/>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-				<dl>
-  					<dt>Notes:</dt>
-                    <dd>- Once you've loaded the games the first time they will load faster afterwards, feel free to try lots of different settings!</dd>
-                    <dd>- Unfortunately because of steam info box char limits you will only be able to fit a limited amount of your 100% games. Use presets to include as many as possible</dd>
-                    <dd>- For Questions/Issues/Suggestions email dsantanaprof@gmail.com</dd>
-                    <dd>- You can <a href=https://www.paypal.me/litelime>send me a dolla</a> if you found the site useful.</dd>
-                </dl>
-			</div>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	 crossorigin="anonymous">
+	<link href="./achievement.css" rel="stylesheet" type="text/css" />
 
-			<div id='left'>
-				<dl>
-					<dt>Purpose:</dt>
-					<dd>Take all your perfect games (100% Achievements Completed) 
-					and put them into a format that looks decent in a steam info box. </dd>
-					<dt>Requirements:</dt>
-					<dd>- Need an <a href='http://astats.astats.nl/astats/index.php'>astats</a> profile.</dd>
-					<dd>- You need to know the steamid64 (17 digit number). Don't know what yours is? 
-					Go <a href='./help.html'>here</a> for help on finding your steamid64</dd>
-				</dl>
+	<script type="text/javascript" src="./achievement.js?ver=1.1"></script>
 
-					Your steamid64 or Username: <input name="userid" id="steamid" type='text' autocomplete="on" required="required">
-					<input id='button' type='submit' value='Load Profile'><br/><br/>
-				
-				Using Steam id:<div id="entered">None Yet</div>
+	<script type="text/javascript" src="./prototype.js"></script>
 
-				
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+	 crossorigin="anonymous"></script>
+	<script>jQuery.noConflict();</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	 crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	 crossorigin="anonymous"></script>
+</head>
 
-				<div id="options">
-					<h2>Options</h2>
-					<ul id="optionsul">
-                        Click update text to apply options<br/><br/>
-                        <li>Presets
-		  				<select id='presets'>
-							<option value="amap">Fit As Many Games As Possible</option>
-							<option value="info">Show as much info as possible</option>
-							<option value="mine">Creator's Favorite</option>
-						</select>
-						</li>                        
-                        <li><label><input type="checkbox" id="num_column" name="num_column" value="num_column" checked="checked"/>
-                            Number of Achievements Column</label></li>
-						<li><label><input type="checkbox" id="date_column" name="date_column" value="date_column" checked="checked"/>
-                            Date of Achievements Column</label></li>
-                        <li><label><input type="radio" name="split" id="year" value="year" checked="checked"/>Split by Year</label>
-                            <label><input type="radio" name="split" id="month" value="month"/>Split by Month</label></li>
-		  				<li>Seperation
-		  				<select id='charOption'>
-							<option value="*">Asterisk *</option>
-							<option value=":">Colon :</option>
-							<option value="`">Accent `</option>
-							<option value=".">Period .</option>
-							<option value="-">Dash -</option>
-							<option value="blank">Blank Spaces</option>
-							<option value="single">Single Space</option>
-							<option value="">No Spacing</option>
-						</select>
-						</li>
-						<li>Sorting
-						<select id='sortOption'>
-							<option value="dateD">Date Descending</option>
-							<option value="dateA">Date Ascending</option>
-						</select>
-						</li>
-                        <li>Enclosing
-						<select id="closeOption">
-                            <option value="[]">Square Brackets []</option>
-							<option value="()">Parenthesis ()</option>
-                            <option value="{}">Brackets {}</option>
-                            <option value="none">None</option>
-						</select>
-						</li>
-                        <button id="updater" onclick=achievement.php >Update Text</button>
-                        <button id="mover">Output Examples</button>
-	  				</ul>
-  				</div>
-  				
-				<div id="Username">
-					<h2>Create Username</h2>
+<body>
 
-					<ul>	
-						<li>Enter your full 17 digit steamid64 in the box above. </li>
-						<li>Enter the username you would like to use below</li>
-						<li>Click create new user.</li> 
-						<li>After the username is created you may use it each time you visit the site!</li>
-					</ul>
-					<br>
-					<input id='newUser' type='text' placeholder="New User"/>
-					<input id='newButton' type='submit' value='Create New User'>
-					<br>
+	<header>
+		<h1 class="text-center">Steam Achievement Formatter</h1>
+	</header>
 
 
-					<br>
+	<div class="container-fluid">
+
+		<div class="row">
+
+			<div class="col">
+
+				<div class="card">
+
+					<h2 class="card-header">About</h2>
+
+
+					<div class="card-body">
+
+						<dl>
+							<dt>Purpose:</dt>
+							<dd>Take all your perfect games (100% Achievements Completed) and put them into a format that looks decent in a steam
+								info box. </dd>
+							<dt>Requirements:</dt>
+							<dd>- Need an
+								<a href='http://astats.astats.nl/astats/index.php'>astats</a> profile.</dd>
+							<dd>- You need to know your steamid64 (17 digit number). 
+						</dl>
+
+					</div>
+				</div>
+
+
+				<div class="card">
+
+					<h2 class="card-header">Options</h2>
+
+					<div class="card-body">
+						<ul>
+							Click update text to apply options
+							<br/>
+							<br/>
+							<li>Presets
+								<select id='presets'>
+									<option value="amap">Fit As Many Games As Possible</option>
+									<option value="info">Show as much info as possible</option>
+									<option value="mine">Creator's Favorite</option>
+								</select>
+							</li>
+							<li>
+								<label>
+									<input type="checkbox" id="num_column" name="num_column" value="num_column" checked="checked" /> Number of Achievements Column</label>
+							</li>
+							<li>
+								<label>
+									<input type="checkbox" id="date_column" name="date_column" value="date_column" checked="checked" /> Date of Achievements Column</label>
+							</li>
+							<li>
+								<label>
+									<input type="radio" name="split" id="year" value="year" checked="checked" />Split by Year</label>
+								<label>
+									<input type="radio" name="split" id="month" value="month" />Split by Month</label>
+							</li>
+							<li>Seperation
+								<select id='charOption' >
+									<option value="*">Asterisk *</option>
+									<option value=":">Colon :</option>
+									<option value="`">Accent `</option>
+									<option value=".">Period .</option>
+									<option value="-">Dash -</option>
+									<option value="blank">Blank Spaces</option>
+									<option value="single">Single Space</option>
+									<option value="">No Spacing</option>
+								</select>
+							</li>
+							<li>Sorting
+								<select id='sortOption'>
+									<option value="dateD">Date Descending</option>
+									<option value="dateA">Date Ascending</option>
+								</select>
+							</li>
+							<li>Enclosing
+								<select id="closeOption">
+									<option value="[]">Square Brackets []</option>
+									<option value="()">Parenthesis ()</option>
+									<option value="{}">Brackets {}</option>
+									<option value="none">None</option>
+								</select>
+							</li>
+							<button id="updater" onclick=achievement.php>Update Text</button>
+						</ul>
+					</div>
 				</div>
 
 			</div>
+			<div class="col">
+				<div class="card">
 
+					<h2 class="card-header">
+						Output
+					</h2>
 
+					<div class="card-body">
+						<textarea class="w-100" id="content" readonly>Copy/Paste from here</textarea>
+						<p>Copy and paste the text that is output above into your steam custom info box.
+							<br/> 
+						</p>
+						<button id="copyButton" disabled="disabled">Nothing to Copy</button>
+						<br/>
+						<br/> Your steamid64 or Username
+						<br/>
 
-			<div id="right">
-					<div id='hide'>
-						Examples<br/><br/>
-						With options of every column selected and split by year.<br/>
-						<img src='./astatsexample.png' alt='Example output split by year'/>
-						With options of date column only and split by month<br/>
-						<img src='./astatsmonthexample.png' alt='Example output split by month'/>
+						<input name="userid" id="steamid" type='text' autocomplete="on" required="required">
+						<input id='button' type='submit' value='Load Profile'>
+
+						<br/>
+						<br/>
+
+						<!-- Username modal -->
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#usernameModal">
+							Create a Username
+						</button>
+						<br/><br/>
+						<dl>
+							<dt>Notes:</dt>
+							<dd>- Text may look very misaligned on this page, but looks better once placed in steam.</dd>
+
+							<dd>- Once you've loaded the games the first time they will load faster afterwards, feel free to try lots of different
+								settings!
+							</dd>
+							<dd>- Unfortunately because of steam info box char limits you will only be able to fit a limited amount of your 100% games.
+								Use presets to include as many as possible</dd>
+
+						</dl>
+					</div>
+					<div class="card-footer">
+						Using Steam id:
+						<span id="entered"> None Yet</span>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+	<footer class="text-center">
+		For Questions/Issues/Suggestions email dsantanaprof@gmail.com<br>
+		You can <a href=https://www.paypal.me/litelime>send me a dolla</a> if you found the site useful.
+	</footer>
+
+	<!-- UserName Modal -->
+	<div class="modal fade" id="usernameModal" tabindex="-1" role="dialog" aria-labelledby="usernameModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+
+					<h5 class="modal-title" id="usernameModalLabel">Create a Username</h5>
+
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+
+				</div>
+					<div class="modal-body">
+						<ul>
+							<li>Enter your full 17 digit steamid64 in the box above. </li>
+							<li>Enter the username you would like to use below</li>
+							<li>Click create new user.</li>
+							<li>After the username is created you may use it each time you visit the site!</li>
+						</ul>
+
+						<br> Username:
+						<input id='newUser' type='text' placeholder="New User" required/>
+						<br/>
+						<br/>SteamId64:
+						<input id='newID' type='text' placeholder="17 digit value" pattern="[0-9]{17}" required  />
+
+					</div>
+					<div class="modal-footer">
+						<button type='submit' class="btn btn-primary" id='newButton' data-dismiss="modal">Create New User</button>
 					</div>
 			</div>
-	</body>
+		</div>
+	</div>
+
+
+
+</body>
+
 </html>

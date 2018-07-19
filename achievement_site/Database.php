@@ -28,7 +28,6 @@ class DataBase {
 		}
 
 		public function insertAccount($name, $id){
-			
 			$stmt = $this->DB->prepare ("Insert Into Achievement Values (:id, :name)");
 			$stmt->bindParam(":id", $id);
 			$stmt->bindParam(":name", $name);
