@@ -378,10 +378,10 @@
        //a new username. 
        $newName = htmlspecialchars($_POST['newName']);
        $steamid = htmlspecialchars($_POST["steamid"]);
-
+       
        //if trying to create new SAF account
        if($button == "new"){
-
+            
             //check steam id value. 
           if(preg_match("/[0-9]{17}/",$steamid)!=1){
             echo "The steamdid value entered was invalid, this should be a 17 digit value";

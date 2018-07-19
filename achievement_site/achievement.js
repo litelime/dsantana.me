@@ -1,6 +1,12 @@
 
 function ajaxlookup(event) {
-    
+	
+	if($("updater").disabled
+	&& event.target.id!="newButton"
+	&& event.target.id!="button"){
+		return;
+	}
+
     //the users entered steam id value
 	var steamidy = $("steamid").value;
 
@@ -29,8 +35,8 @@ function ajaxlookup(event) {
 	//sort descending or ascending
 	var j = $("sortOption");
 	var sortopt = j.options[j.selectedIndex].value;
- 
- 	//enclosing characters options
+
+	//enclosing characters options
 	var k = $("closeOption");
 	var surrounding = k.options[k.selectedIndex].value;
     
@@ -52,19 +58,28 @@ function ajaxlookup(event) {
     if(event.target.id=="newButton")
     	buttonType = "new";
     else
-    	buttonType = "regular";
+		buttonType = "regular";
+	
 
     //if they already entered an id and want to 
     //update with new options
     if(event.target.id=="updater")
-        steamidy = $("entered").textContent;
-    
+		steamidy = $("entered").textContent;
+	
+	if(buttonType=="new"){
+		steamidy = $("newID").value;
+	}	
+
     $("updater").disabled = false;
         
     $("entered").textContent = steamidy;
 
     $("content").textContent = "loading...please wait";
-    
+	
+	console.log(buttonType);
+	console.log(steamidy);
+
+	
 	new Ajax.Request("./achievement.php", {
 							onSuccess: lookup_success,
 							onFailure: lookup_failure,				
@@ -82,6 +97,7 @@ function ajaxlookup(event) {
 							}
 						}
 	);
+
 }
 
 function lookup_failure(ajax) {
@@ -97,9 +113,10 @@ function lookup_success(ajax) {
     
     var response = ajax.responseText;
     
-      //put the response in the content box
+    //put the response in the content box
 	$("content").textContent = response;
-    
+
+
 }	
 
 /*
@@ -128,34 +145,6 @@ function copyToClipboard(elem) {
    		$('copyButton').textContent="Copied!";
 
     return succeed;
-}
-
-/*
-	Used to hide or show the output examples
-	pane on the site. Hidden by default on first
-	load. 
-	This function triggered by clicking the 
-	"Output examples" button. 
-
-*/
-function hideandshow(elem){
-
-	var right = $("right");
-	var mover = $("mover");
-	var center = $("center");
-	var hide = $("hide");
-    
-    if (mover.textContent == "Output Examples") {
-        mover.textContent = "Hide";
-    	right.style.width = "25%";
-    	center.style.width = "25%";
-        hide.style.display = 'block';
-    } else {
-        center.style.width = "50%";
-        mover.textContent = "Output Examples";
-    	right.style.width = "0%";
-        hide.style.display = 'none';
-    }
 }
 
 /*
@@ -195,10 +184,9 @@ function preset(elem){
 }
 
 window.onload = function() {
-    $("button").onclick = ajaxlookup;
-    $("newButton").onclick = ajaxlookup;
+	$("button").onclick = ajaxlookup;
+	$("newButton").onclick = ajaxlookup;
     $("copyButton").onclick = copyToClipboard;
-    $("mover").onclick = hideandshow;
     $("updater").onclick = ajaxlookup;
     $("presets").onchange = preset;
     $("num_column").checked=false;
