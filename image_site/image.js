@@ -84,6 +84,9 @@ function mainChange(event){
 	//change path of the large image box. 
 	$("main").src=bigPath;
 
+	//COMMENT OUT LATER
+	$("main").src=smallPath
+
 	//remove the border from the previously clicked picture
 	if($("selected")!=null){
 		$("selected").style.borderStyle="none";

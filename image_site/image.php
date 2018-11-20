@@ -59,7 +59,7 @@
 			//printing all the photos in the scrollbar at bottom of page. 
 			foreach ($names as $fileName) {
 
-				$path = "../FotosSmall/".$fileName;
+				$path = "../SitePhotosSmall/".$fileName;
 				echo ' <img class="foto" onload="setScrollWidth()" src="';
 				echo $path;
 				echo '"> ';
@@ -140,7 +140,7 @@
 					//div imgbox is where the large main image is displayed 
 					echo '<div id="imgbox">';
 
-						echo '<img id="main" src="../Fotos/';
+						echo '<img id="main" src="../SitePhotosSmall/';
 						echo $first[0];
 						echo '">';
 
