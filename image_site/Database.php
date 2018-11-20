@@ -15,8 +15,8 @@ class DataBase {
 		public function __construct(){
 
 			//my db connection
-			$db = 'mysql:dbname=u632321490_image;host=sql122.main-hosting.eu';
-			$user = 'u632321490_david';
+			$db = 'mysql:dbname=u160287738_dsant;host=localhost';
+			$user = 'u160287738_ftp';
 
 			//try connection print error if exception caught
 			try{

@@ -4,12 +4,11 @@ class DataBase {
 		private $DB;
 
 		public function __construct(){
-			$db = 'mysql:dbname=u632321490_image;host=sql122.main-hosting.eu';
-			$user = 'u632321490_david';
-			$password ='Silencedb1!';
+			$db = 'mysql:dbname=u160287738_dsant;host=localhost';
+			$user = 'u160287738_ftp';
 
 			try{
-				$this->DB = new PDO ($db, $user, $password);
+				$this->DB = new PDO ($db, $user, db_password);
 				$this->DB->setAttribute (PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			}catch (PDOException $e){
 				echo ("Error Establishing Connection");
@@ -28,7 +27,7 @@ class DataBase {
 		}
 
 		public function insertAccount($name, $id){
-			$stmt = $this->DB->prepare ("Insert Into Achievement Values (:id, :name)");
+			$stmt = $this->DB->prepare ("Insert Into Achievement Values (:name, :id)");
 			$stmt->bindParam(":id", $id);
 			$stmt->bindParam(":name", $name);
 			$stmt->execute();
@@ -36,7 +35,7 @@ class DataBase {
 		}
 
 		public function getSteamID($name){
-			$stmt = $this->DB->prepare ("SELECT SteamID, Name FROM Achievement WHERE Name=:name");
+			$stmt = $this->DB->prepare ("SELECT id, Name FROM Achievement WHERE Name=:name");
 			$stmt ->bindParam(":name", $name);
 			$stmt->execute();
 			$result = $stmt->fetchAll(PDO::FETCH_COLUMN);
