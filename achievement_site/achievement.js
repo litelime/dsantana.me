@@ -175,10 +175,10 @@ function preset(elem){
 		$("closeOption").selectedIndex=2;
 	}else if(presetString=="mine"){
 		$("num_column").checked=false;
-		$("date_column").checked=true;
+		$("date_column").checked=false;
 		$("month").checked=true;
 		$("charOption").selectedIndex=6;
-		$("closeOption").selectedIndex=2;
+		$("closeOption").selectedIndex=3;
 	}
 
 }
