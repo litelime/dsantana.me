@@ -43,6 +43,8 @@ function ajaxlookup(event) {
     //the new username box. 
 	var newNamey = $("newUser").value;
 
+	var excludey = $("exclude").value
+
 	console.log(newNamey);
 	console.log(num_col);
 	console.log(date_col);
@@ -50,7 +52,8 @@ function ajaxlookup(event) {
 	console.log(split_opt);
 	console.log(char);
 	console.log(sortopt);
-    console.log(surrounding);
+	console.log(surrounding);
+	console.log(excludey)
 
     var buttonType;
 
@@ -93,7 +96,8 @@ function ajaxlookup(event) {
 								schar: char,
 								sort: sortopt,
                                 surrChar:surrounding,
-                                newName: newNamey,
+								newName: newNamey,
+								exclude:excludey
 							}
 						}
 	);

@@ -359,7 +359,7 @@
     require_once("./Database.php");
 
     $myAdaptor = new DataBase();
-            
+       
         if(
        isset($_POST["steamid"]) && isset($_POST["date_column"]) && isset($_POST["num_column"]) 
 	&& isset($_POST["split"])   && isset($_POST["schar"])       && isset($_POST["sort"])      
@@ -374,6 +374,10 @@
        $sort = $_POST["sort"];
        $surrChar = $_POST['surrChar'];
        $button = $_POST['button'];
+       $exclude = $_POST['exclude'];
+       $excludeList = array_map('trim', explode(',', $exclude));
+       array_push($excludeList,"thisIsNotASteamGame"); 
+       $excludeList = array_map('strtolower', $excludeList);
 
        //a new username. 
        $newName = htmlspecialchars($_POST['newName']);
@@ -522,6 +526,15 @@
         $reduce = 450;
     
     foreach($names as &$line){
+
+        foreach($excludeList as $game){
+            if(strpos(strtolower($line), $game) !== false){
+                unset($total[array_search($line,$names)]);
+                unset($names[array_search($line,$names)]);
+                unset($dates[array_search($line,$names)]);
+            }
+        }
+
         if(lengthOfChars($line)>=$reduce){
             $diff = lengthOfChars($line)-$reduce;
             $diff = $diff/8;
@@ -529,7 +542,9 @@
             $line = $line . "...";
         }
     }
-    
+
+    array_multisort($dates,SORT_DESC,$names,$total);
+
     if($surrChar == "none"){
 
     }else{
@@ -639,7 +654,8 @@
         if($date_column=='true')
             $theline.=$dateline;
 
-        $theline.="\n";
+        if($i!=$least-1)
+            $theline.="\n";
         $newFile.=$theline;
     }
 
