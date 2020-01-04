@@ -516,7 +516,6 @@
         array_multisort($dates,SORT_DESC,$names,$total);
     }
     
-        
     // ***** BEGIN MAIN ALGORITHM, RUNS REGARDLESS OF STEAM OR ASTATS SOURCE FROM HERE ON. *******
 
     //shorten very long game names, add ... to end only if using both column. 
@@ -524,14 +523,19 @@
         $reduce = 260;
     else
         $reduce = 450;
-    
+
     foreach($names as &$line){
 
         foreach($excludeList as $game){
             if(strpos(strtolower($line), $game) !== false){
+
                 unset($total[array_search($line,$names)]);
-                unset($names[array_search($line,$names)]);
                 unset($dates[array_search($line,$names)]);
+                unset($names[array_search($line,$names)]);
+
+                $total = array_values($total);
+                $names = array_values($names);
+                $dates = array_values($dates);
             }
         }
 
@@ -542,8 +546,6 @@
             $line = $line . "...";
         }
     }
-
-    array_multisort($dates,SORT_DESC,$names,$total);
 
     if($surrChar == "none"){
 
